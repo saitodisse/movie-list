@@ -1,0 +1,13 @@
+{
+  "indent": 2,
+  "laxcomma": true,
+  "devel": true,
+  "globals": {
+    "_": true,
+    "$": true,
+    "Backbone": true,
+    "__LOG": true,
+    "__MELD_LOG": true,
+    "MyApp": true
+  }
+}
