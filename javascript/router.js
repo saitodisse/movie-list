@@ -22,6 +22,10 @@
       this.jMenu.find('li').removeClass('active');
       var jSearchMenu = this.jMenu.find('.search');
       jSearchMenu.addClass('active');
+
+      var source   = $("#search-template").html();
+      var template = Handlebars.compile(source);
+      $('.main').html(template);
     },
 
     showAboutPage: function() {
