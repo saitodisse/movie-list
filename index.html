@@ -47,20 +47,37 @@
     <div class="container">
 
       <div class="main">
-        <h1>Movies</h1>
-        <p class="lead">
-          To start this application you can use on linux
-          <pre>python -m SimpleHTTPServer</pre>
-        </p>
       </div>
 
     </div><!-- /.container -->
 
 
     <!-- TEMPLATES -->
+    <script id="home-template" type="text/x-handlebars-template">
+      <h1>Movie List</h1>
+      <p class="lead">
+        To start this application you can use on linux
+        <pre>python -m SimpleHTTPServer</pre>
+      </p>
+      <p class="lead">
+        Or simply
+        <pre>bash startServer.sh</pre>
+      </p>
+    </script>
+
     <script id="search-template" type="text/x-handlebars-template">
       <h1>Search Page</h1>
       <p>This is the search page</p>
+    </script>
+
+    <script id="about-template" type="text/x-handlebars-template">
+      <h1>About this app</h1>
+      <p>by Julio Saito (saitodisse)</p>
+      <p>using</p>
+      <pre>backbone.js
+zepto.js
+backbone.marionette.js
+twiter bootstrap</pre>
     </script>
 
 

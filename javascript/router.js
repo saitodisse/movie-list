@@ -3,22 +3,26 @@
   
   MyApp.Router = Backbone.Router.extend({
     routes: {
-      '': 'showHomePage',
-      'search': 'showSearchPage',
-      'about': 'showAboutPage'
+      '': 'goHome',
+      'search': 'goSearch',
+      'about': 'goAbout'
     },
 
     initialize: function(options) {
       this.jMenu = options.jMenu;
     },
 
-    showHomePage: function() {
+    goHome: function() {
       this.jMenu.find('li').removeClass('active');
       var jHomeMenu = this.jMenu.find('.home');
       jHomeMenu.addClass('active');
+
+      var source   = $("#home-template").html();
+      var template = Handlebars.compile(source);
+      $('.main').html(template);
     },
 
-    showSearchPage: function() {
+    goSearch: function() {
       this.jMenu.find('li').removeClass('active');
       var jSearchMenu = this.jMenu.find('.search');
       jSearchMenu.addClass('active');
@@ -28,10 +32,14 @@
       $('.main').html(template);
     },
 
-    showAboutPage: function() {
+    goAbout: function() {
       this.jMenu.find('li').removeClass('active');
       var jAboutMenu = this.jMenu.find('.about');
       jAboutMenu.addClass('active');
+
+      var source   = $("#about-template").html();
+      var template = Handlebars.compile(source);
+      $('.main').html(template);
     }
   });
 
