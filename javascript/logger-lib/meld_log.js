@@ -77,7 +77,9 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
               var haveEmit = name.search(/\bemit\b/) >= 0;
               var haveTrigger = name.search(/\btrigger\b/) >= 0;
 
-              if (haveOnOff || haveEmit || haveTrigger) {
+              var canGetDetail = (haveOnOff || haveEmit || haveTrigger);
+
+              if (typeof args === 'object' && canGetDetail) {
                   if (args.length >= 4 &&
                       typeof args[0] === 'string' &&
                       typeof args[1] === 'undefined' &&
@@ -121,6 +123,10 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
           
           6: {  backgroundColor: '#FFFDF7'
                   , foregroundColor: '#7653C1'
+          },
+          
+          99: {  backgroundColor: '#222'
+               , foregroundColor: '#FBB'
           }
       }
 
@@ -171,18 +177,36 @@ window.__MELD_LOG = function(appName, app, colorIndex){
    * @param  {[object]}     app          [intance of Namespace.Function]
    * @param  {[integer]}    colorIndex   [1,2,3,4,5,6]
    */
-  var pointcut = /.*/;
+  var pointcut = /./;
   var myReporter = {
-      onCall: function(info) {
-          __LOG('> ' + appName + '.> ' + info.method, info.target, info.args, colorIndex);
-      },
-      onReturn: function(info) {
-        // SHOW_RETURN
-        if(__LOG.SHOW_RETURN === true){
-          __LOG('< ' + appName + '.< ' + info.method, info.target, info.args, colorIndex);
-        }
-      }
+    onCall: function(info) {
+      __LOG(appName + '.' + info.method, info.target, info.args, colorIndex);
+    }
+  // , onReturn: function(info) {
+  //     __LOG('< ' + appName + '.< ' + info.method, info.target, info.args, colorIndex);
+  //   }
+  , onThrow: function(info) {
+    //console.log('X ERROR X ', info);
+    __LOG(appName + '.' + info.method, info.exception, undefined, 99);
+    }
   };
   // Around advice wraps the intercepted method in layers
   meld(app, pointcut, trace(myReporter));
 };
+
+// window.__MELD_LOG_Contructor = function(appName, App, colorIndex){
+//   var advices = {
+//       before: function() {
+//           console.log("Called with: " + Array.prototype.join.call(arguments));
+//       },
+//       afterReturning: function(returnValue) {
+//           console.log("Returned: " + returnValue);
+//       },
+//       afterThrowing: function(thrownException) {
+//           console.error("Exception: " + thrownException);
+//       }
+//   };
+
+//   return meld(App, advices);
+
+// };

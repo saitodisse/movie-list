@@ -15,8 +15,8 @@
     var router = new MyApp.Router({
       jMenu: jMenu
     });
-    __MELD_LOG('MyApp.Router', router, 5);
-
+    window._app.router = router;
+    __MELD_LOG('Router', window._app.router, 1);
 
     Backbone.history.start();
   };

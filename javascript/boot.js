@@ -1,11 +1,14 @@
 $(function() {
   'use strict';
+
+  window._app = {};
   
-  var app = new MyApp.Application();
-  __MELD_LOG('MyApp.Application', app, 1);
+  var application = new MyApp.Application();
+  
+  window._app.application = application;
+  __MELD_LOG('Application', window._app.application, 1);
 
-  app.init();
-
-  window._app = app;
+  
+  application.init();
 });
 
