@@ -31,10 +31,14 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jMain = $('.main');
     },
 
-    goHome: function() {
+    setMenuActive: function(menuClass) {
       this.jMenu.find('li').removeClass('active');
-      var jHomeMenu = this.jMenu.find('.home');
+      var jHomeMenu = this.jMenu.find(menuClass);
       jHomeMenu.addClass('active');
+    },
+
+    goHome: function() {
+      this.setMenuActive('.home');
 
       var source   = $("#home-template").html();
       var template = Handlebars.compile(source);
@@ -42,19 +46,17 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     },
 
     goSearch: function() {
-      this.jMenu.find('li').removeClass('active');
-      var jSearchMenu = this.jMenu.find('.search');
-      jSearchMenu.addClass('active');
+      this.setMenuActive('.search');
 
-      var source   = $("#search-template").html();
-      var template = Handlebars.compile(source);
-      this.jMain.html(template);
+      var searchView = new MovieList.Views.SearchView();
+      __MELD_LOG('SearchView', searchView, 2);
+      searchView.render();
+
+      this.jMain.html(searchView.el);
     },
 
     goAbout: function() {
-      this.jMenu.find('li').removeClass('active');
-      var jAboutMenu = this.jMenu.find('.about');
-      jAboutMenu.addClass('active');
+      this.setMenuActive('.about');
 
       var source   = $("#about-template").html();
       var template = Handlebars.compile(source);

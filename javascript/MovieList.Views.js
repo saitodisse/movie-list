@@ -1,7 +1,8 @@
+/*global TodoMVC */
 'use strict';
-(function() {
-  
-  MovieList.SearchView = Backbone.View.extend({
+
+MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+  Views.SearchView = Backbone.View.extend({
     template: "#search-template",
 
     events: {
@@ -26,5 +27,4 @@
       $(this.el).html(html);
     }
   });
-
-})();
+});
