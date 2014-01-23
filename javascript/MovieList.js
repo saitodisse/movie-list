@@ -40,27 +40,31 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     goHome: function() {
       this.setMenuActive('.home');
 
-      var source   = $("#home-template").html();
-      var template = Handlebars.compile(source);
-      this.jMain.html(template);
+      var view = new MovieList.Views.HomeView();
+      __MELD_LOG('HomeView', view, 2);
+      view.render();
+
+      this.jMain.html(view.el);
     },
 
     goSearch: function() {
       this.setMenuActive('.search');
 
-      var searchView = new MovieList.Views.SearchView();
-      __MELD_LOG('SearchView', searchView, 2);
-      searchView.render();
+      var view = new MovieList.Views.SearchView();
+      __MELD_LOG('SearchView', view, 2);
+      view.render();
 
-      this.jMain.html(searchView.el);
+      this.jMain.html(view.el);
     },
 
     goAbout: function() {
       this.setMenuActive('.about');
 
-      var source   = $("#about-template").html();
-      var template = Handlebars.compile(source);
-      this.jMain.html(template);
+      var view = new MovieList.Views.AboutView();
+      __MELD_LOG('AboutView', view, 2);
+      view.render();
+
+      this.jMain.html(view.el);
     }
   });
 

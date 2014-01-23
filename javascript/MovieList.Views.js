@@ -27,4 +27,33 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       $(this.el).html(html);
     }
   });
+
+  Views.HomeView = Backbone.View.extend({
+    template: "#home-template",
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var html = Handlebars.compile(source);
+      $(this.el).html(html);
+    }
+  });
+
+  Views.AboutView = Backbone.View.extend({
+    template: "#about-template",
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var html = Handlebars.compile(source);
+      $(this.el).html(html);
+    }
+  });
+
 });
