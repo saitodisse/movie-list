@@ -1,14 +1,20 @@
-$(function() {
-  'use strict';
+/*global Backbone */
+'use strict';
 
-  window._app = {};
-  
-  var application = new MyApp.Application();
-  
-  window._app.application = application;
-  __MELD_LOG('Application', window._app.application, 1);
+var MoviesMVC = new Backbone.Marionette.Application();
+__MELD_LOG('MoviesMVC', MoviesMVC, 1);
 
-  
-  application.init();
+MoviesMVC.addRegions({
+  main: '#main'
 });
 
+MoviesMVC.on('initialize:after', function () {
+  var _app = window._app = {};
+
+  _app.application = new MyApp.Application();
+  __MELD_LOG('Application', window._app.application, 1);
+
+  _app.application.init();
+
+  Backbone.history.start();
+});

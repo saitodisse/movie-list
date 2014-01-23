@@ -17,8 +17,6 @@
     });
     window._app.router = router;
     __MELD_LOG('Router', window._app.router, 1);
-
-    Backbone.history.start();
   };
 
 })();
