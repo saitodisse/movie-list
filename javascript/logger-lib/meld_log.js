@@ -102,31 +102,39 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
 
       , colors = {
           1: {  backgroundColor: '#DCECEF'
-          , foregroundColor: '#620F09'
+               , foregroundColor: '#600'
+          },
+
+          11: {  backgroundColor: '#DCECEF'
+               , foregroundColor: '#330'
+          },
+
+          12: {  backgroundColor: '#DCECEF'
+               , foregroundColor: '#033'
           },
 
           2: {  backgroundColor: '#DCECEF'
-                  , foregroundColor: '#426D09'
+              , foregroundColor: '#426D09'
           },
 
           3: {  backgroundColor: '#FFFFD7'
-                  , foregroundColor: '#21460F'
+              , foregroundColor: '#21460F'
           },
 
           4: {  backgroundColor: '#FFFDF7'
-                  , foregroundColor: '#6700B9'
+              , foregroundColor: '#6700B9'
           },
           
           5: {  backgroundColor: '#eee'
-                  , foregroundColor: '#284'
+              , foregroundColor: '#284'
           },
           
           6: {  backgroundColor: '#FFFDF7'
-                  , foregroundColor: '#7653C1'
+              , foregroundColor: '#7653C1'
           },
           
           99: {  backgroundColor: '#222'
-               , foregroundColor: '#FBB'
+              , foregroundColor: '#FBB'
           }
       }
 
