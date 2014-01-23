@@ -11,11 +11,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     initialize: function() {
       this.render();
-      this.jQ = this.$('.q');
     },
 
     keyuped: function(e) {
       if(e.which === 13){
+        this.jQ = this.$('.q');
         MoviesMVC.trigger('movie_searched', this.jQ.val());
         this.jQ.val('');
       }
