@@ -1,9 +1,9 @@
-/*global TodoMVC */
-'use strict';
+/*global MoviesMVC, Handlebars */
 
+'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
   Views.SearchView = Backbone.View.extend({
-    template: "#search-template",
+    template: '#search-template',
 
     events: {
       'keyup .q': 'keyuped'
@@ -16,7 +16,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     keyuped: function(e) {
       if(e.which === 13){
-        MovieList.trigger('movie_searched', this.jQ.val());
+        MoviesMVC.trigger('movie_searched', this.jQ.val());
         this.jQ.val('');
       }
     },
@@ -29,7 +29,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
   });
 
   Views.HomeView = Backbone.View.extend({
-    template: "#home-template",
+    template: '#home-template',
 
     initialize: function() {
       this.render();
@@ -43,7 +43,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
   });
 
   Views.AboutView = Backbone.View.extend({
-    template: "#about-template",
+    template: '#about-template',
 
     initialize: function() {
       this.render();
