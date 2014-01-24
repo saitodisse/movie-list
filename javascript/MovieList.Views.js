@@ -23,6 +23,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     initialize: function() {
       this.render();
+      this.collection.on('reset', this.render, this);
     },
 
     render: function() {

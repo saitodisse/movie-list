@@ -7,8 +7,7 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone, Marionette
   });
 
   Models.MovieCollection = Backbone.Collection.extend({
-    model: Models.Movie,
-    url: '/api/moviesTable'
+    model: Models.Movie
   });
 
 });

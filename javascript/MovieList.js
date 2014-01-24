@@ -32,8 +32,17 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     start: function (options) {
       this.jMenu = $('.mainMenu');
       this.jMain = $('.main');
+      MoviesMVC.on('movie_searched', this.movie_searched, this);
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection(options.moviesJSON);
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
+    },
+
+    movie_searched: function(query) {
+      this.searchElasticSearch(query)
+        .done(function(results) {
+          MoviesMVC.moviesCollection.reset(results);
+        })
+      ;
     },
 
     setMenuActive: function(menuClass) {
@@ -107,7 +116,27 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       view.render();
 
       this.jMain.html(view.el);
+    },
+
+    searchElasticSearch: function(query) {
+      var def = $.Deferred();
+
+      $.ajax({
+        url: 'http://localhost:9200/movies/movie/_search?q=title:' + query,
+        //data: data,
+        success: function(data) {
+          var results = [];
+          for (var i = 0; i < data.hits.hits.length; i++) {
+            var hit = data.hits.hits[i];
+            results.push(hit._source);
+          };
+          def.resolve(results);
+        },
+        dataType: 'json'
+      });
+      return def.promise();
     }
+
   });
 
   // MovieList Initializer
