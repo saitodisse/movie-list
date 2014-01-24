@@ -33,7 +33,15 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jMain = $('.main');
 
       this.jSearchInput = $('#q');
+      this.jLastSearch = $('#lastSearch');
+
       this.jSearchInput.on('keyup', this.keyuped.bind(this));
+      this.jLastSearch.on('click', function() {
+        var query = this.jLastSearch.text();
+        this.searchMovies(query);
+        this.goMovies();
+        this.jSearchInput.val(query);
+      }.bind(this));
       
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
@@ -41,7 +49,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
     keyuped: function(e) {
       if(e.which === 13){
-        this.searchMovies(this.jSearchInput.val());
+        var query = this.jSearchInput.val();
+        this.searchMovies(query);
+        this.jLastSearch.text(query);
         this.jSearchInput.val('');
       }
     },
@@ -50,7 +60,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.searchElasticSearch(query)
         .done(function(results) {
           MoviesMVC.moviesCollection.reset(results);
-        })
+        }.bind(this))
       ;
     },
 
@@ -125,7 +135,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
           sort: 'imdbInfo.rating:desc',
           q: query
       };
-      
+
       $.ajax({
         url: 'http://localhost:9200/movies/movie/_search',
         data: data,
