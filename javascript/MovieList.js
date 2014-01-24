@@ -11,6 +11,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       //'*filter': 'filterItems'
       '': 'goHome',
       'movies': 'goMovies',
+      'movies/:id': 'goMovieDetails',
       'search': 'goSearch',
       'about': 'goAbout'
     }
@@ -57,6 +58,18 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         collection: MoviesMVC.moviesCollection
       });
       __MELD_LOG('MoviesView', view, 21);
+      view.render();
+
+      this.jMain.html(view.el);
+    },
+
+    goMovieDetails: function(id) {
+      this.setMenuActive('.movies');
+
+      var view = new MovieList.Views.MovieDetailView({
+        model: MoviesMVC.moviesCollection.get(id)
+      });
+      __MELD_LOG('MovieDetailView', view, 21);
       view.render();
 
       this.jMain.html(view.el);

@@ -117,6 +117,36 @@
 
 
 
+    <script id="movieDetail-template" type="text/x-handlebars-template">
+      <h1>
+        {{title}}
+      </h1>
+      <div>
+        id:
+        <b>{{id}}</b>
+      </div>
+      <div>
+        title:
+        <b>{{title}}</b>
+      </div>
+      <div>
+        originaltitle:
+        <b>{{originaltitle}}</b>
+      </div>
+      <div>
+        idImdb:
+        <b>{{idImdb}}</b>
+      </div>
+      <div>
+        rating:
+        <b>{{imdbInfo.rating}}</b>
+      </div>
+    </script>
+
+
+
+
+
     <script id="search-template" type="text/x-handlebars-template">
       <h1>Movies Search</h1>
       <input class="q" />
