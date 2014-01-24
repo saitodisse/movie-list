@@ -2,6 +2,64 @@
 
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+
+  Views.HomeView = Backbone.View.extend({
+    template: '#home-template',
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var html = Handlebars.compile(source);
+      $(this.el).html(html);
+    }
+  });
+
+
+  Views.MoviesView = Backbone.View.extend({
+    template: '#movies-template',
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var html = Handlebars.compile(source);
+      $(this.el).html(html);
+
+      this.collection.each(this.renderMovie.bind(this));
+    },
+
+    renderMovie: function(movie) {
+      var movieTrView = new Views.MovieTrView({
+        model: movie
+      });
+      movieTrView.render();
+      this.$('tbody').append(movieTrView.el);
+    }
+  });
+
+
+  Views.MovieTrView = Backbone.View.extend({
+    template: '#movieTr-template',
+
+    tagName: 'tr',
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var template = Handlebars.compile(source);
+      $(this.el).html(template(this.model.toJSON()));
+    }
+  });
+
+
   Views.SearchView = Backbone.View.extend({
     template: '#search-template',
 
@@ -28,19 +86,6 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     }
   });
 
-  Views.HomeView = Backbone.View.extend({
-    template: '#home-template',
-
-    initialize: function() {
-      this.render();
-    },
-
-    render: function() {
-      var source   = $(this.template).html();
-      var html = Handlebars.compile(source);
-      $(this.el).html(html);
-    }
-  });
 
   Views.AboutView = Backbone.View.extend({
     template: '#about-template',

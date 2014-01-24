@@ -10,6 +10,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     appRoutes: {
       //'*filter': 'filterItems'
       '': 'goHome',
+      'movies': 'goMovies',
       'search': 'goSearch',
       'about': 'goAbout'
     }
@@ -26,9 +27,11 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   _.extend(MovieList.Controller.prototype, {
     // Start the app by showing the appropriate views
     // and fetching the list of todo items, if there are any
-    start: function () {
+    start: function (options) {
       this.jMenu = $('.mainMenu');
       this.jMain = $('.main');
+      MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection(options.moviesJSON);
+      __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
     },
 
     setMenuActive: function(menuClass) {
@@ -41,7 +44,19 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.setMenuActive('.home');
 
       var view = new MovieList.Views.HomeView();
-      __MELD_LOG('HomeView', view, 2);
+      __MELD_LOG('HomeView', view, 20);
+      view.render();
+
+      this.jMain.html(view.el);
+    },
+
+    goMovies: function() {
+      this.setMenuActive('.movies');
+
+      var view = new MovieList.Views.MoviesView({
+        collection: MoviesMVC.moviesCollection
+      });
+      __MELD_LOG('MoviesView', view, 21);
       view.render();
 
       this.jMain.html(view.el);
@@ -51,7 +66,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.setMenuActive('.search');
 
       var view = new MovieList.Views.SearchView();
-      __MELD_LOG('SearchView', view, 2);
+      __MELD_LOG('SearchView', view, 21);
       view.render();
 
       this.jMain.html(view.el);
@@ -61,7 +76,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.setMenuActive('.about');
 
       var view = new MovieList.Views.AboutView();
-      __MELD_LOG('AboutView', view, 2);
+      __MELD_LOG('AboutView', view, 22);
       view.render();
 
       this.jMain.html(view.el);
@@ -74,7 +89,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   // Get the MovieList up and running by initializing the mediator
   // when the the application is started, pulling in all of the
   // existing Todo items and displaying them.
-  MovieList.addInitializer(function () {
+  MovieList.addInitializer(function (options) {
     var controller = new MovieList.Controller();
     __MELD_LOG('Controller', controller, 11);
 
@@ -83,6 +98,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     });
     __MELD_LOG('Router', controller.router, 12);
 
-    controller.start();
+    controller.start(options);
   });
 });

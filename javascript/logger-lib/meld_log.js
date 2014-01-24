@@ -72,56 +72,54 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
               return name + method;
           }
 
-      , getDetailsByMethodName = function (name) {
-              var haveOnOff = name.search(/\b(on|off)\b/) >= 0;
-              var haveEmit = name.search(/\bemit\b/) >= 0;
-              var haveTrigger = name.search(/\btrigger\b/) >= 0;
-
-              var canGetDetail = (haveOnOff || haveEmit || haveTrigger);
-
-              if (typeof args === 'object' && canGetDetail) {
-                  if (args.length >= 4 &&
-                      typeof args[0] === 'string' &&
-                      typeof args[1] === 'undefined' &&
-                      typeof args[3] === 'string') {
-                      return name + ' [' + args[0] + '] => ' + args[3];
-                  }
-                  if (args.length >= 4 &&
-                      typeof args[0] === 'string' &&
-                      typeof args[1] === 'string' &&
-                      typeof args[3] === 'string') {
-                      return name + ' [' + args[1] + ': ' + args[0] + '] => ' + args[3];
-                  }
-                  if (args.length > 0 && typeof args[0] === 'string') {
-                      return name + ' [' + args[0] + ']';
-                  }
-              }
-
-              return name;
+      , getArgs = function(args) {
+          var result = '';
+          for (var i = 0; i < args.length; i++) {
+            if(typeof args[i] === 'string'){
+              result += ' ["' + args[i] + '"]'
+            }
           }
+          return result;
+        }
+
+      , getDetailsByMethodName = function (name) {
+          var isStringArgs = (args && args.length > 0 && typeof args[0] === 'string');
+          if(isStringArgs){
+            return rpad(name,   ' ', 20) + getArgs(args);
+          }
+          return name;
+        }
 
       , colors = {
-          1: {  backgroundColor: '#DCECEF'
+          10: {  backgroundColor: '#eee'
                , foregroundColor: '#600'
           },
 
-          11: {  backgroundColor: '#DCECEF'
+          11: {  backgroundColor: '#eee'
                , foregroundColor: '#330'
           },
 
-          12: {  backgroundColor: '#DCECEF'
+          12: {  backgroundColor: '#eee'
                , foregroundColor: '#033'
           },
 
-          2: {  backgroundColor: '#DCECEF'
-              , foregroundColor: '#426D09'
+          20: {  backgroundColor: '#ded'
+              , foregroundColor: '#260'
           },
 
-          3: {  backgroundColor: '#FFFFD7'
+          21: {  backgroundColor: '#ded'
+              , foregroundColor: '#243'
+          },
+
+          22: {  backgroundColor: '#ded'
+              , foregroundColor: '#225'
+          },
+
+          3: {  backgroundColor: '#eee'
               , foregroundColor: '#21460F'
           },
 
-          4: {  backgroundColor: '#FFFDF7'
+          4: {  backgroundColor: '#eee'
               , foregroundColor: '#6700B9'
           },
           
@@ -129,7 +127,7 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
               , foregroundColor: '#284'
           },
           
-          6: {  backgroundColor: '#FFFDF7'
+          6: {  backgroundColor: '#eee'
               , foregroundColor: '#7653C1'
           },
           
