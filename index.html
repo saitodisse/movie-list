@@ -90,12 +90,6 @@
               <th>
                 rating
               </th>
-              <th>
-                ..
-              </th>
-              <th>
-                ..
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -110,8 +104,6 @@
       <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{originaltitle}}</a></td>
       <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{idImdb}}</a></td>
       <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{imdbInfo.rating}}</a></td>
-      <td><a href="#" class="edit btn btn-default">edit</a></td>
-      <td><a href="#" class="remove btn btn-default">remove</a></td>
     </script>
 
 
@@ -140,6 +132,32 @@
       <div>
         rating:
         <b>{{imdbInfo.rating}}</b>
+      </div>
+      <div>
+        <div class="thumbs">
+          {{#each thumb}}
+            <div>
+              <a href="#movies/{{../id}}/thumbs/{{name}}">
+                <img class="prevThumb" src="{{prevThumb}}">
+              </a>
+            </div>
+          {{/each}}
+        </div>
+        
+      </div>
+    </script>
+
+
+
+
+    <script id="movieDetailThumb-template" type="text/x-handlebars-template">
+      <h1>
+        {{title}}
+      </h1>
+      <div>
+        <a href="#movies/{{id}}">
+          <img src="{{thumbSrc}}">
+        </a>
       </div>
     </script>
 
