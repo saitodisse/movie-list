@@ -38,9 +38,11 @@
           <ul class="nav navbar-nav mainMenu">
             <li class="home">  <a href="#">Home</a></li>
             <li class="movies"><a href="#movies">Movies</a></li>
-            <li class="search"><a href="#search">Search</a></li>
             <li class="about" ><a href="#about">About</a></li>
           </ul>
+          <div class="nav navbar-nav navbar-right searchDiv">
+            <input class="form-control" id="q">
+          </div>
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -165,13 +167,6 @@
 
 
 
-    <script id="search-template" type="text/x-handlebars-template">
-      <h1>Movies Search</h1>
-      <input class="q" />
-    </script>
-
-
-
     <script id="about-template" type="text/x-handlebars-template">
       <h1>About this app</h1>
       <p>by Julio Saito (saitodisse)</p>
@@ -205,22 +200,7 @@ twiter bootstrap</pre>
 
     <script type="text/javascript">
       $(function() {
-
-        $.ajax({
-          url: 'http://localhost:9200/movies/movie/_search?q=title:War',
-          //data: data,
-          success: function(data) {
-            var results = [];
-            for (var i = 0; i < data.hits.hits.length; i++) {
-              var hit = data.hits.hits[i];
-              results.push(hit._source);
-            };
-  
-            MoviesMVC.start({ moviesJSON: results });
-          },
-          dataType: 'json'
-        });
-
+        MoviesMVC.start();
       });
     </script>
 

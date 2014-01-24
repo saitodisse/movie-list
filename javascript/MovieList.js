@@ -13,7 +13,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       'movies': 'goMovies',
       'movies/:id': 'goMovieDetails',
       'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
-      'search': 'goSearch',
       'about': 'goAbout'
     }
   });
@@ -29,15 +28,25 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   _.extend(MovieList.Controller.prototype, {
     // Start the app by showing the appropriate views
     // and fetching the list of todo items, if there are any
-    start: function (options) {
+    start: function () {
       this.jMenu = $('.mainMenu');
       this.jMain = $('.main');
-      MoviesMVC.on('movie_searched', this.movie_searched, this);
-      MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection(options.moviesJSON);
+
+      this.jSearchInput = $('#q');
+      this.jSearchInput.on('keyup', this.keyuped.bind(this));
+      
+      MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
     },
 
-    movie_searched: function(query) {
+    keyuped: function(e) {
+      if(e.which === 13){
+        this.searchMovies(this.jSearchInput.val());
+        this.jSearchInput.val('');
+      }
+    },
+
+    searchMovies: function(query) {
       this.searchElasticSearch(query)
         .done(function(results) {
           MoviesMVC.moviesCollection.reset(results);
@@ -98,16 +107,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jMain.html(view.el);
     },
 
-    goSearch: function() {
-      this.setMenuActive('.search');
-
-      var view = new MovieList.Views.SearchView();
-      __MELD_LOG('SearchView', view, 21);
-      view.render();
-
-      this.jMain.html(view.el);
-    },
-
     goAbout: function() {
       this.setMenuActive('.about');
 
@@ -121,8 +120,15 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     searchElasticSearch: function(query) {
       var def = $.Deferred();
 
+      var data = {
+          size: 500,
+          sort: 'imdbInfo.rating:desc',
+          q: query
+      };
+      
       $.ajax({
-        url: 'http://localhost:9200/movies/movie/_search?q=title:' + query,
+        url: 'http://localhost:9200/movies/movie/_search',
+        data: data,
         //data: data,
         success: function(data) {
           var results = [];
@@ -145,7 +151,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   // Get the MovieList up and running by initializing the mediator
   // when the the application is started, pulling in all of the
   // existing Todo items and displaying them.
-  MovieList.addInitializer(function (options) {
+  MovieList.addInitializer(function () {
     var controller = new MovieList.Controller();
     __MELD_LOG('Controller', controller, 11);
 
@@ -154,6 +160,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     });
     __MELD_LOG('Router', controller.router, 12);
 
-    controller.start(options);
+    controller.start();
   });
 });
