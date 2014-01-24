@@ -39,7 +39,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jLastSearch.on('click', function() {
         var query = this.jLastSearch.text();
         this.searchMovies(query);
-        this.goMovies();
         this.jSearchInput.val(query);
       }.bind(this));
       
@@ -60,6 +59,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.searchElasticSearch(query)
         .done(function(results) {
           MoviesMVC.moviesCollection.reset(results);
+          this.goMovies();
         }.bind(this))
       ;
     },
