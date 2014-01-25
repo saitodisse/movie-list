@@ -3,6 +3,42 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
+  Views.LatestSearchesView = Backbone.View.extend({
+    tagName: 'li',
+    
+    className: 'dropdown',
+    
+    template: '#latest-searches-template',
+
+    events: {
+      'click li a': 'linkClicked'
+    },
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var html = Handlebars.compile(source);
+      $(this.el).html(html);
+    },
+
+    addSearchLink: function(query) {
+      this.jTitle_a = this.$('#dropdown-title');
+      this.jLink_ul = this.$('#link-list');
+
+      this.jTitle_a.text(query);
+      this.jLink_ul.prepend('<li><a href="#">' + query + '</a></li>');
+    },
+
+    linkClicked: function(e) {
+      var jA = $(e.target);
+      MoviesMVC.vent.trigger('search_queried', jA.text());
+    }
+  });
+
+
   Views.HomeView = Backbone.View.extend({
     template: '#home-template',
 

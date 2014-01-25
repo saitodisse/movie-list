@@ -33,14 +33,19 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jMain = $('.main');
 
       this.jSearchInput = $('#q');
-      this.jLastSearch = $('#lastSearch');
+
+      // ON EVENT: "search_queried"
+      MoviesMVC.vent.on('search_queried', this.search_queried.bind(this));
+
+      // LatestSearchesView
+      this.jRightMenu = $('.rightMenu');
+      this.latestSearchesView = new MovieList.Views.LatestSearchesView();
+      __MELD_LOG('LatestSearchesView', this.latestSearchesView, 4);
+      
+      this.latestSearchesView.render();
+      this.jRightMenu.prepend(this.latestSearchesView.el);
 
       this.jSearchInput.on('keyup', this.keyuped.bind(this));
-      this.jLastSearch.on('click', function() {
-        var query = this.jLastSearch.text();
-        this.searchMovies(query);
-        this.jSearchInput.val(query);
-      }.bind(this));
       
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
@@ -49,17 +54,23 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     keyuped: function(e) {
       if(e.which === 13){
         var query = this.jSearchInput.val();
-        this.searchMovies(query);
-        this.jLastSearch.text(query);
-        this.jSearchInput.val('');
+        MoviesMVC.vent.trigger('search_queried', query);
+        //this.jSearchInput.val('');
       }
     },
 
-    searchMovies: function(query) {
+    search_queried: function(query) {
       this.searchElasticSearch(query)
         .done(function(results) {
+
+          // get jQuery result
           MoviesMVC.moviesCollection.reset(results);
+  
+          // post search
+          this.jSearchInput.val(query);
+          this.latestSearchesView.addSearchLink(query);
           this.goMovies();
+  
         }.bind(this))
       ;
     },
