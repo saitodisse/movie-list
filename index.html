@@ -85,9 +85,9 @@
 
 
     <script id="movies-template" type="text/x-handlebars-template">
-      <div id="image-list" class="col-md-12">
+      <div id="search-result" class="col-md-12">
         <h1>Movies</h1>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover table table-striped">
           <thead>
             <tr>
               <th>
@@ -109,12 +109,12 @@
           </thead>
           <tbody>
             {{#each movies}}
-              <tr>
-                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{id}}</a></td>
-                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{title}}</a></td>
-                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{originaltitle}}</a></td>
-                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{idImdb}}</a></td>
-                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{imdbInfo.rating}}</a></td>
+              <tr data-id="{{id}}">
+                <td>{{id}}</td>
+                <td>{{title}}</td>
+                <td>{{originaltitle}}</td>
+                <td>{{idImdb}}</td>
+                <td>{{imdbInfo.rating}}</td>
               </tr>
             {{/each}}
           </tbody>

@@ -41,7 +41,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       // LatestSearchesView
       this.jRightMenu = $('.rightMenu');
 
-
       // SearchCollection
       MoviesMVC.searchCollection = new MovieList.Models.SearchCollection();
       __MELD_LOG('SearchCollection', MoviesMVC.searchCollection, 3);
@@ -55,6 +54,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
+
+      // do the first search
+      MoviesMVC.vent.trigger('search_queried', 'year:(2013)');
 
     },
 

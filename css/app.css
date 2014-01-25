@@ -1,6 +1,5 @@
 .main{
   padding: 40px 15px;
-  text-align: center;
 }
 
 
@@ -23,4 +22,12 @@
 
 .searchDiv{
   margin-top: 9px;
+}
+
+#search-result tr{
+  cursor: pointer;
+}
+
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+  background-color: #ffd;
 }
