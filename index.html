@@ -91,7 +91,7 @@
           <thead>
             <tr>
               <th>
-                id
+                year
               </th>
               <th>
                 title
@@ -110,10 +110,10 @@
           <tbody>
             {{#each movies}}
               <tr data-id="{{id}}">
-                <td>{{id}}</td>
+                <td>{{year}}</td>
                 <td>{{title}}</td>
                 <td>{{originaltitle}}</td>
-                <td>{{idImdb}}</td>
+                <td><a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">{{idImdb}}</a></td>
                 <td>{{imdbInfo.rating}}</td>
               </tr>
             {{/each}}

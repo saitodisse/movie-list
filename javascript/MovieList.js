@@ -234,5 +234,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     __MELD_LOG('Router', controller.router, 12);
 
     controller.start();
+
+    MoviesMVC.controller = controller;
   });
 });

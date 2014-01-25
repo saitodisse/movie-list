@@ -9,6 +9,7 @@ MoviesMVC.module('ResultsProcessor', function (ResultsProcessor) {
     simplify: function(movieObject) {
       var movieDto = {};
       movieDto.id = movieObject.id;
+      movieDto.year = movieObject.year;
       movieDto.title = movieObject.title;
       movieDto.originaltitle = movieObject.originaltitle;
       movieDto.idImdb = movieObject.idImdb;
