@@ -68,15 +68,10 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       }
     },
 
-    search_queried: function(query) {
-      this.searchElasticSearch(query)
-        .done(function(results) {
-
-          // render search results
-          this.searchResultView = new MovieList.Views.SearchResultView();
-          __MELD_LOG('SearchResultView', this.searchResultView, 4);
-          this.searchResultView.render(results);
-
+    search_queried: function(query, cachedResults) {
+      if(typeof cachedResults === 'undefined'){
+        // query elastic search 
+        this.searchElasticSearch(query).done(function(results) {
           // save search query
           var newSearch = new MovieList.Models.Search({
             id: query,    // this prevents repetions
@@ -84,15 +79,26 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
             results: results
           })
           MoviesMVC.searchCollection.add(newSearch);
-  
+
           // post search
           this.jSearchInput.val(query);
-          
-          // show results
-          this.goMovies(this.searchResultView);
-  
-        }.bind(this))
-      ;
+
+          this.renderSearchResults(results);
+        }.bind(this));
+      }
+      else{
+        this.renderSearchResults(cachedResults);
+      }
+    },
+
+    renderSearchResults: function(results) {
+      // render search results
+      this.searchResultView = new MovieList.Views.SearchResultView();
+      __MELD_LOG('SearchResultView', this.searchResultView, 4);
+      this.searchResultView.render(results);
+
+      // show results
+      this.goMovies(this.searchResultView);
     },
 
     setMenuActive: function(menuClass) {
@@ -120,7 +126,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         var lastSearch = MoviesMVC.searchCollection.last();
         if(lastSearch){
           var lastQuery = lastSearch.get('query');
-          MoviesMVC.vent.trigger('search_queried', lastQuery);
+          var results = lastSearch.get('results');
+          MoviesMVC.vent.trigger('search_queried', lastQuery, results);
         }
       }
 
