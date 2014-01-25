@@ -28,12 +28,13 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     addSearch: function(search) {
       var id = search.get('id');
       var query = search.get('query');
-      var count = search.get('resultsCount');
+      var results = search.get('results');
+      var resultsCount = results.length;
       var jTitle_a = this.$('#dropdown-title');
       var jLink_ul = this.$('#link-list');
 
       jTitle_a.text(query);
-      jLink_ul.prepend('<li><a href="#" data-id="'+ id +'">' + query + ' ['+ count +']</a></li>');
+      jLink_ul.prepend('<li><a href="#" data-id="'+ id +'">' + query + ' ['+ resultsCount +']</a></li>');
     },
 
     getLatest: function(query) {
@@ -64,21 +65,14 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
   });
 
 
-  Views.MoviesView = Backbone.View.extend({
+  Views.SearchResultView = Backbone.View.extend({
     template: '#movies-template',
-
-    initialize: function() {
-      //this.render(options.json);
-      //this.collection.on('reset', this.render, this);
-    },
 
     render: function(jsonMovies) {
       var source   = $(this.template).html();
       var template = Handlebars.compile(source);
       var html = template({movies: jsonMovies});
       $(this.el).html(html);
-
-      //this.collection.each(this.renderMovie.bind(this));
     },
 
     renderMovie: function(movie) {

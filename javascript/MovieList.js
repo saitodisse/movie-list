@@ -34,27 +34,25 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       this.jSearchInput = $('#q');
 
-      // ON EVENT: "search_queried"
+      // EVENTS
       MoviesMVC.vent.on('search_queried', this.search_queried.bind(this));
+      this.jSearchInput.on('keyup', this.keyuped.bind(this));
 
       // LatestSearchesView
       this.jRightMenu = $('.rightMenu');
 
+
+      // SearchCollection
       MoviesMVC.searchCollection = new MovieList.Models.SearchCollection();
       __MELD_LOG('SearchCollection', MoviesMVC.searchCollection, 3);
-
+      
+      // LatestSearchesView
       this.latestSearchesView = new MovieList.Views.LatestSearchesView({
         collection: MoviesMVC.searchCollection
       });
       __MELD_LOG('LatestSearchesView', this.latestSearchesView, 4);
-      //pre-fill some years
-      MoviesMVC.searchCollection.add({query:'year:(2012)'})
-
-      
       this.jRightMenu.prepend(this.latestSearchesView.el);
 
-      this.jSearchInput.on('keyup', this.keyuped.bind(this));
-      
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
 
@@ -74,25 +72,24 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.searchElasticSearch(query)
         .done(function(results) {
 
-          this.moviesView = new MovieList.Views.MoviesView();
-          __MELD_LOG('MoviesView', this.moviesView, 4);
-          this.moviesView.render(results);
+          // render search results
+          this.searchResultView = new MovieList.Views.SearchResultView();
+          __MELD_LOG('SearchResultView', this.searchResultView, 4);
+          this.searchResultView.render(results);
 
-          // get jQuery result
-          //MoviesMVC.moviesCollection.reset(results);
-          
-          
+          // save search query
           var newSearch = new MovieList.Models.Search({
             id: query,    // this prevents repetions
             query: query,
-            resultsCount: results.length
+            results: results
           })
           MoviesMVC.searchCollection.add(newSearch);
-          //this.latestSearchesView.addSearchLink(query);
   
           // post search
           this.jSearchInput.val(query);
-          this.goMovies(this.moviesView);
+          
+          // show results
+          this.goMovies(this.searchResultView);
   
         }.bind(this))
       ;
@@ -116,12 +113,17 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     goMovies: function(view) {
       this.setMenuActive('.movies');
 
-      // var view = new MovieList.Views.MoviesView({
-      //   collection: MoviesMVC.moviesCollection
-      // });
-      // __MELD_LOG('MoviesView', view, 21);
+      if(view){
+        this.jMain.html(view.el);
+      }
+      else{
+        var lastSearch = MoviesMVC.searchCollection.last();
+        if(lastSearch){
+          var lastQuery = lastSearch.get('query');
+          MoviesMVC.vent.trigger('search_queried', lastQuery);
+        }
+      }
 
-      this.jMain.html(view.el);
     },
 
     goMovieDetails: function(id) {
@@ -129,6 +131,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.getIdElasticSearch(id).done(function(result) {
 
           var movie = new MovieList.Models.Movie(result);
+          MoviesMVC.moviesCollection.add(movie);
 
           var view = new MovieList.Views.MovieDetailView({
             model: movie
