@@ -78,7 +78,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
             query: query,
             results: results
           })
+          
           MoviesMVC.searchCollection.add(newSearch);
+          MoviesMVC.searchCollection.trigger('searched', newSearch);
 
           // post search
           this.jSearchInput.val(query);

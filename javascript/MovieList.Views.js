@@ -16,7 +16,10 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     initialize: function() {
       this.render();
+      
+      //MoviesMVC.searchCollection
       this.collection.on('add', this.addSearch, this)
+      this.collection.on('searched', this.updateDropdownTitle, this)
     },
 
     render: function() {
@@ -25,16 +28,34 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       $(this.el).html(html);
     },
 
-    addSearch: function(search) {
-      var id = search.get('id');
-      var query = search.get('query');
-      var results = search.get('results');
-      var resultsCount = results.length;
-      var jTitle_a = this.$('#dropdown-title');
-      var jLink_ul = this.$('#link-list');
+    addSearch: function(searchModel) {
+      this.addDropdownItem(searchModel);
+    },
 
-      jTitle_a.text(query);
-      jLink_ul.prepend('<li><a href="#" data-id="'+ id +'">' + query + ' ['+ resultsCount +']</a></li>');
+    updateDropdownTitle: function(searchModel) {
+      var jTitle_a = this.$('#dropdown-title');
+      jTitle_a.text(this.getSearchFormated(searchModel));
+    },
+
+    addDropdownItem: function(searchModel) {
+      var jLink_ul = this.$('#link-list');
+      jLink_ul.prepend(this.getLiHtml(searchModel));
+    },
+
+    getSearchFormated: function(searchModel) {
+      var query = searchModel.get('query');
+      var results = searchModel.get('results');
+      var resultsCount = results.length;
+      return query + ' ['+ resultsCount +']';
+    },
+
+    getLiHtml: function(searchModel) {
+      var id = searchModel.get('id');
+      return  '<li>' +
+                '<a href="#" data-id="'+ id +'">' +
+                   this.getSearchFormated(searchModel) +
+                '</a>' +
+              '</li>';
     },
 
     getLatest: function(query) {
@@ -44,7 +65,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     linkClicked: function(e) {
       e.preventDefault();
-      var query = $(e.target).data('query');
+      var query = $(e.target).data('id');
       MoviesMVC.vent.trigger('search_queried', query);
     }
   });
