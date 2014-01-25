@@ -54,8 +54,10 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     keyuped: function(e) {
       if(e.which === 13){
         var query = this.jSearchInput.val();
-        MoviesMVC.vent.trigger('search_queried', query);
-        //this.jSearchInput.val('');
+        var latestQuery = this.latestSearchesView.getLatest();
+        if(query !== latestQuery){
+          MoviesMVC.vent.trigger('search_queried', query);
+        }
       }
     },
 

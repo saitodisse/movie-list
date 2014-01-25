@@ -32,6 +32,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       this.jLink_ul.prepend('<li><a href="#">' + query + '</a></li>');
     },
 
+    getLatest: function(query) {
+      this.jTitle_a = this.$('#dropdown-title');
+      return this.jTitle_a.text();
+    },
+
     linkClicked: function(e) {
       var jA = $(e.target);
       MoviesMVC.vent.trigger('search_queried', jA.text());
