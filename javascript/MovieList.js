@@ -74,8 +74,13 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.searchElasticSearch(query)
         .done(function(results) {
 
+          this.moviesView = new MovieList.Views.MoviesView();
+          __MELD_LOG('MoviesView', this.moviesView, 4);
+          this.moviesView.render(results);
+
           // get jQuery result
-          MoviesMVC.moviesCollection.reset(results);
+          //MoviesMVC.moviesCollection.reset(results);
+          
           
           var newSearch = new MovieList.Models.Search({
             id: query,    // this prevents repetions
@@ -87,7 +92,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   
           // post search
           this.jSearchInput.val(query);
-          this.goMovies();
+          this.goMovies(this.moviesView);
   
         }.bind(this))
       ;
@@ -108,13 +113,13 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jMain.html(view.el);
     },
 
-    goMovies: function() {
+    goMovies: function(view) {
       this.setMenuActive('.movies');
 
-      var view = new MovieList.Views.MoviesView({
-        collection: MoviesMVC.moviesCollection
-      });
-      __MELD_LOG('MoviesView', view, 21);
+      // var view = new MovieList.Views.MoviesView({
+      //   collection: MoviesMVC.moviesCollection
+      // });
+      // __MELD_LOG('MoviesView', view, 21);
 
       this.jMain.html(view.el);
     },

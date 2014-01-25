@@ -68,16 +68,17 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     template: '#movies-template',
 
     initialize: function() {
-      this.render();
-      this.collection.on('reset', this.render, this);
+      //this.render(options.json);
+      //this.collection.on('reset', this.render, this);
     },
 
-    render: function() {
+    render: function(jsonMovies) {
       var source   = $(this.template).html();
-      var html = Handlebars.compile(source);
+      var template = Handlebars.compile(source);
+      var html = template({movies: jsonMovies});
       $(this.el).html(html);
 
-      this.collection.each(this.renderMovie.bind(this));
+      //this.collection.each(this.renderMovie.bind(this));
     },
 
     renderMovie: function(movie) {

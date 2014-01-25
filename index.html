@@ -108,17 +108,21 @@
             </tr>
           </thead>
           <tbody>
+            {{#each movies}}
+              <tr>
+                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{id}}</a></td>
+                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{title}}</a></td>
+                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{originaltitle}}</a></td>
+                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{idImdb}}</a></td>
+                <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{imdbInfo.rating}}</a></td>
+              </tr>
+            {{/each}}
           </tbody>
         </table>
       </div>
     </script>
 
     <script id="movieTr-template" type="text/x-handlebars-template">
-      <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{id}}</a></td>
-      <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{title}}</a></td>
-      <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{originaltitle}}</a></td>
-      <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{idImdb}}</a></td>
-      <td><a href="#movies/{{id}}" class="view" data-id="{{id}}">{{imdbInfo.rating}}</a></td>
     </script>
 
 
