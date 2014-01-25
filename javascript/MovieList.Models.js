@@ -10,4 +10,12 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone, Marionette
     model: Models.Movie
   });
 
+
+  Models.Search = Backbone.Model.extend({
+  });
+
+  Models.SearchCollection = Backbone.Collection.extend({
+    model: Models.Search
+  });
+
 });

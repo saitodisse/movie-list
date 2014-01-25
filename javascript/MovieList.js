@@ -39,16 +39,25 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       // LatestSearchesView
       this.jRightMenu = $('.rightMenu');
-      this.latestSearchesView = new MovieList.Views.LatestSearchesView();
+
+      MoviesMVC.searchCollection = new MovieList.Models.SearchCollection();
+      __MELD_LOG('SearchCollection', MoviesMVC.searchCollection, 3);
+
+      this.latestSearchesView = new MovieList.Views.LatestSearchesView({
+        collection: MoviesMVC.searchCollection
+      });
       __MELD_LOG('LatestSearchesView', this.latestSearchesView, 4);
+      //pre-fill some years
+      MoviesMVC.searchCollection.add({query:'year:(2012)'})
+
       
-      this.latestSearchesView.render();
       this.jRightMenu.prepend(this.latestSearchesView.el);
 
       this.jSearchInput.on('keyup', this.keyuped.bind(this));
       
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
+
     },
 
     keyuped: function(e) {
@@ -67,10 +76,17 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
           // get jQuery result
           MoviesMVC.moviesCollection.reset(results);
+          
+          var newSearch = new MovieList.Models.Search({
+            id: query,    // this prevents repetions
+            query: query,
+            resultsCount: results.length
+          })
+          MoviesMVC.searchCollection.add(newSearch);
+          //this.latestSearchesView.addSearchLink(query);
   
           // post search
           this.jSearchInput.val(query);
-          this.latestSearchesView.addSearchLink(query);
           this.goMovies();
   
         }.bind(this))
@@ -88,7 +104,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       var view = new MovieList.Views.HomeView();
       __MELD_LOG('HomeView', view, 20);
-      view.render();
 
       this.jMain.html(view.el);
     },
@@ -100,21 +115,24 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         collection: MoviesMVC.moviesCollection
       });
       __MELD_LOG('MoviesView', view, 21);
-      view.render();
 
       this.jMain.html(view.el);
     },
 
     goMovieDetails: function(id) {
       this.setMenuActive('.movies');
+      this.getIdElasticSearch(id).done(function(result) {
 
-      var view = new MovieList.Views.MovieDetailView({
-        model: MoviesMVC.moviesCollection.get(id)
-      });
-      __MELD_LOG('MovieDetailView', view, 21);
-      view.render();
+          var movie = new MovieList.Models.Movie(result);
 
-      this.jMain.html(view.el);
+          var view = new MovieList.Views.MovieDetailView({
+            model: movie
+          });
+          __MELD_LOG('MovieDetailView', view, 21);
+          this.jMain.html(view.el);
+
+        }.bind(this))
+      ;
     },
 
     goMovieDetailThumb: function(id, thumbId) {
@@ -125,7 +143,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         thumbId: thumbId
       });
       __MELD_LOG('MovieDetailView', view, 21);
-      view.render();
 
       this.jMain.html(view.el);
     },
@@ -135,7 +152,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       var view = new MovieList.Views.AboutView();
       __MELD_LOG('AboutView', view, 22);
-      view.render();
 
       this.jMain.html(view.el);
     },
@@ -154,12 +170,27 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         data: data,
         //data: data,
         success: function(data) {
+          var resultsProcessor = new MoviesMVC.ResultsProcessor.Processor();
           var results = [];
           for (var i = 0; i < data.hits.hits.length; i++) {
             var hit = data.hits.hits[i];
-            results.push(hit._source);
+            var movieSimplified = resultsProcessor.simplify(hit._source);
+            results.push(movieSimplified);
           };
           def.resolve(results);
+        },
+        dataType: 'json'
+      });
+      return def.promise();
+    },
+
+    getIdElasticSearch: function(id) {
+      var def = $.Deferred();
+
+      $.ajax({
+        url: 'http://localhost:9200/movies/movie/' + id,
+        success: function(data) {
+          def.resolve(data._source);
         },
         dataType: 'json'
       });

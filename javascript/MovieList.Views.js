@@ -16,6 +16,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     initialize: function() {
       this.render();
+      this.collection.on('add', this.addSearch, this)
     },
 
     render: function() {
@@ -24,12 +25,15 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       $(this.el).html(html);
     },
 
-    addSearchLink: function(query) {
-      this.jTitle_a = this.$('#dropdown-title');
-      this.jLink_ul = this.$('#link-list');
+    addSearch: function(search) {
+      var id = search.get('id');
+      var query = search.get('query');
+      var count = search.get('resultsCount');
+      var jTitle_a = this.$('#dropdown-title');
+      var jLink_ul = this.$('#link-list');
 
-      this.jTitle_a.text(query);
-      this.jLink_ul.prepend('<li><a href="#">' + query + '</a></li>');
+      jTitle_a.text(query);
+      jLink_ul.prepend('<li><a href="#" data-id="'+ id +'">' + query + ' ['+ count +']</a></li>');
     },
 
     getLatest: function(query) {
@@ -38,8 +42,9 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     linkClicked: function(e) {
-      var jA = $(e.target);
-      MoviesMVC.vent.trigger('search_queried', jA.text());
+      e.preventDefault();
+      var query = $(e.target).data('query');
+      MoviesMVC.vent.trigger('search_queried', query);
     }
   });
 
@@ -105,7 +110,9 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     template: '#movieDetail-template',
 
     initialize: function() {
-      this.render();
+      if(typeof this.model !== 'undefined'){
+        this.render();
+      }
     },
 
     render: function() {
