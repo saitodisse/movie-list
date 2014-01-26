@@ -75,14 +75,16 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         // query elastic search 
         this.searchElasticSearch(query).done(function(results) {
           // save search query
-          var newSearch = new MovieList.Models.Search({
+          var searchModel = new MovieList.Models.Search({
             id: query,    // this prevents repetions
             query: query,
             results: results
           })
           
-          MoviesMVC.searchCollection.add(newSearch);
-          MoviesMVC.searchCollection.trigger('searched', newSearch);
+          MoviesMVC.searchCollection.add(searchModel);
+          MoviesMVC.searchCollection.trigger('searched', searchModel);
+
+          MoviesMVC.currentSearch = searchModel;
 
           // post search
           this.jSearchInput.val(query);
@@ -127,11 +129,11 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         this.jMain.html(view.el);
       }
       else{
-        var lastSearch = MoviesMVC.searchCollection.last();
-        if(lastSearch){
-          var lastQuery = lastSearch.get('query');
-          var results = lastSearch.get('results');
-          MoviesMVC.vent.trigger('search_queried', lastQuery, results);
+        var currentSearch = MoviesMVC.currentSearch;
+        if(currentSearch){
+          var currentQuery = currentSearch.get('query');
+          var results = currentSearch.get('results');
+          MoviesMVC.vent.trigger('search_queried', currentQuery, results);
         }
       }
 
