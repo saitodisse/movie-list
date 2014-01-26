@@ -29,7 +29,10 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     addSearch: function(searchModel) {
-      this.addDropdownItem(searchModel);
+      console.log(searchModel)
+      if(searchModel.hasResults()){
+        this.addDropdownItem(searchModel);
+      }
     },
 
     updateDropdownTitle: function(searchModel) {
