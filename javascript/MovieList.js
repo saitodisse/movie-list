@@ -12,6 +12,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       'movies/search/:query': 'goMovieSearch',
       'movies/:id': 'goMovieDetails',
       'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
+      'imovies': 'goIMovies',
       'about': 'goAbout'
     }
   });
@@ -113,6 +114,15 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       var view = new MovieList.Views.HomeView();
       __MELD_LOG('HomeView', view, 20);
+
+      this.jMain.html(view.el);
+    },
+
+    goIMovies: function() {
+      this.setMenuActive('.imovie');
+
+      var view = new MovieList.Views.IMoviesView();
+      __MELD_LOG('IMoviesView', view, 21);
 
       this.jMain.html(view.el);
     },

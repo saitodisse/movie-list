@@ -36,3 +36,9 @@
   top: 3px;
   right: 10px;
 }
+
+.by_year li{
+  float: left;
+  list-style: none;
+  margin-left: 20px;
+}

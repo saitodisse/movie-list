@@ -26,8 +26,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     render: function() {
       var source   = $(this.template).html();
-      var html = Handlebars.compile(source);
-      $(this.el).html(html);
+      var template = Handlebars.compile(source);
+      $(this.el).html(template);
     },
 
     renderAllSearches: function() {
@@ -114,8 +114,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     render: function() {
       var source   = $(this.template).html();
-      var html = Handlebars.compile(source);
-      $(this.el).html(html);
+      var template = Handlebars.compile(source);
+      $(this.el).html(template);
     }
   });
 
@@ -217,8 +217,26 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     render: function() {
       var source   = $(this.template).html();
-      var html = Handlebars.compile(source);
-      $(this.el).html(html);
+      var template = Handlebars.compile(source);
+      $(this.el).html(template);
+    }
+  });
+
+  Views.IMoviesView = Backbone.View.extend({
+    template: '#imovies-template',
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      var source   = $(this.template).html();
+      var template = Handlebars.compile(source);
+      $(this.el).html(template({
+        years: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 
+                2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 
+                2011, 2012, 2013, 2014 ]
+      }));
     }
   });
 

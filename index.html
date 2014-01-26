@@ -38,6 +38,7 @@
           
           <ul class="nav navbar-nav mainMenu">
             <li class="home">  <a href="#">Home</a></li>
+            <li class="imovies"><a href="#imovies">iMovies</a></li>
             <li class="movies"><a href="#movies">Movies</a></li>
             <li class="about" ><a href="#about">About</a></li>
           </ul>
@@ -79,6 +80,19 @@
         Or simply
         <pre>bash startServer.sh</pre>
       </p>
+    </script>
+
+
+    <script id="imovies-template" type="text/x-handlebars-template">
+      <h3>Last Searches</h3>
+      <ul class="last_searches"></ul>
+
+      <h3>by Year</h3>
+      <ul class="by_year">
+        {{#each years}}
+          <li><a href="/#movies/search/year:({{this}})">{{this}}</a></li>
+        {{/each}}
+      </ul>
     </script>
 
 
