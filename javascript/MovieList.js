@@ -56,7 +56,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
 
       // do the first search
-      MoviesMVC.vent.trigger('search_queried', 'year:(2013)');
+      //MoviesMVC.vent.trigger('search_queried', 'year:(2013)');
+      MoviesMVC.searchCollection.fetch();
 
     },
 
@@ -81,12 +82,11 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
             results: results
           })
           
-          MoviesMVC.searchCollection.add(searchModel);
           searchModel.save();
-
-          MoviesMVC.searchCollection.trigger('searched', searchModel);
-
+          
           MoviesMVC.currentSearchModel = searchModel;
+          
+          MoviesMVC.searchCollection.add(searchModel);
 
           // post search
           this.jSearchInput.val(query);
@@ -95,8 +95,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         }.bind(this));
       }
       else{
+        MoviesMVC.currentSearchModel = searchModel;
         this.renderSearchResults(searchModel.get('results'));
-        MoviesMVC.searchCollection.trigger('searched', searchModel);
+        //MoviesMVC.searchCollection.trigger('searched', searchModel);
       }
     },
 

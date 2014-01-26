@@ -20,8 +20,9 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       
       //MoviesMVC.searchCollection
       this.collection.on('add', this.addSearch, this);
-      this.collection.on('searched', this.updateDropdownTitle, this);
+      //this.collection.on('searched', this.updateDropdownTitle, this);
       this.collection.on('remove', this.removeListElement, this);
+      MoviesMVC.vent.on('search_queried', this.updateDropdownTitle, this);
     },
 
     render: function() {
@@ -36,14 +37,9 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       }
     },
 
-    updateDropdownTitle: function(searchModel) {
+    updateDropdownTitle: function(query, searchModel) {
       var jTitle_a = this.$('#dropdown-title');
       jTitle_a.text(this.getSearchFormated(searchModel));
-    },
-
-    addDropdownItem: function(searchModel) {
-      var jLink_ul = this.$('#link-list');
-      jLink_ul.prepend(this.getLiHtml(searchModel));
     },
 
     getSearchFormated: function(searchModel) {
@@ -51,6 +47,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       var results = searchModel.get('results');
       var resultsCount = results.length;
       return query + ' ['+ resultsCount +']';
+    },
+
+    addDropdownItem: function(searchModel) {
+      var jLink_ul = this.$('#link-list');
+      jLink_ul.prepend(this.getLiHtml(searchModel));
     },
 
     getLiHtml: function(searchModel) {

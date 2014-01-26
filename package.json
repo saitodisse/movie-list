@@ -1,0 +1,25 @@
+{
+  "name": "movieList",
+  "version": "0.0.0",
+  "description": "movie-list ==========",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/saitodisse/movie-list.git"
+  },
+  "keywords": [
+    "backbone",
+    "elasticesearch"
+  ],
+  "author": "Julio Saito",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "8daa5b6b8d30d42328b6e62abaa2d18d2d5ece57",
+  "dependencies": {
+    "connect": "~2.12.0"
+  }
+}
