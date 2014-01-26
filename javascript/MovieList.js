@@ -4,13 +4,12 @@
 MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $, _) {
   // MovieList Router
   // ---------------
-  //
-  // Handle routes to show the active vs complete todo items
   MovieList.Router = Marionette.AppRouter.extend({
     appRoutes: {
       //'*filter': 'filterItems'
       '': 'goHome',
       'movies': 'goMovies',
+      'movies/search/:query': 'goMovieSearch',
       'movies/:id': 'goMovieDetails',
       'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
       'about': 'goAbout'
@@ -27,7 +26,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
   _.extend(MovieList.Controller.prototype, {
     // Start the app by showing the appropriate views
-    // and fetching the list of todo items, if there are any
     start: function () {
       this.jMenu = $('.mainMenu');
       this.jMain = $('.main');
@@ -35,7 +33,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jSearchInput = $('#q');
 
       // EVENTS
-      MoviesMVC.vent.on('search_queried', this.search_queried.bind(this));
+      MoviesMVC.vent.on('query_received', this.onQueryReceived.bind(this));
+      MoviesMVC.vent.on('results_received', this.renderSearchResults.bind(this));
       this.jSearchInput.on('keyup', this.keyuped.bind(this));
 
       // LatestSearchesView
@@ -55,10 +54,15 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
       __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
 
-      // do the first search
-      //MoviesMVC.vent.trigger('search_queried', 'year:(2013)');
-      MoviesMVC.searchCollection.fetch();
+      // Suppresses 'add' events with {reset: true} and prevents the app view
+      // from being re-rendered for every model. Only renders when the 'reset'
+      // event is triggered at the end of the fetch.
+      MoviesMVC.searchCollection.fetch({reset: true});
 
+      // set current search
+      if(MoviesMVC.searchCollection.length > 0){
+        MoviesMVC.currentSearchModel = MoviesMVC.searchCollection.last();
+      }
     },
 
     keyuped: function(e) {
@@ -66,49 +70,36 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         var query = this.jSearchInput.val();
         var latestQuery = this.latestSearchesView.getLatest();
         if(query !== latestQuery){
-          MoviesMVC.vent.trigger('search_queried', query);
+          MoviesMVC.vent.trigger('query_received', query);
         }
       }
     },
 
-    search_queried: function(query, searchModel) {
-      if(typeof searchModel === 'undefined'){
-        // query elastic search 
-        this.searchElasticSearch(query).done(function(results) {
-          // save search query
-          var searchModel = new MovieList.Models.Search({
-            id: query,    // this prevents repetions
-            query: query,
-            results: results
-          })
-          
-          searchModel.save();
-          
-          MoviesMVC.currentSearchModel = searchModel;
-          
-          MoviesMVC.searchCollection.add(searchModel);
-
-          // post search
-          this.jSearchInput.val(query);
-
-          this.renderSearchResults(results);
-        }.bind(this));
-      }
-      else{
-        MoviesMVC.currentSearchModel = searchModel;
-        this.renderSearchResults(searchModel.get('results'));
-        //MoviesMVC.searchCollection.trigger('searched', searchModel);
-      }
+    onQueryReceived: function(query) {
+      var router = MoviesMVC.controller.router;
+      router.navigate('movies/search/' + query, {trigger: true});
     },
 
-    renderSearchResults: function(results) {
+    renderSearchResults: function(searchModel) {
+      // set current search
+      MoviesMVC.currentSearchModel = searchModel;
+      
+      var searchModels = MoviesMVC.searchCollection.filter(function(item) {
+        return item.get('query') === searchModel.get('query');
+      });
+
+      var searchModelCached = (searchModels.length > 0);
+      if(!searchModelCached){
+        MoviesMVC.searchCollection.add(searchModel);
+      }
+
       // render search results
       this.searchResultView = new MovieList.Views.SearchResultView();
       __MELD_LOG('SearchResultView', this.searchResultView, 4);
-      this.searchResultView.render(results);
+      this.searchResultView.render(searchModel.get('results'));
 
       // show results
-      this.goMovies(this.searchResultView);
+      this.jMain.html(this.searchResultView.el);
     },
 
     setMenuActive: function(menuClass) {
@@ -127,19 +118,42 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     },
 
     goMovies: function(view) {
+      this.onQueryReceived(MoviesMVC.currentSearchModel.get('query'));
+    },
+
+    goMovieSearch: function(query) {
       this.setMenuActive('.movies');
 
-      if(view){
-        this.jMain.html(view.el);
+      var searchModels = MoviesMVC.searchCollection.filter(function(item) {
+        return item.get('query') === query;
+      });
+      
+      var searchModelExists = (searchModels.length > 0);
+      
+      if(searchModelExists){
+        //CACHED
+        MoviesMVC.vent.trigger('results_received', searchModels[0]);
       }
       else{
-        var currentSearchModel = MoviesMVC.currentSearchModel;
-        if(currentSearchModel){
-          var currentQuery = currentSearchModel.get('query');
-          MoviesMVC.vent.trigger('search_queried', currentQuery, currentSearchModel);
-        }
+        //REQUEST
+        var asyncResult = this.searchElasticSearch(query);
+        asyncResult.done(function(results) {
+          this.getElasticSearchResult(query, results);
+        }.bind(this));
       }
+    },
 
+    getElasticSearchResult: function(query, results) {
+      // save search query
+      var searchModel = new MovieList.Models.Search({
+        query: query,
+        results: results
+      });
+
+      //TODO: move this.jSearchInput to a separeted view
+      this.jSearchInput.val(query);
+
+      MoviesMVC.vent.trigger('results_received', searchModel);
     },
 
     goMovieDetails: function(id) {

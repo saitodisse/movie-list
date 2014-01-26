@@ -17,12 +17,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     initialize: function() {
       this.render();
-      
-      //MoviesMVC.searchCollection
+
       this.collection.on('add', this.addSearch, this);
-      //this.collection.on('searched', this.updateDropdownTitle, this);
       this.collection.on('remove', this.removeListElement, this);
-      MoviesMVC.vent.on('search_queried', this.updateDropdownTitle, this);
+      this.collection.on('reset', this.renderAllSearches, this);
+      MoviesMVC.vent.on('results_received', this.updateDropdownTitle, this);
     },
 
     render: function() {
@@ -31,13 +30,25 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       $(this.el).html(html);
     },
 
-    addSearch: function(searchModel) {
-      if(searchModel.hasResults()){
+    renderAllSearches: function() {
+      this.collection.each(function(searchModel) {
         this.addDropdownItem(searchModel);
-      }
+      }.bind(this))
     },
 
-    updateDropdownTitle: function(query, searchModel) {
+    addSearch: function(searchModel) {
+      var commingQuery = searchModel.get('query');
+      // var existingSerchModel = this.collection.filter(function(item) {
+      //   return item.get('query') === commingQuery;
+      // })
+
+      // if(!existingSerchModel){
+        searchModel.save();
+        this.addDropdownItem(searchModel);
+      // }
+    },
+
+    updateDropdownTitle: function(searchModel) {
       var jTitle_a = this.$('#dropdown-title');
       jTitle_a.text(this.getSearchFormated(searchModel));
     },
@@ -73,7 +84,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       e.preventDefault();
       var id = $(e.target).data('id');
       var searchModel = this.collection.get(id);
-      MoviesMVC.vent.trigger('search_queried', searchModel.get('query'), searchModel);
+      MoviesMVC.vent.trigger('query_received', searchModel.get('query'));
     },
 
     removeClicked: function(e) {
