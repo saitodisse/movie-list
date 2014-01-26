@@ -121,7 +121,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     goIMovies: function() {
       this.setMenuActive('.imovie');
 
-      var view = new MovieList.Views.IMoviesView();
+      var view = new MovieList.Views.IMoviesView({
+        collection: MoviesMVC.searchCollection
+      });
       __MELD_LOG('IMoviesView', view, 21);
 
       this.jMain.html(view.el);

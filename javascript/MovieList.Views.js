@@ -232,11 +232,28 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     render: function() {
       var source   = $(this.template).html();
       var template = Handlebars.compile(source);
-      $(this.el).html(template({
-        years: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 
-                2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 
-                2011, 2012, 2013, 2014 ]
-      }));
+
+      var toSend = {};
+      toSend.searches = this.collection.toJSON();
+
+      var tenYears = _.range(1901, 2022, 10);
+      toSend.yearsBlock = [];
+      for (var i = 0; i < (tenYears.length - 1); i++) {
+        var eachYear = _.range(tenYears[i], tenYears[i+1]);
+        toSend.yearsBlock.push(eachYear);
+      };
+
+      var tenYears = _.range(1900, 2021, 10);
+      toSend.yearRanges = [];
+      for (var i = 0; i < (tenYears.length - 1); i++) {
+        toSend.yearRanges.push({
+          start: tenYears[i],
+          end: tenYears[i+1]
+        });
+      };
+
+
+      $(this.el).html(template(toSend));
     }
   });
 

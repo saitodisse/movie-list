@@ -37,8 +37,12 @@
   right: 10px;
 }
 
-.by_year li{
+.imoviesDiv li{
+  list-style: none;
+}
+
+.byYear li{
   float: left;
   list-style: none;
-  margin-left: 20px;
+  margin-right: 20px;
 }

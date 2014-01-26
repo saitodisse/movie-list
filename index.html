@@ -84,15 +84,52 @@
 
 
     <script id="imovies-template" type="text/x-handlebars-template">
-      <h3>Last Searches</h3>
-      <ul class="last_searches"></ul>
+      <div class="imoviesDiv">
 
-      <h3>by Year</h3>
-      <ul class="by_year">
-        {{#each years}}
-          <li><a href="/#movies/search/year:({{this}})">{{this}}</a></li>
-        {{/each}}
-      </ul>
+        <div class="row">
+          <h3>Last Searches</h3>
+          <ul class="last_searches col-md-8">
+            {{#each searches}}
+              <li><a href="/#movies/search/{{query}}">{{query}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+
+        <div class="row">
+          <h3>by Year Ranges</h3>
+          <div class="row">
+            <ul class="col-md-8">
+        
+              {{#each yearRanges}}
+                <li class="col-md-2">
+                  <a href="/#movies/search/year:[{{start}} TO {{end}}]">
+                    {{start}}..{{end}}
+                  </a>
+                </li>
+              {{/each}}
+        
+            </ul>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3>by Year</h3>
+          
+          {{#each yearsBlock}}
+          <div class="row byYear col-md-8">
+            <ul>
+        
+            {{#each this}}
+              <li><a href="/#movies/search/year:({{this}})">{{this}}</a></li>
+            {{/each}}
+        
+            </ul>
+          </div>
+          {{/each}}
+        
+        </div>
+
+      </div>
     </script>
 
 
