@@ -18,8 +18,9 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       this.render();
       
       //MoviesMVC.searchCollection
-      this.collection.on('add', this.addSearch, this)
-      this.collection.on('searched', this.updateDropdownTitle, this)
+      this.collection.on('add', this.addSearch, this);
+      this.collection.on('searched', this.updateDropdownTitle, this);
+      this.collection.on('remove', this.removeListElement, this);
     },
 
     render: function() {
@@ -29,7 +30,6 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     addSearch: function(searchModel) {
-      console.log(searchModel)
       if(searchModel.hasResults()){
         this.addDropdownItem(searchModel);
       }
@@ -61,7 +61,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
               '</li>';
     },
 
-    getLatest: function(query) {
+    getLatest: function() {
       this.jTitle_a = this.$('#dropdown-title');
       return this.jTitle_a.text();
     },
@@ -70,6 +70,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       e.preventDefault();
       var query = $(e.target).data('id');
       MoviesMVC.vent.trigger('search_queried', query);
+    },
+
+    removeListElement: function(model) {
+      var element = this.$('#link-list').find('[data-id="' + model.id + '"]');
+      element.remove();
     }
   });
 

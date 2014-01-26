@@ -82,6 +82,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
           })
           
           MoviesMVC.searchCollection.add(searchModel);
+          searchModel.save();
+          
           MoviesMVC.searchCollection.trigger('searched', searchModel);
 
           MoviesMVC.currentSearch = searchModel;

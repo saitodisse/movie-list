@@ -18,8 +18,24 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone, Marionette
     }
   });
 
+  MoviesMVC.searchCollection_localStorage = new Backbone.LocalStorage("MoviesMVC_SearchCollection");
+  __MELD_LOG('search_localStorage', MoviesMVC.searchCollection_localStorage, 12);
+
+
   Models.SearchCollection = Backbone.Collection.extend({
-    model: Models.Search
+    model: Models.Search,
+
+    localStorage: MoviesMVC.searchCollection_localStorage,
+
+    initialize: function() {
+      this.on('add', this.checkCollectionOverflow, this)
+    },
+
+    checkCollectionOverflow: function() {
+      if(this.length > 10){
+        this.first().destroy();
+      }
+    }
   });
 
 });
