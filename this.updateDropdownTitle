@@ -1,3 +1,13 @@
 [1;32m :: git pull origin[0m
 Already up-to-date.
 [1;32m :: git add . -A[0m
+[1;32m :: git commit -m'search_queried --'[0m
+# No ramo master
+# Changes not staged for commit:
+#   (utilize "git add <arquivo>..." para atualizar o que será submetido)
+#   (utilize "git checkout -- <arquivo>..." para descartar mudanças no diretório de trabalho)
+#
+#	modificado: this.updateDropdownTitle
+#
+nenhuma modificação adicionada à submissão (utilize "git add" e/ou "git commit -a")
+[1;32m :: git push origin[0m
