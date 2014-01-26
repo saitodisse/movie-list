@@ -70,8 +70,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       }
     },
 
-    search_queried: function(query, cachedResults) {
-      if(typeof cachedResults === 'undefined'){
+    search_queried: function(query, searchModel) {
+      if(typeof searchModel === 'undefined'){
         // query elastic search 
         this.searchElasticSearch(query).done(function(results) {
           // save search query
@@ -83,10 +83,10 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
           
           MoviesMVC.searchCollection.add(searchModel);
           searchModel.save();
-          
+
           MoviesMVC.searchCollection.trigger('searched', searchModel);
 
-          MoviesMVC.currentSearch = searchModel;
+          MoviesMVC.currentSearchModel = searchModel;
 
           // post search
           this.jSearchInput.val(query);
@@ -95,7 +95,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         }.bind(this));
       }
       else{
-        this.renderSearchResults(cachedResults);
+        this.renderSearchResults(searchModel.get('results'));
+        MoviesMVC.searchCollection.trigger('searched', searchModel);
       }
     },
 
@@ -131,11 +132,10 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         this.jMain.html(view.el);
       }
       else{
-        var currentSearch = MoviesMVC.currentSearch;
-        if(currentSearch){
-          var currentQuery = currentSearch.get('query');
-          var results = currentSearch.get('results');
-          MoviesMVC.vent.trigger('search_queried', currentQuery, results);
+        var currentSearchModel = MoviesMVC.currentSearchModel;
+        if(currentSearchModel){
+          var currentQuery = currentSearchModel.get('query');
+          MoviesMVC.vent.trigger('search_queried', currentQuery, currentSearchModel);
         }
       }
 

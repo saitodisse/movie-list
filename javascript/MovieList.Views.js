@@ -68,13 +68,17 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     linkClicked: function(e) {
       e.preventDefault();
-      var query = $(e.target).data('id');
-      MoviesMVC.vent.trigger('search_queried', query);
+      var id = $(e.target).data('id');
+      var searchModel = this.collection.get(id);
+      MoviesMVC.vent.trigger('search_queried', searchModel.get('query'), searchModel);
     },
 
     removeListElement: function(model) {
-      var element = this.$('#link-list').find('[data-id="' + model.id + '"]');
-      element.remove();
+      var jA = this.$('#link-list').find('[data-id="' + model.id + '"]');
+      if(jA){
+        var jLi = jA.parent()
+        jLi.remove();
+      }
     }
   });
 

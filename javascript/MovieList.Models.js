@@ -32,7 +32,7 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone, Marionette
     },
 
     checkCollectionOverflow: function() {
-      if(this.length > 10){
+      if(this.length > 5){
         this.first().destroy();
       }
     }
