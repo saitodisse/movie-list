@@ -11,7 +11,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     template: '#latest-searches-template',
 
     events: {
-      'click li a': 'linkClicked'
+      'click li a': 'linkClicked',
+      'click li .glyphicon-remove': 'removeClicked'
     },
 
     initialize: function() {
@@ -56,6 +57,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       var id = searchModel.get('id');
       return  '<li>' +
                 '<a href="#" data-id="'+ id +'">' +
+                  '<span class="glyphicon glyphicon-remove"></span>' +
                    this.getSearchFormated(searchModel) +
                 '</a>' +
               '</li>';
@@ -71,6 +73,14 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       var id = $(e.target).data('id');
       var searchModel = this.collection.get(id);
       MoviesMVC.vent.trigger('search_queried', searchModel.get('query'), searchModel);
+    },
+
+    removeClicked: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var id = $(e.target).parent().data('id');
+      var searchModel = this.collection.get(id);
+      searchModel.destroy();
     },
 
     removeListElement: function(model) {
