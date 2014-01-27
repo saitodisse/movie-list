@@ -3,7 +3,7 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
-  Views.IMoviesView = Backbone.View.extend({
+  Views.IMoviesView = Marionette.ItemView.extend({
     template: '#imovies-template',
 
     initialize: function() {

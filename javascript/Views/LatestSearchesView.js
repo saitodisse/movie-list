@@ -3,7 +3,7 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
-  Views.LatestSearchesView = Backbone.View.extend({
+  Views.LatestSearchesView = Marionette.ItemView.extend({
     tagName: 'li',
     
     className: 'dropdown',
