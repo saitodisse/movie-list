@@ -141,17 +141,17 @@
         <table class="table table-bordered table-hover table table-striped">
           <thead>
             <tr>
-              <th>
+              <th class='rating'>
                 rating
+              </th>
+              <th class='year'>
+                year
               </th>
               <th>
                 title
               </th>
               <th>
                 director
-              </th>
-              <th>
-                year
               </th>
               <th>
                 imdb
@@ -161,10 +161,10 @@
           <tbody>
             {{#each movies}}
               <tr data-id="{{id}}">
-                <td>{{imdbInfo.rating}}</td>
-                <td>{{title}}</td>
+                <td class='rating'>{{imdbInfo.rating}}</td>
+                <td class='year'>{{year}}</td>
+                <td>{{titleAndOriginal}}</td>
                 <td>{{director}}</td>
-                <td>{{year}}</td>
                 <td><a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">{{idImdb}}</a></td>
               </tr>
             {{/each}}
@@ -181,34 +181,37 @@
 
     <script id="movieDetail-template" type="text/x-handlebars-template">
       <div class="row">
-        <div class="col-md-10 title-movie-detail">
+        <div class="col-md-12 title-movie-detail">
           <h1 class="col-md-10 big-title">
             {{title}}
           </h1>
-          <h2 class="col-md-2 imdb-rating">{{imdbInfo.rating}}</h2>
+          <h2 class="col-md-2 imdb-rating">
+            ({{year}})
+            {{imdbInfo.rating}}
+          </h2>
         </div>
       </div>
       
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <h4>Path</h4>
           <p>{{basepath}}</p>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <h4>Director</h4>
           <p>{{director}}</p>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <h4>IMDB link</h4>
           <a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">http://www.imdb.com/title/{{idImdb}}/</a>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <h4>Plot</h4>
           <b>{{tagline}}</b>
           <p>{{plot}}</p>
@@ -216,14 +219,14 @@
       </div>
 
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <h4>Actors</h4>
           {{#commalist actor}}{{name}} ({{role}}){{/commalist}}
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-10 thumbs">
+        <div class="col-md-12 thumbs">
           {{#each thumb}}
             <div class="thumbContainer col-md-2">
               <a href="#movies/{{../id}}/thumbs/{{name}}">
@@ -283,9 +286,22 @@ twiter bootstrap</pre>
     <script src="/javascript/logger-lib/meld_log.js" type="text/javascript"></script>
     
     <script src="/javascript/MoviesMVC.js" type="text/javascript"></script>
-    <script src="/javascript/MovieList.js" type="text/javascript"></script>
-    <script src="/javascript/MovieList.Models.js" type="text/javascript"></script>
-    <script src="/javascript/MovieList.Views.js" type="text/javascript"></script>
+    <script src="/javascript/MovieList.Router.js" type="text/javascript"></script>
+    <script src="/javascript/MovieList.Controller.js" type="text/javascript"></script>
+
+    <script src="/javascript/Models/Movie.js" type="text/javascript"></script>
+    <script src="/javascript/Models/MovieCollection.js" type="text/javascript"></script>
+    <script src="/javascript/Models/Search.js" type="text/javascript"></script>
+    <script src="/javascript/Models/SearchCollection.js" type="text/javascript"></script>
+    
+    <script src="/javascript/Views/HomeView.js" type="text/javascript"></script>
+    <script src="/javascript/Views/LatestSearchesView.js" type="text/javascript"></script>
+    <script src="/javascript/Views/SearchResultView.js" type="text/javascript"></script>
+    <script src="/javascript/Views/MovieDetailView.js" type="text/javascript"></script>
+    <script src="/javascript/Views/MovieDetailThumbView.js" type="text/javascript"></script>
+    <script src="/javascript/Views/AboutView.js" type="text/javascript"></script>
+    <script src="/javascript/Views/IMoviesView.js" type="text/javascript"></script>
+
     <script src="/javascript/ResultsProcessor.js" type="text/javascript"></script>
 
     <script type="text/javascript">

@@ -12,6 +12,16 @@ MoviesMVC.module('ResultsProcessor', function (ResultsProcessor) {
       movieDto.year = movieObject.year;
       movieDto.title = movieObject.title;
       movieDto.originaltitle = movieObject.originaltitle;
+
+      var sameTitle = movieDto.title[0] === movieDto.originaltitle[0]
+      if(sameTitle){
+        movieDto.titleAndOriginal = movieObject.title;
+      }
+      else{
+        movieDto.titleAndOriginal = movieObject.title + ' ('+ movieDto.originaltitle +')';
+      }
+      
+
       movieDto.director = movieObject.director;
       movieDto.idImdb = movieObject.idImdb;
       

@@ -2,20 +2,6 @@
 'use strict';
 
 MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $, _) {
-  // MovieList Router
-  // ---------------
-  MovieList.Router = Marionette.AppRouter.extend({
-    appRoutes: {
-      //'*filter': 'filterItems'
-      '': 'goHome',
-      'movies': 'goMovies',
-      'movies/search/:query': 'goMovieSearch',
-      'movies/:id': 'goMovieDetails',
-      'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
-      'imovies': 'goIMovies',
-      'about': 'goAbout'
-    }
-  });
 
   // MovieList Controller (Mediator)
   // ------------------------------
@@ -129,7 +115,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.jMain.html(view.el);
     },
 
-    goMovies: function(view) {
+    goMovies: function() {
       this.onQueryReceived(MoviesMVC.currentSearchModel.get('query'));
     },
 
@@ -242,7 +228,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
           size: 500,
           sort: 'imdbInfo.rating:desc',
           q: query
-      };
+        };
 
       $.ajax({
         url: 'http://localhost:9200/movies/movie/_search',
@@ -255,7 +241,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
             var hit = data.hits.hits[i];
             var movieSimplified = resultsProcessor.simplify(hit._source);
             results.push(movieSimplified);
-          };
+          }
           def.resolve(results);
         },
         dataType: 'json'

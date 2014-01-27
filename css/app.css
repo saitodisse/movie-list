@@ -23,9 +23,10 @@
 }
 
 .imdb-rating{
-  margin-top: 40px;
+  margin-top: 20px;
   text-shadow: 1px 1px 1px #666;
   font-size: 32px;
+  text-align: center;
 }
 
 .thumbs{
@@ -64,9 +65,20 @@
   cursor: pointer;
 }
 
+#search-result th.rating, td.rating{
+  width: 27px;
+  font-weight: bold;
+  text-align: center;
+}
+#search-result th.year, td.year{
+  width: 25px;
+  text-align: center;
+}
+
 .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
   background-color: #cfc;
 }
+
 
 /*
   IMovies
