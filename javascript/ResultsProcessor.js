@@ -14,7 +14,10 @@ MoviesMVC.module('ResultsProcessor', function (ResultsProcessor) {
       movieDto.originaltitle = movieObject.originaltitle;
 
       // titleAndOriginal
-      var sameTitle = movieDto.title[0] === movieDto.originaltitle[0]
+      var sameTitle = true;
+      if(movieDto.title && movieDto.originaltitle){
+        sameTitle = movieDto.title[0] === movieDto.originaltitle[0]
+      }
       if(sameTitle){
         movieDto.titleAndOriginal = movieObject.title;
       }

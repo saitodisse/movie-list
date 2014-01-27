@@ -13,12 +13,8 @@
 /*
   Movies Detail
 */
-.movie-title{
-  margin-top: 22px;
-}
-
-.title-movie-detail{
-  margin-bottom: 40px;
+.nav-button{
+  margin: 0 0 20px 0;
 }
 
 .title-image{
@@ -37,6 +33,15 @@
   -moz-box-shadow:    5px 5px 9px 0px rgba(50, 50, 50, 0.61);
   box-shadow:         5px 5px 9px 0px rgba(50, 50, 50, 0.61);
 }
+
+.movie-title{
+  margin-top: 22px;
+}
+
+.title-movie-detail{
+  margin-bottom: 40px;
+}
+
 
 .big-title{
   text-shadow: 2px 1px 2px #888;

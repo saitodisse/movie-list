@@ -179,9 +179,19 @@
     <script id="movieDetail-template" type="text/x-handlebars-template">
       <div class="row movie-title">
         <div class="col-md-2 title-image">
-          <a href="#movies">
-            <img class="title-image-thumb" src="{{thumb.0.prevThumb}}">
-          </a>
+          <div class="row nav-button">
+            <button class="btn btn-prev">
+              <span class="glyphicon glyphicon-arrow-left"></span> Prev
+            </button>
+            <button class="btn btn-next">
+              <span class="glyphicon glyphicon-arrow-right"></span> Next
+            </button>
+          </div>
+          <div class="row">
+            <a href="#movies">
+              <img class="title-image-thumb" src="{{thumb.0.prevThumb}}">
+            </a>
+          </div>
         </div>
         <div class="col-md-10 title-movie-detail">
           <div class="row">
