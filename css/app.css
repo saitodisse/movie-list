@@ -1,18 +1,48 @@
+/*
+  Main
+*/
 .main{
   padding: 40px 15px;
 }
+.glyphicon-remove{
+  top: 3px;
+  right: 10px;
+}
 
+
+/*
+  Movies Detail
+*/
+.title-movie-detail{
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.big-title{
+  text-shadow: 2px 1px 2px #888;
+  font-size: 48px;
+}
+
+.imdb-rating{
+  margin-top: 40px;
+  text-shadow: 1px 1px 1px #666;
+  font-size: 32px;
+}
 
 .thumbs{
   margin-top: 20px;
 }
 
-.prevThumb{
-  width: 220px;
+.thumbContainer{
   float: left;
-  padding: 5px;
-  margin: 10px;
-  /*display: inline-block;*/
+  min-width: 120px;
+  min-height: 215px;
+  /*margin-bottom: 30px;*/
+}
+
+.prevThumb{
+  max-width: 120px;
+  max-height: 215px;
+  
   outline: 2px solid #858585;
 
   -webkit-box-shadow: 5px 5px 9px 0px rgba(50, 50, 50, 0.61);
@@ -20,6 +50,12 @@
   box-shadow:         5px 5px 9px 0px rgba(50, 50, 50, 0.61);
 }
 
+
+
+
+/*
+  Search Results
+*/
 .searchDiv{
   margin-top: 9px;
 }
@@ -32,11 +68,9 @@
   background-color: #cfc;
 }
 
-.glyphicon-remove{
-  top: 3px;
-  right: 10px;
-}
-
+/*
+  IMovies
+*/
 .imoviesDiv li{
   list-style: none;
 }

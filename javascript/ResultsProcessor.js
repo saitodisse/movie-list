@@ -12,6 +12,7 @@ MoviesMVC.module('ResultsProcessor', function (ResultsProcessor) {
       movieDto.year = movieObject.year;
       movieDto.title = movieObject.title;
       movieDto.originaltitle = movieObject.originaltitle;
+      movieDto.director = movieObject.director;
       movieDto.idImdb = movieObject.idImdb;
       
       movieDto.imdbInfo = {};

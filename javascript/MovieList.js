@@ -170,32 +170,61 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
     goMovieDetails: function(id) {
       this.setMenuActive('.movies');
-      this.getIdElasticSearch(id).done(function(result) {
 
-          var movie = new MovieList.Models.Movie(result);
+      // get from cache
+      var movie = MoviesMVC.moviesCollection.get(id);
+      
+      if(!movie){
+        this.getIdElasticSearch(id).done(function(result) {
+          movie = new MovieList.Models.Movie(result);
+          //cache
           MoviesMVC.moviesCollection.add(movie);
+          this.renderMovieDetail(movie);
+        }.bind(this));
+      }
+      else{
+        this.renderMovieDetail(movie);
+      }
+    },
 
-          var view = new MovieList.Views.MovieDetailView({
-            model: movie
-          });
-          __MELD_LOG('MovieDetailView', view, 21);
-          this.jMain.html(view.el);
-
-        }.bind(this))
-      ;
+    renderMovieDetail: function(movie) {
+      var view = new MovieList.Views.MovieDetailView({
+        model: movie
+      });
+      __MELD_LOG('MovieDetailView', view, 21);
+  
+      this.jMain.html(view.el);
     },
 
     goMovieDetailThumb: function(id, thumbId) {
       this.setMenuActive('.movies');
 
+      // get from cache
+      var movie = MoviesMVC.moviesCollection.get(id);
+      
+      if(!movie){
+        this.getIdElasticSearch(id).done(function(result) {
+          movie = new MovieList.Models.Movie(result);
+          //cache
+          MoviesMVC.moviesCollection.add(movie);
+          this.renderMovieDetailThumb(movie, thumbId);
+        }.bind(this));
+      }
+      else{
+        this.renderMovieDetailThumb(movie, thumbId);
+      }
+    },
+
+    renderMovieDetailThumb: function(movie, thumbId) {
       var view = new MovieList.Views.MovieDetailThumbView({
-        model: MoviesMVC.moviesCollection.get(id),
+        model: movie,
         thumbId: thumbId
       });
-      __MELD_LOG('MovieDetailView', view, 21);
+      __MELD_LOG('MovieDetailThumbView', view, 22);
 
       this.jMain.html(view.el);
     },
+
 
     goAbout: function() {
       this.setMenuActive('.about');

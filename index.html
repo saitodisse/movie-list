@@ -142,30 +142,30 @@
           <thead>
             <tr>
               <th>
-                year
+                rating
               </th>
               <th>
                 title
               </th>
               <th>
-                original title
+                director
+              </th>
+              <th>
+                year
               </th>
               <th>
                 imdb
-              </th>
-              <th>
-                rating
               </th>
             </tr>
           </thead>
           <tbody>
             {{#each movies}}
               <tr data-id="{{id}}">
-                <td>{{year}}</td>
-                <td>{{title}}</td>
-                <td>{{originaltitle}}</td>
-                <td><a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">{{idImdb}}</a></td>
                 <td>{{imdbInfo.rating}}</td>
+                <td>{{title}}</td>
+                <td>{{director}}</td>
+                <td>{{year}}</td>
+                <td><a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">{{idImdb}}</a></td>
               </tr>
             {{/each}}
           </tbody>
@@ -180,40 +180,58 @@
 
 
     <script id="movieDetail-template" type="text/x-handlebars-template">
-      <h1>
-        {{title}}
-      </h1>
-      <div>
-        id:
-        <b>{{id}}</b>
+      <div class="row">
+        <div class="col-md-10 title-movie-detail">
+          <h1 class="col-md-10 big-title">
+            {{title}}
+          </h1>
+          <h2 class="col-md-2 imdb-rating">{{imdbInfo.rating}}</h2>
+        </div>
       </div>
-      <div>
-        title:
-        <b>{{title}}</b>
+      
+      <div class="row">
+        <div class="col-md-10">
+          <h4>Path</h4>
+          <p>{{basepath}}</p>
+        </div>
       </div>
-      <div>
-        originaltitle:
-        <b>{{originaltitle}}</b>
+      <div class="row">
+        <div class="col-md-10">
+          <h4>Director</h4>
+          <p>{{director}}</p>
+        </div>
       </div>
-      <div>
-        idImdb:
-        <b>{{idImdb}}</b>
+      <div class="row">
+        <div class="col-md-10">
+          <h4>IMDB link</h4>
+          <a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">http://www.imdb.com/title/{{idImdb}}/</a>
+        </div>
       </div>
-      <div>
-        rating:
-        <b>{{imdbInfo.rating}}</b>
+      <div class="row">
+        <div class="col-md-10">
+          <h4>Plot</h4>
+          <b>{{tagline}}</b>
+          <p>{{plot}}</p>
+        </div>
       </div>
-      <div>
-        <div class="thumbs">
+
+      <div class="row">
+        <div class="col-md-10">
+          <h4>Actors</h4>
+          {{#commalist actor}}{{name}} ({{role}}){{/commalist}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10 thumbs">
           {{#each thumb}}
-            <div>
+            <div class="thumbContainer col-md-2">
               <a href="#movies/{{../id}}/thumbs/{{name}}">
                 <img class="prevThumb" src="{{prevThumb}}">
               </a>
             </div>
           {{/each}}
         </div>
-        
       </div>
     </script>
 
@@ -260,6 +278,7 @@ twiter bootstrap</pre>
     <script src="/bower_components/marionette/lib/backbone.marionette.js" type="text/javascript"></script>
     <script src="/bower_components/backbone.memento/backbone.memento.js" type="text/javascript"></script>
     <script src="/bower_components/handlebars/handlebars.js" type="text/javascript"></script>
+    <script src="/javascript/helpers/handlebars_helpers.js" type="text/javascript"></script>
     
     <script src="/javascript/logger-lib/meld_log.js" type="text/javascript"></script>
     
