@@ -13,12 +13,18 @@ MoviesMVC.module('ResultsProcessor', function (ResultsProcessor) {
       movieDto.title = movieObject.title;
       movieDto.originaltitle = movieObject.originaltitle;
 
+      // titleAndOriginal
       var sameTitle = movieDto.title[0] === movieDto.originaltitle[0]
       if(sameTitle){
         movieDto.titleAndOriginal = movieObject.title;
       }
       else{
         movieDto.titleAndOriginal = movieObject.title + ' ('+ movieDto.originaltitle +')';
+      }
+
+      // firstThumb
+      if(movieObject.thumb.length > 0){
+        movieDto.firstThumb = movieObject.thumb[0].prevThumb;
       }
       
 

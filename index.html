@@ -173,22 +173,39 @@
       </div>
     </script>
 
-    <script id="movieTr-template" type="text/x-handlebars-template">
-    </script>
-
 
 
 
     <script id="movieDetail-template" type="text/x-handlebars-template">
-      <div class="row">
-        <div class="col-md-12 title-movie-detail">
-          <h1 class="col-md-10 big-title">
-            {{title}}
-          </h1>
-          <h2 class="col-md-2 imdb-rating">
-            ({{year}})
-            {{imdbInfo.rating}}
-          </h2>
+      <div class="row movie-title">
+        <div class="col-md-2 title-image">
+          <a href="#movies">
+            <img class="title-image-thumb" src="{{thumb.0.prevThumb}}">
+          </a>
+        </div>
+        <div class="col-md-10 title-movie-detail">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="col-md-10 big-title">
+                {{title}}
+              </h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-2 title-year">
+                {{year}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-2 imdb-rating">
+                {{imdbInfo.rating}}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
       

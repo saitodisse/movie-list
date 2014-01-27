@@ -6,3 +6,11 @@ Handlebars.registerHelper('commalist', function(items, options) {
   }
   return out;
 });
+
+Handlebars.registerHelper("first", function(array) {
+  return array[0];
+});
+
+Handlebars.registerHelper("last", function(array) {
+  return array[array.length-1];
+});
