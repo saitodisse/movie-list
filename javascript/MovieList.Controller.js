@@ -100,8 +100,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       var view = new MovieList.Views.HomeView();
       __MELD_LOG('HomeView', view, 20);
-
-      this.jMain.html(view.el);
+      App.main.show(view);
     },
 
     goIMovies: function() {
@@ -218,7 +217,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       var view = new MovieList.Views.AboutView();
       __MELD_LOG('AboutView', view, 22);
 
-      this.jMain.html(view.el);
+      App.main.show(view);
     },
 
     searchElasticSearch: function(query) {
