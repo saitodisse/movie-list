@@ -15,8 +15,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     // Start the app by showing the appropriate views
     start: function () {
       this.jMenu = $('.mainMenu');
-      this.jMain = $('.main');
-
       this.jSearchInput = $('#q');
 
       // EVENTS
@@ -86,7 +84,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.searchResultView.render(searchModel.get('results'));
 
       // show results
-      this.jMain.html(this.searchResultView.el);
+      App.main.close();
+      // TODO: how can a change this??
+      $('.main').html(this.searchResultView.el);
     },
 
     setMenuActive: function(menuClass) {
@@ -111,7 +111,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       });
       __MELD_LOG('IMoviesView', view, 21);
 
-      this.jMain.html(view.el);
+      App.main.show(view);
     },
 
     goMovies: function() {
@@ -178,7 +178,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       });
       __MELD_LOG('MovieDetailView', view, 21);
   
-      this.jMain.html(view.el);
+      App.main.show(view);
     },
 
     goMovieDetailThumb: function(id, thumbId) {
@@ -207,7 +207,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       });
       __MELD_LOG('MovieDetailThumbView', view, 22);
 
-      this.jMain.html(view.el);
+      App.main.show(view);
     },
 
 
