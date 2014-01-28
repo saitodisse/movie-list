@@ -24,12 +24,6 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       MoviesMVC.vent.on('results_received', this.updateDropdownTitle, this);
     },
 
-    render: function() {
-      var source   = $(this.template).html();
-      var template = Handlebars.compile(source);
-      $(this.el).html(template);
-    },
-
     renderAllSearches: function() {
       this.collection.each(function(searchModel) {
         this.addDropdownItem(searchModel);

@@ -274,9 +274,22 @@
       </h1>
       <div>
         <a href="#movies/{{id}}">
-          <img src="{{thumbSrc}}">
+          <img class="thumb-fullImage" src="{{thumbSrc}}">
         </a>
       </div>
+
+      <div class="row">
+        <div class="col-md-12 thumbs">
+          {{#each thumb}}
+            <div class="thumbContainer col-md-2">
+              <a href="#movies/{{../id}}/thumbs/{{name}}">
+                <img class="prevThumb" src="{{prevThumb}}">
+              </a>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
     </script>
 
 
