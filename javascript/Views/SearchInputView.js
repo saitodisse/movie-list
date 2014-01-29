@@ -3,7 +3,7 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
-  Views.SearchInputView = Backbone.View.extend({
+  Views.SearchInputView = Marionette.ItemView.extend({
     initialize: function() {
       $(this.el).on('keyup', this.keyuped.bind(this));
       MoviesMVC.vent.on('results_received', this.results_received, this);

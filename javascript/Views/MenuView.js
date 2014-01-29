@@ -3,7 +3,7 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
-  Views.MenuView = Backbone.View.extend({
+  Views.MenuView = Marionette.ItemView.extend({
     initialize: function() {
       var router = MoviesMVC.controller.router;
       router.on('route', this.setMenuActive, this);
