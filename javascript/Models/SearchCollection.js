@@ -5,7 +5,6 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
 
   //search_localStorage
   MoviesMVC.searchCollection_localStorage = new Backbone.LocalStorage('MoviesMVC_SearchCollection');
-  __MELD_LOG('search_localStorage', MoviesMVC.searchCollection_localStorage, 12);
 
   //SearchCollection
   Models.SearchCollection = Backbone.Collection.extend({

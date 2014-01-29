@@ -1,6 +1,6 @@
 var connect = require('connect');
 
-console.log('http://localhost:8080');
+console.info('http://localhost:8080');
 
 connect.createServer(
     connect.static(__dirname)

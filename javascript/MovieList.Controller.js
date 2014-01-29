@@ -23,17 +23,15 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       // SearchCollection
       MoviesMVC.searchCollection = new MovieList.Models.SearchCollection();
-      __MELD_LOG('SearchCollection', MoviesMVC.searchCollection, 3);
       
       // LatestSearchesView
       this.latestSearchesView = new MovieList.Views.LatestSearchesView({
         collection: MoviesMVC.searchCollection
       });
-      __MELD_LOG('LatestSearchesView', this.latestSearchesView, 4);
+
       this.jRightMenu.prepend(this.latestSearchesView.el);
 
       MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
-      __MELD_LOG('MovieCollection', MoviesMVC.moviesCollection, 3);
 
       // Suppresses 'add' events with {reset: true} and prevents the app view
       // from being re-rendered for every model. Only renders when the 'reset'
@@ -66,7 +64,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       // render search results
       this.searchResultView = new MovieList.Views.SearchResultView();
-      __MELD_LOG('SearchResultView', this.searchResultView, 4);
       this.searchResultView.render(searchModel.get('results'));
 
       // show results
@@ -77,7 +74,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
     home: function() {
       var view = new MovieList.Views.HomeView();
-      __MELD_LOG('HomeView', view, 20);
       App.main.show(view);
     },
 
@@ -85,7 +81,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       var view = new MovieList.Views.IMoviesView({
         collection: MoviesMVC.searchCollection
       });
-      __MELD_LOG('IMoviesView', view, 21);
 
       App.main.show(view);
     },
@@ -145,8 +140,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       var view = new MovieList.Views.MovieDetailView({
         model: movie
       });
-      __MELD_LOG('MovieDetailView', view, 21);
-  
+
       App.main.show(view);
     },
 
@@ -172,7 +166,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         model: movie,
         thumbId: thumbId
       });
-      __MELD_LOG('MovieDetailThumbView', view, 22);
 
       App.main.show(view);
     },
@@ -180,7 +173,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
     about: function() {
       var view = new MovieList.Views.AboutView();
-      __MELD_LOG('AboutView', view, 22);
 
       App.main.show(view);
     },
@@ -235,25 +227,45 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   // when the the application is started, pulling in all of the
   // existing Todo items and displaying them.
   MovieList.addInitializer(function () {
+    startLogs();
+    
     var controller = new MovieList.Controller();
     MoviesMVC.controller = controller;
-    __MELD_LOG('Controller', controller, 11);
 
     controller.router = new MovieList.Router({
       controller: controller
     });
-    __MELD_LOG('Router', controller.router, 12);
 
     controller.menuView = new MovieList.Views.MenuView({
       el: $('.mainMenu')[0]
     });
-    __MELD_LOG('MenuView', controller.menuView, 11);
 
     controller.searchInputView = new MovieList.Views.SearchInputView({
       el: $('#q')[0]
     });
-    __MELD_LOG('SearchInputView', controller.searchInputView, 11);
 
     controller.start();
   });
+
+  function startLogs () {
+    __MELD_LOG('MoviesMVC', Backbone.Marionette.Application.prototype, 10);
+    __MELD_LOG('vent', MoviesMVC.vent, 12);
+    __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
+
+    __MELD_LOG('Controller', MovieList.Controller.prototype, 10);
+    __MELD_LOG('Router', MovieList.Router.prototype, 11);
+    
+    __MELD_LOG('SearchCollection', MovieList.Models.SearchCollection.prototype, 3);
+    __MELD_LOG('MovieCollection', MovieList.Models.MovieCollection.prototype, 3);
+
+    __MELD_LOG('MenuView', MovieList.Views.MenuView.prototype, 21);
+    __MELD_LOG('LatestSearchesView', MovieList.Views.LatestSearchesView.prototype, 20);
+    __MELD_LOG('SearchInputView', MovieList.Views.SearchInputView.prototype, 20);
+    __MELD_LOG('HomeView', MovieList.Views.HomeView.prototype, 21);
+    __MELD_LOG('IMoviesView', MovieList.Views.IMoviesView.prototype, 22);
+    __MELD_LOG('SearchResultView', MovieList.Views.SearchResultView.prototype, 22);
+    __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
+    __MELD_LOG('MovieDetailThumbView', MovieList.Views.MovieDetailThumbView.prototype, 22);
+    __MELD_LOG('AboutView', MovieList.Views.AboutView.prototype, 21);
+  }
 });

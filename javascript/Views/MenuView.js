@@ -11,7 +11,6 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     setMenuActive: function(menuClass) {
       //TODO: why does this does not appear in MELD_LOG???
-      console.log('setMenuActive', menuClass)
       $(this.el).find('li').removeClass('active');
       var jHomeMenu = $(this.el).find('.' + menuClass);
       if(jHomeMenu.length > 0){
