@@ -14,14 +14,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   _.extend(MovieList.Controller.prototype, {
     // Start the app by showing the appropriate views
     start: function () {
-      this.jMenu = $('.mainMenu');
-
-      this.jSearchInput = $('#q');
-
       // EVENTS
       MoviesMVC.vent.on('query_received', this.onQueryReceived.bind(this));
       MoviesMVC.vent.on('results_received', this.renderSearchResults.bind(this));
-      this.jSearchInput.on('keyup', this.keyuped.bind(this));
 
       // LatestSearchesView
       this.jRightMenu = $('.rightMenu');
@@ -48,16 +43,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       // set current search
       if(MoviesMVC.searchCollection.length > 0){
         MoviesMVC.currentSearchModel = MoviesMVC.searchCollection.last();
-      }
-    },
-
-    keyuped: function(e) {
-      if(e.which === 13){
-        var query = this.jSearchInput.val();
-        var latestQuery = this.latestSearchesView.getLatest();
-        if(query !== latestQuery){
-          MoviesMVC.vent.trigger('query_received', query);
-        }
       }
     },
 
@@ -88,10 +73,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       App.main.close();
       // TODO: how can a change this??
       $('.main').html(this.searchResultView.el);
-    },
-
-    setMenuActive: function(menuClass) {
-      this.menuView.setMenuActive(menuClass);
     },
 
     home: function() {
@@ -139,9 +120,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         query: query,
         results: results
       });
-
-      //TODO: move this.jSearchInput to a separeted view
-      this.jSearchInput.val(query);
 
       MoviesMVC.vent.trigger('results_received', searchModel);
     },
@@ -267,10 +245,14 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     __MELD_LOG('Router', controller.router, 12);
 
     controller.menuView = new MovieList.Views.MenuView({
-      el: $('.mainMenu')
+      el: $('.mainMenu')[0]
     });
     __MELD_LOG('MenuView', controller.menuView, 11);
 
+    controller.searchInputView = new MovieList.Views.SearchInputView({
+      el: $('#q')[0]
+    });
+    __MELD_LOG('SearchInputView', controller.searchInputView, 11);
 
     controller.start();
   });
