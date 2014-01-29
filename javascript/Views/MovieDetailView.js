@@ -15,21 +15,32 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       if(typeof this.model === 'undefined'){
         return;
       }
-
-      this.render();
-
-      //TODO: use marionette views and regions to avoid "GHOSTS"
-      //$(document).on('keydown', this.processShortcut.bind(this));
-
       window.scrollTo(0,1);
     },
 
+    onShow: function () {
+      $(document).on('keydown', this.processShortcut.bind(this));
+    },
+
+    onClose: function () {
+      $(document).off('keydown');
+    },
+
     processShortcut: function(e) {
+      //LEFT
       if(e.which === 37){
+        e.preventDefault();
         this.goPrevMovie();
       }
+      //RIGHT
       else if(e.which === 39){
+        e.preventDefault();
         this.goNextMovie();
+      }
+      //Backspace
+      else if(e.which === 8){
+        e.preventDefault();
+        MoviesMVC.controller.router.navigate('movies', {trigger: true});
       }
     },
 

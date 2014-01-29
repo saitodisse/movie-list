@@ -6,14 +6,13 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
   // ---------------
   MovieList.Router = Marionette.AppRouter.extend({
     appRoutes: {
-      //'*filter': 'filterItems'
-      '': 'goHome',
-      'movies': 'goMovies',
+      '': 'home',
+      'movies': 'movies',
       'movies/search/:query': 'goMovieSearch',
       'movies/:id': 'goMovieDetails',
       'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
-      'imovies': 'goIMovies',
-      'about': 'goAbout'
+      'imovies': 'imovies',
+      'about': 'about'
     }
   });
 

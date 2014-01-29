@@ -15,6 +15,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     // Start the app by showing the appropriate views
     start: function () {
       this.jMenu = $('.mainMenu');
+
       this.jSearchInput = $('#q');
 
       // EVENTS
@@ -90,22 +91,16 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     },
 
     setMenuActive: function(menuClass) {
-      this.jMenu.find('li').removeClass('active');
-      var jHomeMenu = this.jMenu.find(menuClass);
-      jHomeMenu.addClass('active');
+      this.menuView.setMenuActive(menuClass);
     },
 
-    goHome: function() {
-      this.setMenuActive('.home');
-
+    home: function() {
       var view = new MovieList.Views.HomeView();
       __MELD_LOG('HomeView', view, 20);
       App.main.show(view);
     },
 
-    goIMovies: function() {
-      this.setMenuActive('.imovie');
-
+    imovies: function() {
       var view = new MovieList.Views.IMoviesView({
         collection: MoviesMVC.searchCollection
       });
@@ -114,13 +109,11 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       App.main.show(view);
     },
 
-    goMovies: function() {
+    movies: function() {
       this.onQueryReceived(MoviesMVC.currentSearchModel.get('query'));
     },
 
     goMovieSearch: function(query) {
-      this.setMenuActive('.movies');
-
       var searchModels = MoviesMVC.searchCollection.filter(function(item) {
         return item.get('query') === query;
       });
@@ -154,8 +147,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     },
 
     goMovieDetails: function(id) {
-      this.setMenuActive('.movies');
-
       // get from cache
       var movie = MoviesMVC.moviesCollection.get(id);
       
@@ -182,8 +173,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     },
 
     goMovieDetailThumb: function(id, thumbId) {
-      this.setMenuActive('.movies');
-
       // get from cache
       var movie = MoviesMVC.moviesCollection.get(id);
       
@@ -211,9 +200,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     },
 
 
-    goAbout: function() {
-      this.setMenuActive('.about');
-
+    about: function() {
       var view = new MovieList.Views.AboutView();
       __MELD_LOG('AboutView', view, 22);
 
@@ -271,6 +258,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   // existing Todo items and displaying them.
   MovieList.addInitializer(function () {
     var controller = new MovieList.Controller();
+    MoviesMVC.controller = controller;
     __MELD_LOG('Controller', controller, 11);
 
     controller.router = new MovieList.Router({
@@ -278,8 +266,12 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     });
     __MELD_LOG('Router', controller.router, 12);
 
-    controller.start();
+    controller.menuView = new MovieList.Views.MenuView({
+      el: $('.mainMenu')
+    });
+    __MELD_LOG('MenuView', controller.menuView, 11);
 
-    MoviesMVC.controller = controller;
+
+    controller.start();
   });
 });
