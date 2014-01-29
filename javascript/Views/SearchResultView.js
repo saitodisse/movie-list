@@ -14,7 +14,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       var jTd = $(e.target);
       var jTr = jTd.parent();
       var id = jTr.data('id');
-      MoviesMVC.controller.router.navigate('movies/' + id, {trigger: true});
+      MoviesMVC.router.navigate('movies/' + id, {trigger: true});
     },
 
     render: function(jsonMovies) {

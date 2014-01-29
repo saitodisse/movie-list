@@ -3,26 +3,38 @@ movie-list
 
 My movie collection - backbone.js and elastic-search
 
-#pre-require:
+#starting
+
+    node server.js
+Or you can use on linux
+
+    python -m SimpleHTTPServer
+
+Or simply
+    bash startServer.sh
+
+
+#pre-requirements:
 
     export XBMC videodb.xml
     https://github.com/saitodisse/elasticXbmcMoviesImporter
 
-#on linux:
+#instalation:
+##on linux:
 
-	install:
-	oracle java 7
-	http://www.elasticsearch.org/download/
-	http://nodejs.org/
-	node server.js
+    oracle java 7
+    http://www.elasticsearch.org/download/
+    http://nodejs.org/
 
-#on windows:
+    run:
+    node server.js
+
+##on windows:
    
-   install:
-   http://www.java.com/pt_BR/download/manual.jsp#win
-   http://www.elasticsearch.org/download/
-   http://nodejs.org/
+    http://www.java.com/pt_BR/download/manual.jsp#win
+    http://www.elasticsearch.org/download/
+    http://nodejs.org/
 
-   run:
-   elasticsearch-0.90.10\bin\elasticsearch.bat
-   node server.js
+    run:
+    elasticsearch-0.90.10\bin\elasticsearch.bat
+    node server.js

@@ -3,6 +3,7 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
+  // TODO: fell like this must be a CollectionView
   Views.LatestSearchesView = Marionette.ItemView.extend({
     tagName: 'li',
     

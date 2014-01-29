@@ -5,12 +5,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
   Views.MenuView = Marionette.ItemView.extend({
     initialize: function() {
-      var router = MoviesMVC.controller.router;
+      var router = MoviesMVC.router;
       router.on('route', this.setMenuActive, this);
     },
 
     setMenuActive: function(menuClass) {
-      //TODO: why does this does not appear in MELD_LOG???
       $(this.el).find('li').removeClass('active');
       var jHomeMenu = $(this.el).find('.' + menuClass);
       if(jHomeMenu.length > 0){

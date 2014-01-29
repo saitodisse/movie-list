@@ -6,10 +6,6 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
   Views.IMoviesView = Marionette.ItemView.extend({
     template: '#imovies-template',
 
-    initialize: function() {
-      this.render();
-    },
-
     render: function() {
       var source   = $(this.template).html();
       var template = Handlebars.compile(source);

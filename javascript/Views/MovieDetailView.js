@@ -40,7 +40,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       //Backspace
       else if(e.which === 8){
         e.preventDefault();
-        MoviesMVC.controller.router.navigate('movies', {trigger: true});
+        MoviesMVC.router.navigate('movies', {trigger: true});
       }
     },
 
@@ -54,7 +54,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       if(indexOf > 0){
         var gotoItem = searchList[indexOf-1];
         if(gotoItem){
-          var router = MoviesMVC.controller.router;
+          var router = MoviesMVC.router;
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
       }
@@ -71,7 +71,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       if(indexOf < searchList.length){
         var gotoItem = searchList[indexOf+1];
         if(gotoItem){
-          var router = MoviesMVC.controller.router;
+          var router = MoviesMVC.router;
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
       }

@@ -8,34 +8,26 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   //
   // Control the workflow and logic that exists at the application
   // level, above the implementation detail of views and models
-  MovieList.Controller = function () {
-  };
-
-  _.extend(MovieList.Controller.prototype, {
+  MovieList.Controller = Marionette.Controller.extend({
     // Start the app by showing the appropriate views
-    start: function () {
-      // EVENTS
+    initialize: function () {
+      // global events
       MoviesMVC.vent.on('query_received', this.onQueryReceived.bind(this));
       MoviesMVC.vent.on('results_received', this.renderSearchResults.bind(this));
 
-      // LatestSearchesView
-      this.jRightMenu = $('.rightMenu');
-
-      // SearchCollection
+      // Collections
       MoviesMVC.searchCollection = new MovieList.Models.SearchCollection();
+      MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
+
+      this.elastiSearcher = new MovieList.ElasticSearcher();
       
       // LatestSearchesView
       this.latestSearchesView = new MovieList.Views.LatestSearchesView({
         collection: MoviesMVC.searchCollection
       });
+      $('.rightMenu').prepend(this.latestSearchesView.el);
 
-      this.jRightMenu.prepend(this.latestSearchesView.el);
-
-      MoviesMVC.moviesCollection = new MovieList.Models.MovieCollection();
-
-      // Suppresses 'add' events with {reset: true} and prevents the app view
-      // from being re-rendered for every model. Only renders when the 'reset'
-      // event is triggered at the end of the fetch.
+      // get DATA
       MoviesMVC.searchCollection.fetch({reset: true});
 
       // set current search
@@ -44,8 +36,12 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       }
     },
 
+
+    ////////////////
+    // global events
+    ////////////////
     onQueryReceived: function(query) {
-      var router = MoviesMVC.controller.router;
+      var router = MoviesMVC.router;
       router.navigate('movies/search/' + query, {trigger: true});
     },
 
@@ -72,6 +68,11 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       $('.main').html(this.searchResultView.el);
     },
 
+
+
+    ////////////////
+    // router methods
+    ////////////////
     home: function() {
       var view = new MovieList.Views.HomeView();
       App.main.show(view);
@@ -102,7 +103,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       }
       else{
         //REQUEST
-        var asyncResult = this.searchElasticSearch(query);
+        var asyncResult = this.elastiSearcher.searchElasticSearch(query);
         asyncResult.done(function(results) {
           this.getElasticSearchResult(query, results);
         }.bind(this));
@@ -124,7 +125,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       var movie = MoviesMVC.moviesCollection.get(id);
       
       if(!movie){
-        this.getIdElasticSearch(id).done(function(result) {
+        //ASYNC
+        this.elastiSearcher.getIdElasticSearch(id).done(function(result) {
           movie = new MovieList.Models.Movie(result);
           //cache
           MoviesMVC.moviesCollection.add(movie);
@@ -149,7 +151,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       var movie = MoviesMVC.moviesCollection.get(id);
       
       if(!movie){
-        this.getIdElasticSearch(id).done(function(result) {
+        //ASYNC
+        this.elastiSearcher.getIdElasticSearch(id).done(function(result) {
           movie = new MovieList.Models.Movie(result);
           //cache
           MoviesMVC.moviesCollection.add(movie);
@@ -170,87 +173,39 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       App.main.show(view);
     },
 
-
     about: function() {
       var view = new MovieList.Views.AboutView();
 
       App.main.show(view);
     },
 
-    searchElasticSearch: function(query) {
-      var def = $.Deferred();
-
-      var data = {
-          size: 500,
-          sort: 'imdbInfo.rating:desc',
-          q: query
-        };
-
-      $.ajax({
-        url: 'http://localhost:9200/movies/movie/_search',
-        data: data,
-        //data: data,
-        success: function(data) {
-          var resultsProcessor = new MoviesMVC.ResultsProcessor.Processor();
-          var results = [];
-          for (var i = 0; i < data.hits.hits.length; i++) {
-            var hit = data.hits.hits[i];
-            var movieSimplified = resultsProcessor.simplify(hit._source);
-            results.push(movieSimplified);
-          }
-          def.resolve(results);
-        },
-        dataType: 'json'
-      });
-      return def.promise();
-    },
-
-    getIdElasticSearch: function(id) {
-      var def = $.Deferred();
-
-      $.ajax({
-        url: 'http://localhost:9200/movies/movie/' + id,
-        success: function(data) {
-          def.resolve(data._source);
-        },
-        dataType: 'json'
-      });
-      return def.promise();
-    }
-
   });
 
   // MovieList Initializer
   // --------------------
-  //
-  // Get the MovieList up and running by initializing the mediator
-  // when the the application is started, pulling in all of the
-  // existing Todo items and displaying them.
   MovieList.addInitializer(function () {
     startLogs();
     
-    var controller = new MovieList.Controller();
-    MoviesMVC.controller = controller;
-
-    controller.router = new MovieList.Router({
-      controller: controller
+    MoviesMVC.controller = new MovieList.Controller();
+    MoviesMVC.router = new MovieList.Router({
+      controller: MoviesMVC.controller
     });
 
-    controller.menuView = new MovieList.Views.MenuView({
+    MoviesMVC.menuView = new MovieList.Views.MenuView({
       el: $('.mainMenu')[0]
     });
 
-    controller.searchInputView = new MovieList.Views.SearchInputView({
+    MoviesMVC.searchInputView = new MovieList.Views.SearchInputView({
       el: $('#q')[0]
     });
 
-    controller.start();
   });
 
   function startLogs () {
     __MELD_LOG('MoviesMVC', Backbone.Marionette.Application.prototype, 10);
     __MELD_LOG('vent', MoviesMVC.vent, 12);
     __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
+    __MELD_LOG('ElasticSearcher', MovieList.ElasticSearcher.prototype, 12);
 
     __MELD_LOG('Controller', MovieList.Controller.prototype, 10);
     __MELD_LOG('Router', MovieList.Router.prototype, 11);

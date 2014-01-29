@@ -4,8 +4,7 @@
 var MoviesMVC = new Backbone.Marionette.Application();
 
 MoviesMVC.addRegions({
-  main: '.main',
-  menu: '.mainMenu'
+  main: '.main'
 });
 
 MoviesMVC.on('initialize:after', function () {

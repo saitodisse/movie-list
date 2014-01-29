@@ -71,7 +71,11 @@
     <script id="home-template" type="text/x-handlebars-template">
       <h1>Movie List</h1>
       <p class="lead">
-        To start this application you can use on linux
+        To start this application you can use node.js
+        <pre>node server.js</pre>
+      </p>
+      <p class="lead">
+        Or you can use on linux
         <pre>python -m SimpleHTTPServer</pre>
       </p>
       <p class="lead">
@@ -343,7 +347,7 @@ twiter bootstrap</pre>
     <script src="/javascript/Views/AboutView.js" type="text/javascript"></script>
     <script src="/javascript/Views/IMoviesView.js" type="text/javascript"></script>
 
-    <script src="/javascript/ResultsProcessor.js" type="text/javascript"></script>
+    <script src="/javascript/helpers/elastic_searcher.js" type="text/javascript"></script>
 
     <script type="text/javascript">
       $(function() {
