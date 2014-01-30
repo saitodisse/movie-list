@@ -7,7 +7,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     template: '#movies-template',
 
     events:{
-      'click td': 'tdClicked'
+      'click .trMovie': 'tdClicked'
     },
 
     tdClicked: function(e) {
@@ -15,14 +15,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       var jTr = jTd.parent();
       var id = jTr.data('id');
       MoviesMVC.router.navigate('movies/' + id, {trigger: true});
-    },
-
-    render: function(jsonMovies) {
-      var source   = $(this.template).html();
-      var template = Handlebars.compile(source);
-      var html = template({movies: jsonMovies});
-      $(this.el).html(html);
-    },
+    }
 
   });
 

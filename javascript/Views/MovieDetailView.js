@@ -72,13 +72,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
       }
-    },
-
-    render: function() {
-      var source   = $(this.template).html();
-      var template = Handlebars.compile(source);
-      $(this.el).html(template(this.model.toJSON()));
     }
+
   });
 
 });

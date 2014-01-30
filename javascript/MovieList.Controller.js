@@ -49,23 +49,21 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       // set current search
       MoviesMVC.currentSearchModel = searchModel;
       
+      // check if it is cached
       var searchModels = MoviesMVC.searchCollection.filter(function(item) {
         return item.get('query') === searchModel.get('query');
       });
-
-      var searchModelCached = (searchModels.length > 0);
-      if(!searchModelCached){
+      var isCached = (searchModels.length > 0);
+      if(!isCached){
         MoviesMVC.searchCollection.add(searchModel);
       }
 
-      // render search results
-      this.searchResultView = new MovieList.Views.SearchResultView();
-      this.searchResultView.render(searchModel.get('results'));
+      // the view
+      this.searchResultView = new MovieList.Views.SearchResultView({
+        model: searchModel
+      });
 
-      // show results
-      App.main.close();
-      // TODO: how can a change this??
-      $('.main').html(this.searchResultView.el);
+      App.main.show(this.searchResultView);
     },
 
 

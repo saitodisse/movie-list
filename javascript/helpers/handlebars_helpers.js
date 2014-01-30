@@ -52,13 +52,6 @@
  
 }(Handlebars, Marionette));
 
-// Backbone.Marionette.Renderer.render = function(templateId, data){
-//   var source   = $(templateId).html();
-//   var template = Handlebars.compile(source);
-//   return template(data);
-// };
-
-
 Handlebars.registerHelper('commalist', function(items, options) {
   var out = '';
 

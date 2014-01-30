@@ -72,6 +72,13 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
               return name + method;
           }
 
+      , getDetailsByMethodName = function (name) {
+          if(args && typeof args === 'object' &&args.length > 0){
+            return rpad(name,   ' ', 20) + getArgs(args);
+          }
+          return name;
+        }
+
       , getArgs = function(args) {
           var result = '';
           for (var i = 0; i < args.length; i++) {
@@ -80,14 +87,6 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
             }
           }
           return result;
-        }
-
-      , getDetailsByMethodName = function (name) {
-          var isStringArgs = (args && args.length > 0 && typeof args[0] === 'string');
-          if(isStringArgs){
-            return rpad(name,   ' ', 20) + getArgs(args);
-          }
-          return name;
         }
 
       , colors = {
@@ -152,8 +151,8 @@ window.__LOG = function __LOG(message, thisObj, args, colorIndex){
 
   groupName = '%c' + getName({
       name      : message,
-      nameSize  : 20,
-      methodSize: 90
+      nameSize  : 40,
+      methodSize: 100
   });
 
   groupColor =  ' background  : ' +
@@ -185,34 +184,31 @@ window.__MELD_LOG = function(appName, app, colorIndex){
    */
   var pointcut = /./;
   var myReporter = {
-    onCall: function(info) {
-      __LOG(appName + '.' + info.method, info.target, info.args, colorIndex);
-    }
-  // , onReturn: function(info) {
-  //     __LOG('< ' + appName + '.< ' + info.method, info.target, info.args, colorIndex);
-  //   }
-  , onThrow: function(info) {
-    //console.log('X ERROR X ', info);
-    __LOG(appName + '.' + info.method, info.exception, undefined, 99);
+    counter: 0,
+    lpad: function (str, padString, length) {
+      str = String(str);
+      while(str.length < length)
+          str = padString + str;
+      return str;
+    },
+    getCounter: function ()
+    {
+      return this.lpad(++this.counter,'0',4);
+    },
+    onCall: function (info) {
+      info.target.__getCounter__ = this.getCounter();
+      var fName = '( ' + info.target.__getCounter__ + ' ) -> ' + appName + '.' + info.method;
+      __LOG(fName, info.target, info.args, colorIndex);
+    },
+    onReturn: function (info) {
+      var fName = '( ' + info.target.__getCounter__ + ' ) <- ' + appName + '.' + info.method;
+      __LOG(fName, info.target, info.result, colorIndex);
+    },
+    onThrow: function(info) {
+      var fName = '( ' + info.target.__getCounter__ + ' ) <- ' + appName + '.' + info.method;
+      __LOG(fName, info.exception, undefined, 99);
     }
   };
   // Around advice wraps the intercepted method in layers
   meld(app, pointcut, trace(myReporter));
 };
-
-// window.__MELD_LOG_Contructor = function(appName, App, colorIndex){
-//   var advices = {
-//       before: function() {
-//           console.log("Called with: " + Array.prototype.join.call(arguments));
-//       },
-//       afterReturning: function(returnValue) {
-//           console.log("Returned: " + returnValue);
-//       },
-//       afterThrowing: function(thrownException) {
-//           console.error("Exception: " + thrownException);
-//       }
-//   };
-
-//   return meld(App, advices);
-
-// };

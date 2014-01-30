@@ -8,22 +8,16 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     initialize: function(options) {
       this.thumbId = options.thumbId;
-      this.render();
     },
 
-    render: function() {
-      var source   = $(this.template).html();
-      var template = Handlebars.compile(source);
-      var movieJson = this.model.toJSON();
-      
-      // get selected thumb
-      var thumb = _.find(this.model.get('thumb'), function(item) {
+    onBeforeRender: function() {
+      var thumbsArray = this.model.get('thumb');
+      var thumb = _.find(thumbsArray, function(item) {
         return item.name === this.thumbId;
       }.bind(this));
-      movieJson.thumbSrc = thumb.longThumb;
-
-      $(this.el).html(template(movieJson));
+      this.model.set('thumbSrc', thumb.longThumb);
     }
+
   });
 
 });
