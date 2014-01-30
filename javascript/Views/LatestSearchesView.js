@@ -17,7 +17,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     ui:{
-      link_list: '#link-list'
+      link_list: '#link-list',
+      dropdown_title: '#dropdown-title'
     },
 
     initialize: function() {
@@ -39,8 +40,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     updateDropdownTitle: function(searchModel) {
-      var jTitle_a = this.$('#dropdown-title');
-      jTitle_a.text(this.getSearchFormated(searchModel));
+      this.ui.dropdown_title.text(this.getSearchFormated(searchModel));
     },
 
     getSearchFormated: function(searchModel) {
@@ -85,7 +85,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     removeListElement: function(model) {
-      var jA = this.$('#link-list').find('[data-id="' + model.id + '"]');
+      var jA = this.ui.link_list.find('[data-id="' + model.id + '"]');
       if(jA){
         var jLi = jA.parent();
         jLi.remove();

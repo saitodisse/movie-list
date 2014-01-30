@@ -6,7 +6,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette) 
   Views.IMoviesView = Marionette.ItemView.extend({
     template: '#imovies-template',
 
-    onBeforeRender: function() {
+    serializeData: function(){
       var toSend = {};
       toSend.searches = this.collection.toJSON();
 
@@ -25,14 +25,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette) 
           end: tenYears[i+1]
         });
       }
-
-      // set a FAKE model to send JSON
-      this.model = {
-        toJSON: function() {
-          return toSend;
-        }
-      };
-    },
+      return toSend;
+    }
 
   });
 
