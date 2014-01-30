@@ -1,15 +1,12 @@
-/*global MoviesMVC, Handlebars */
+/*global MoviesMVC */
 
 'use strict';
-MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette) {
 
   Views.IMoviesView = Marionette.ItemView.extend({
     template: '#imovies-template',
 
-    render: function() {
-      var source   = $(this.template).html();
-      var template = Handlebars.compile(source);
-
+    onBeforeRender: function() {
       var toSend = {};
       toSend.searches = this.collection.toJSON();
 
@@ -29,9 +26,14 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
         });
       }
 
+      // set a FAKE model to send JSON
+      this.model = {
+        toJSON: function() {
+          return toSend;
+        }
+      };
+    },
 
-      $(this.el).html(template(toSend));
-    }
   });
 
 });

@@ -202,6 +202,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
   });
 
   function startLogs () {
+    //__MELD_LOG('Handlebars', Handlebars.Compiler.prototype, 11);
     __MELD_LOG('MoviesMVC', Backbone.Marionette.Application.prototype, 10);
     __MELD_LOG('vent', MoviesMVC.vent, 12);
     __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
@@ -222,5 +223,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
     __MELD_LOG('MovieDetailThumbView', MovieList.Views.MovieDetailThumbView.prototype, 22);
     __MELD_LOG('AboutView', MovieList.Views.AboutView.prototype, 21);
+
   }
 });

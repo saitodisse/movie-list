@@ -29,17 +29,14 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     processShortcut: function(e) {
       //LEFT
       if(e.which === 37){
-        e.preventDefault();
         this.goPrevMovie();
       }
       //RIGHT
       else if(e.which === 39){
-        e.preventDefault();
         this.goNextMovie();
       }
       //Backspace
       else if(e.which === 8){
-        e.preventDefault();
         MoviesMVC.router.navigate('movies', {trigger: true});
       }
     },
