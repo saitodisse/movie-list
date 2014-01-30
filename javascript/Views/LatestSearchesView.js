@@ -21,10 +21,13 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       dropdown_title: '#dropdown-title'
     },
 
+    collectionEvents: {
+      'add': 'addSearch',
+      'remove': 'removeListElement',
+      'reset': 'renderAllSearches'
+    },
+
     initialize: function() {
-      this.collection.on('add', this.addSearch, this);
-      this.collection.on('remove', this.removeListElement, this);
-      this.collection.on('reset', this.renderAllSearches, this);
       MoviesMVC.vent.on('results_received', this.updateDropdownTitle, this);
     },
 
