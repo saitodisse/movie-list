@@ -223,27 +223,21 @@
       
       <div class="row">
         <div class="col-md-12">
-          <h4>Path</h4>
-          <p>{{basepath}}</p>
+          <p class="director">{{#commalist director}}{{this}}{{/commalist}}</p>
         </div>
       </div>
+
       <div class="row">
-        <div class="col-md-12">
-          <h4>Director</h4>
-          <p>{{director}}</p>
+        <div class="col-md-6">
+          <p class='tagline'>{{tagline}}</p>
+          <p class='plot'>{{plot}}</p>
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-12">
           <h4>IMDB link</h4>
           <a target="blank" href="http://www.imdb.com/title/{{idImdb}}/">http://www.imdb.com/title/{{idImdb}}/</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h4>Plot</h4>
-          <b>{{tagline}}</b>
-          <p>{{plot}}</p>
         </div>
       </div>
 
@@ -251,6 +245,13 @@
         <div class="col-md-12">
           <h4>Actors</h4>
           {{#commalist actor}}{{name}} ({{role}}){{/commalist}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Path</h4>
+          <pre>{{basepath}}</pre>
         </div>
       </div>
 

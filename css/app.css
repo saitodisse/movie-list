@@ -60,6 +60,22 @@
   margin-top: 10px;
 }
 
+.tagline{
+  font-weight: bold;
+  margin-left: 12px;
+  margin-bottom: 10px;
+}
+
+.plot{
+  /*margin-left: 28px;*/
+}
+
+.director{
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
 
 .thumbs{
   margin-top: 20px;
