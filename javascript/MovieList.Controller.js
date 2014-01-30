@@ -25,7 +25,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       this.latestSearchesView = new MovieList.Views.LatestSearchesView({
         collection: MoviesMVC.searchCollection
       });
-      $('.rightMenu').prepend(this.latestSearchesView.el);
+      $('.rightMenu').prepend(this.latestSearchesView.render().el);
 
       // get DATA
       MoviesMVC.searchCollection.fetch({reset: true});

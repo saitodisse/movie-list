@@ -16,9 +16,11 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       'click li .glyphicon-remove': 'removeClicked'
     },
 
-    initialize: function() {
-      this.render();
+    ui:{
+      link_list: '#link-list'
+    },
 
+    initialize: function() {
       this.collection.on('add', this.addSearch, this);
       this.collection.on('remove', this.removeListElement, this);
       this.collection.on('reset', this.renderAllSearches, this);
@@ -49,8 +51,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     addDropdownItem: function(searchModel) {
-      var jLink_ul = this.$('#link-list');
-      jLink_ul.prepend(this.getLiHtml(searchModel));
+      this.ui.link_list.prepend(this.getLiHtml(searchModel));
     },
 
     getLiHtml: function(searchModel) {
