@@ -4,7 +4,7 @@
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.MovieDetailThumbView = Marionette.ItemView.extend({
-    template: '#movieDetailThumb-template',
+    template: 'movieDetailThumb',
 
     initialize: function(options) {
       this.thumbId = options.thumbId;

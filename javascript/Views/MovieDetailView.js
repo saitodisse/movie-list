@@ -4,7 +4,7 @@
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.MovieDetailView = Marionette.ItemView.extend({
-    template: '#movieDetail-template',
+    template: 'movieDetail',
 
     events:{
       'click .btn-prev': 'goPrevMovie',

@@ -9,7 +9,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     
     className: 'dropdown',
     
-    template: '#latest-searches-template',
+    template: 'latestSearches',
 
     events: {
       'click li a': 'linkClicked',

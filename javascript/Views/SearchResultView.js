@@ -4,7 +4,7 @@
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.SearchResultView = Marionette.ItemView.extend({
-    template: '#movies-template',
+    template: 'movies',
 
     events:{
       'click .trMovie': 'tdClicked'
