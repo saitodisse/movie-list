@@ -6,7 +6,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
   // ---------------
   MovieList.Router = Marionette.AppRouter.extend({
     appRoutes: {
-      '': 'home',
+      '': 'movies',
       'movies': 'movies',
       'movies/search/:query': 'goMovieSearch',
       'movies/:id': 'goMovieDetails',

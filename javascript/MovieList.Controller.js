@@ -71,11 +71,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     ////////////////
     // router methods
     ////////////////
-    home: function() {
-      var view = new MovieList.Views.HomeView();
-      App.main.show(view);
-    },
-
     imovies: function() {
       var view = new MovieList.Views.IMoviesView({
         collection: MoviesMVC.searchCollection
@@ -215,7 +210,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     __MELD_LOG('MenuView', MovieList.Views.MenuView.prototype, 21);
     __MELD_LOG('LatestSearchesView', MovieList.Views.LatestSearchesView.prototype, 20);
     __MELD_LOG('SearchInputView', MovieList.Views.SearchInputView.prototype, 20);
-    __MELD_LOG('HomeView', MovieList.Views.HomeView.prototype, 21);
     __MELD_LOG('IMoviesView', MovieList.Views.IMoviesView.prototype, 22);
     __MELD_LOG('SearchResultView', MovieList.Views.SearchResultView.prototype, 22);
     __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
