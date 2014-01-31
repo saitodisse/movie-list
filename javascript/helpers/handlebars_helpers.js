@@ -40,7 +40,7 @@
         async: false
       });
       if (!template || template.length === 0){
-        throw "NoTemplateError - Could not find template: '" + templateUrl + "'";
+        throw 'NoTemplateError - Could not find template: ' + templateUrl;
       }
     }
     return template;
@@ -60,15 +60,37 @@ Handlebars.registerHelper('commalist', function(items, options) {
   }
 
   for(var i=0, l=items.length; i<l; i++) {
-    out = out + options.fn(items[i]) + (i!==(l-1) ? ", ":"");
+    out = out + options.fn(items[i]) + (i!==(l-1) ? ', ':'');
   }
   return out;
 });
 
-Handlebars.registerHelper("first", function(array) {
+Handlebars.registerHelper('newLineList', function(items, options) {
+  var out = '';
+
+  if(typeof items !== 'object'){
+    return '';
+  }
+
+  for(var i=0, l=items.length; i<l; i++) {
+    out = out + options.fn(items[i]) + (i!==(l-1) ? '\n':'');
+  }
+
+  var text = Handlebars.Utils.escapeExpression(out);
+  text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+  return new Handlebars.SafeString(text);
+});
+
+Handlebars.registerHelper('breaklines', function(text) {
+  text = Handlebars.Utils.escapeExpression(text);
+  text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+  return new Handlebars.SafeString(text);
+});
+
+Handlebars.registerHelper('first', function(array) {
   return array[0];
 });
 
-Handlebars.registerHelper("last", function(array) {
+Handlebars.registerHelper('last', function(array) {
   return array[array.length-1];
 });
