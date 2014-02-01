@@ -42,22 +42,59 @@
   margin-bottom: 40px;
 }
 
-
 .big-title{
   text-shadow: 2px 1px 2px #888;
   font-size: 48px;
 }
 
+.title-info-row{
+  margin-top: 30px;
+}
+
 .title-year{
   text-shadow: 1px 1px 1px #666;
   font-size: 32px;
-  margin-top: 10px;
+  margin-top: 18px;
+}
+
+.glyphicon-star{
+  margin-left: 32px;
+}
+
+.glyphicon-star:before {
+  content: "\e006";
+  position: fixed;
+  color: #FFE671;
+  z-index: -1;
+  font-size: 131px;
+  text-shadow: 3px 4px 7px #959C58;
+  font-weight: bold;
 }
 
 .imdb-rating{
-  text-shadow: 1px 1px 1px #666;
-  font-size: 46px;
-  margin-top: 10px;
+  position: inherit;
+  font-size: 36px;
+  text-shadow: 2px 2px 3px #808080;
+  top: 40px;
+  left: 34px;
+}
+
+.country{
+  /*text-shadow: 1px 1px 1px #666;*/
+  font-size: 16px;
+  margin-top: 32px;
+}
+
+.runtime{
+  /*text-shadow: 1px 1px 1px #666;*/
+  font-size: 26px;
+  margin-top: 20px;
+}
+
+.genre{
+  /*text-shadow: 1px 1px 1px #666;*/
+  font-size: 16px;
+  margin-top: 28px;
 }
 
 .tagline{
@@ -127,6 +164,10 @@
 
 .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
   background-color: #cfc;
+}
+
+.lastTrSelected{
+ background-color: #ffc; 
 }
 
 

@@ -17,24 +17,33 @@
   <div class="col-md-10 title-movie-detail">
     <div class="row">
       <div class="col-md-12">
-        <h1 class="col-md-10 big-title">
+        <h1 class="big-title">
           {{title}}
         </h1>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
+    <div class="row title-info-row">
+        <div class="col-md-3">
+          <span class="glyphicon glyphicon-star">
+            <span class="imdb-rating">{{imdbInfo.rating}}</span>
+          </span>
+          
+
+        </div>
         <div class="col-md-2 title-year">
           {{year}}
         </div>
-      </div>
+        <div class="col-md-4 country">
+          {{ country }}
+        </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-2 imdb-rating">
-          {{imdbInfo.rating}}
+        <div class="col-md-offset-3 col-md-2 runtime">
+          {{ runtime }} min
         </div>
-      </div>
+        <div class="col-md-7 genre">
+          {{#commalist genre}}{{this}}{{/commalist}}
+        </div>
     </div>
 
   </div>

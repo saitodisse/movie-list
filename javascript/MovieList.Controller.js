@@ -58,9 +58,11 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         MoviesMVC.searchCollection.add(searchModel);
       }
 
+      searchModel.setSelectedResult(MoviesMVC.moviesCollection.getCurrentMovie());
+
       // the view
       this.searchResultView = new MovieList.Views.SearchResultView({
-        model: searchModel
+        model: searchModel        
       });
 
       App.main.show(this.searchResultView);
@@ -123,6 +125,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
           movie = new MovieList.Models.Movie(result);
           //cache
           MoviesMVC.moviesCollection.add(movie);
+          MoviesMVC.moviesCollection.setCurrentMovie(movie);
+          //render
           this.renderMovieDetail(movie);
         }.bind(this));
       }
