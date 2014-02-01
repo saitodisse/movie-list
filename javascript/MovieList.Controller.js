@@ -41,7 +41,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     // global events
     ////////////////
     onQueryReceived: function(query) {
-      if(query === ''){
+      if(query === '*'){
         query = '*:*';
       }
       var router = MoviesMVC.router;
@@ -64,11 +64,19 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       searchModel.setSelectedResult(MoviesMVC.moviesCollection.getCurrentMovie());
 
       // the view
-      this.searchResultView = new MovieList.Views.SearchResultView({
-        model: searchModel        
-      });
+      var view;
+      if(MoviesMVC.showThumbsSearch){
+        view = new MovieList.Views.SearchResultThumbsView({
+          model: searchModel
+        });
+      }
+      else{
+        view = new MovieList.Views.SearchResultView({
+          model: searchModel        
+        });
+      }
 
-      App.main.show(this.searchResultView);
+      App.main.show(view);
     },
 
 
@@ -219,6 +227,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     __MELD_LOG('SearchInputView', MovieList.Views.SearchInputView.prototype, 20);
     __MELD_LOG('IMoviesView', MovieList.Views.IMoviesView.prototype, 22);
     __MELD_LOG('SearchResultView', MovieList.Views.SearchResultView.prototype, 22);
+    __MELD_LOG('SearchResultThumbsView', MovieList.Views.SearchResultThumbsView.prototype, 22);
     __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
     __MELD_LOG('MovieDetailThumbView', MovieList.Views.MovieDetailThumbView.prototype, 22);
     __MELD_LOG('AboutView', MovieList.Views.AboutView.prototype, 21);

@@ -1,0 +1,37 @@
+<div id="search-result" class="col-md-12">
+  <div class="row">
+    <div class="col-md-2">
+      <h1>Movies</h1>
+    </div>
+    <div class="col-md-3">
+      <button class="btnShowThumbs">show table</button>
+    </div>
+  </div>
+
+  <div class="row">
+    {{#each results}}
+    <div class="col-md-2 search-thumb-item" data-id="{{ id }}">
+      <div class="row">
+        <div class="col-md-12 search-thumb-title">
+          {{title}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <a href="#movies/{{id}}">
+            <img class="title-image-thumb" src="{{ firstThumb }}"></img>
+          </a>
+        </div>
+      </div>
+      <div class="row search-thumb-rating">
+        <div class="col-md-6">
+          {{imdbInfo.rating}}
+        </div>
+        <div class="col-md-6">
+          {{year}}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>

@@ -3,23 +3,15 @@
 'use strict';
 MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
 
-  Views.SearchResultView = Marionette.ItemView.extend({
-    template: 'movies',
+  Views.SearchResultThumbsView = Marionette.ItemView.extend({
+    template: 'moviesThumb',
 
     events:{
-      'click .trMovie': 'tdClicked',
       'click .btnShowThumbs': 'btnShowThumbsClicked'
     },
 
-    tdClicked: function(e) {
-      var jTd = $(e.target);
-      var jTr = jTd.parent();
-      var id = jTr.data('id');
-      MoviesMVC.router.navigate('movies/' + id, {trigger: true});
-    },
-
     btnShowThumbsClicked: function() {
-      MoviesMVC.showThumbsSearch = true;
+      MoviesMVC.showThumbsSearch = false;
       MoviesMVC.router.navigate('movies', {trigger: true});
     },
 

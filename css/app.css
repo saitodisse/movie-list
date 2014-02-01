@@ -153,6 +153,9 @@
 .searchDiv{
   margin-top: 9px;
 }
+.btnShowThumbs{
+ margin-top: 29px; 
+}
 
 #search-result tr{
   cursor: pointer;
@@ -174,6 +177,22 @@
 
 .lastTrSelected{
  background-color: #ffc; 
+}
+
+
+.search-thumb-item{
+  width: 190px;
+  height: 330px;
+}
+
+.search-thumb-title{
+  font-size: 16px;
+  height: 50px;
+}
+
+.search-thumb-rating{
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 
