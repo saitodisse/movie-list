@@ -142,6 +142,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
         }.bind(this));
       }
       else{
+        MoviesMVC.moviesCollection.setCurrentMovie(movie);
         this.renderMovieDetail(movie);
       }
     },
