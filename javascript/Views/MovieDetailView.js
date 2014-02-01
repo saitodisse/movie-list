@@ -7,8 +7,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     template: 'movieDetail',
 
     events:{
-      'click .btn-prev': 'goPrevMovie',
-      'click .btn-next': 'goNextMovie',
+      'click .btn-back-to-list': 'backToList',
       'keydown .path_TextArea': 'textAreaKeyDown'
     },
 
@@ -38,7 +37,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       }
       //Backspace
       else if(e.which === 8){
-        MoviesMVC.router.navigate('movies', {trigger: true});
+        this.backToList()
       }
     },
 
@@ -73,6 +72,10 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
       }
+    },
+
+    backToList: function() {
+      MoviesMVC.router.navigate('movies', {trigger: true});
     },
 
     textAreaKeyDown: function(e) {
