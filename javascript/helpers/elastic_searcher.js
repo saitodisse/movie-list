@@ -74,8 +74,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
       movieDto.director = movieObject.director;
       movieDto.idImdb = movieObject.idImdb;
       
-      movieDto.imdbInfo = {};
-      movieDto.imdbInfo.rating = movieObject.imdbInfo.rating;
+      movieDto.imdbInfo = movieObject.imdbInfo;
 
       return movieDto;
     }    
