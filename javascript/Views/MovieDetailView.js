@@ -8,7 +8,8 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     events:{
       'click .btn-prev': 'goPrevMovie',
-      'click .btn-next': 'goNextMovie'
+      'click .btn-next': 'goNextMovie',
+      'keydown .path_TextArea': 'textAreaKeyDown'
     },
 
     initialize: function() {
@@ -71,6 +72,15 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
           var router = MoviesMVC.router;
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
+      }
+    },
+
+    textAreaKeyDown: function(e) {
+      //catch Ctrl+C
+      if( e.which === 67 && e.ctrlKey ){
+        var target = e.target;
+        target.focus();
+        target.select();
       }
     }
 

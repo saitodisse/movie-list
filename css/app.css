@@ -63,7 +63,6 @@
 
 .glyphicon-star:before {
   content: "\e006";
-  position: fixed;
   color: #FFE671;
   z-index: -1;
   font-size: 131px;
@@ -72,7 +71,7 @@
 }
 
 .imdb-rating{
-  position: inherit;
+  position: absolute;
   font-size: 36px;
   text-shadow: 2px 2px 3px #808080;
   top: 40px;
@@ -113,6 +112,13 @@
   font-size: 18px;
 }
 
+.path_TextArea{
+  width: 66.66666%;
+  height: 36px;
+  border: 0 none;
+  padding: 5px;
+  overflow: none;
+}
 
 .thumbs{
   margin-top: 20px;

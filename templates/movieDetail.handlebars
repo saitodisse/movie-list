@@ -9,7 +9,7 @@
       </button>
     </div>
     <div class="row">
-      <a href="#movies">
+      <a href="#movies/{{id}}/thumbs/{{thumb.0.name}}">
         <img class="title-image-thumb" src="{{thumb.0.prevThumb}}">
       </a>
     </div>
@@ -27,25 +27,27 @@
           <span class="glyphicon glyphicon-star">
             <span class="imdb-rating">{{imdbInfo.rating}}</span>
           </span>
-          
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-4 title-year">
+              {{year}}
+            </div>
+            <div class="col-md-8 country">
+              {{ country }}
+            </div>
+          </div>
 
-        </div>
-        <div class="col-md-2 title-year">
-          {{year}}
-        </div>
-        <div class="col-md-4 country">
-          {{ country }}
+          <div class="row">
+            <div class="col-md-4 runtime">
+              {{ runtime }} min
+            </div>
+            <div class="col-md-8 genre">
+              {{#commalist genre}}{{this}}{{/commalist}}
+            </div>
+          </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-offset-3 col-md-2 runtime">
-          {{ runtime }} min
-        </div>
-        <div class="col-md-7 genre">
-          {{#commalist genre}}{{this}}{{/commalist}}
-        </div>
-    </div>
-
   </div>
 </div>
 
@@ -80,12 +82,20 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h4>Path</h4>
-    <pre>{{#newLineList basepath}}{{this}}{{/newLineList}}</pre>
+    <h4>Paths</h4>
+    {{#each filePaths }}
+      <textarea class="path_TextArea">{{folder}}</textarea>
+      <textarea class="path_TextArea">{{onlyFile}}</textarea>
+      <textarea class="path_TextArea">{{fullPath}}</textarea>
+      <br>
+      <hr>
+    {{/each}}
+    {{!-- <pre>{{#each filePaths }}<div class="copy_area" data-clipboard-text="{{ folder }}">{{ folder }}</div><div class="copy_area" data-clipboard-text="{{ onlyFile }}">{{ onlyFile }}</div> <div class="copy_area" data-clipboard-text="{{ fullPath }}">copy full path</div> --}}
+    {{!-- {{/each}}</pre> --}}
   </div>
 </div>
 
-<div class="row">
+{{!-- <div class="row">
   <div class="col-md-12 thumbs">
     {{#each thumb}}
       <div class="thumbContainer col-md-2">
@@ -96,3 +106,4 @@
     {{/each}}
   </div>
 </div>
+ --}}
