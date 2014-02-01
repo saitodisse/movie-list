@@ -41,6 +41,9 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     // global events
     ////////////////
     onQueryReceived: function(query) {
+      if(query === ''){
+        query = '*:*';
+      }
       var router = MoviesMVC.router;
       router.navigate('movies/search/' + query, {trigger: true});
     },
