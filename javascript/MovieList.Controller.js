@@ -66,19 +66,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
 
       searchModel.setSelectedResult(MoviesMVC.moviesCollection.getCurrentMovie());
 
-      // the view
-      MyLayout = Backbone.Marionette.Layout.extend({
-        template: "#my-layout-template",
-
-        regions: {
-          menu: "#menu-bar",
-          content: "#main-content"
-        } 
-      });
-
-      layout = new MyLayout();
-      layout.render();
-
       var view;
       if(MoviesMVC.showThumbsSearch){
         view = new MovieList.Views.SearchResultView({
