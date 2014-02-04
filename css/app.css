@@ -158,8 +158,13 @@
 .searchDiv{
   margin-top: 9px;
 }
-.btnShowThumbs{
- margin-top: 29px; 
+
+.searchResultsNav{
+  margin-top: 29px; 
+}
+
+.searchResultsNav button{
+  margin-right: 20px; 
 }
 
 #search-result tr{

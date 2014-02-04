@@ -12,8 +12,12 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     // Start the app by showing the appropriate views
     initialize: function () {
       // global events
-      MoviesMVC.vent.on('query_received', this.onQueryReceived.bind(this));
-      MoviesMVC.vent.on('results_received', this.renderSearchResults.bind(this));
+      MoviesMVC.vent.on('query_received', this.onQueryReceived, this);
+      MoviesMVC.vent.on('results_received', this.renderSearchResults, this);
+      MoviesMVC.vent.on('offset_changed', this.offset_changed, this)
+
+      MoviesMVC.vent.on('goPrevPage', this.goPrevPage, this);
+      MoviesMVC.vent.on('goNextPage', this.goNextPage, this);
 
       // Collections
       MoviesMVC.searchCollection = new MovieList.Models.SearchCollection();
@@ -36,7 +40,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       }
     },
 
-
     ////////////////
     // global events
     ////////////////
@@ -53,10 +56,10 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       MoviesMVC.currentSearchModel = searchModel;
       
       // check if it is cached
-      var searchModels = MoviesMVC.searchCollection.filter(function(item) {
-        return item.get('query') === searchModel.get('query');
-      });
-      var isCached = (searchModels.length > 0);
+      // var searchModels = MoviesMVC.searchCollection.filter(function(item) {
+      //   return item.get('query') === searchModel.get('query');
+      // });
+      var isCached = false;//(searchModels.length > 0);
       if(!isCached){
         MoviesMVC.searchCollection.add(searchModel);
       }
@@ -92,6 +95,25 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       App.main.show(view);
     },
 
+    goPrevPage: function() {
+      var searchModel = MoviesMVC.currentSearchModel;
+      searchModel.previousPage();
+    },
+
+    goNextPage: function() {
+      var searchModel = MoviesMVC.currentSearchModel;
+      searchModel.nextPage();
+    },
+
+    offset_changed: function(searchModel) {
+      var asyncResult = this.elastiSearcher.searchElasticSearch(searchModel);
+      asyncResult.done(function(results) {
+        searchModel.set('results', results);
+        this.getElasticSearchResult(searchModel);
+      }.bind(this));
+    },
+
+
     movies: function() {
       this.onQueryReceived(MoviesMVC.currentSearchModel.get('query'));
     },
@@ -109,20 +131,18 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       }
       else{
         //REQUEST
-        var asyncResult = this.elastiSearcher.searchElasticSearch(query);
+        var searchModel = new MovieList.Models.Search({
+          query: query
+        });
+        var asyncResult = this.elastiSearcher.searchElasticSearch(searchModel);
         asyncResult.done(function(results) {
-          this.getElasticSearchResult(query, results);
+          searchModel.set('results', results);
+          this.getElasticSearchResult(searchModel);
         }.bind(this));
       }
     },
 
-    getElasticSearchResult: function(query, results) {
-      // save search query
-      var searchModel = new MovieList.Models.Search({
-        query: query,
-        results: results
-      });
-
+    getElasticSearchResult: function(searchModel) {
       MoviesMVC.vent.trigger('results_received', searchModel);
     },
 
@@ -214,24 +234,26 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     //__MELD_LOG('Handlebars', Handlebars.Compiler.prototype, 11);
     __MELD_LOG('MoviesMVC', Backbone.Marionette.Application.prototype, 10);
     __MELD_LOG('vent', MoviesMVC.vent, 12);
-    __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
-    __MELD_LOG('ElasticSearcher', MovieList.ElasticSearcher.prototype, 12);
+    // __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
+    // __MELD_LOG('ElasticSearcher', MovieList.ElasticSearcher.prototype, 12);
 
     __MELD_LOG('Controller', MovieList.Controller.prototype, 10);
-    __MELD_LOG('Router', MovieList.Router.prototype, 11);
+    // __MELD_LOG('Router', MovieList.Router.prototype, 11);
     
-    __MELD_LOG('SearchCollection', MovieList.Models.SearchCollection.prototype, 3);
-    __MELD_LOG('MovieCollection', MovieList.Models.MovieCollection.prototype, 3);
+    // __MELD_LOG('Movie', MovieList.Models.Movie.prototype, 3);
+    // __MELD_LOG('MovieCollection', MovieList.Models.MovieCollection.prototype, 3);
+    // __MELD_LOG('Search', MovieList.Models.Search.prototype, 3);
+    // __MELD_LOG('SearchCollection', MovieList.Models.SearchCollection.prototype, 3);
 
-    __MELD_LOG('MenuView', MovieList.Views.MenuView.prototype, 21);
-    __MELD_LOG('LatestSearchesView', MovieList.Views.LatestSearchesView.prototype, 20);
-    __MELD_LOG('SearchInputView', MovieList.Views.SearchInputView.prototype, 20);
-    __MELD_LOG('IMoviesView', MovieList.Views.IMoviesView.prototype, 22);
-    __MELD_LOG('SearchResultView', MovieList.Views.SearchResultView.prototype, 22);
-    __MELD_LOG('SearchResultThumbsView', MovieList.Views.SearchResultThumbsView.prototype, 22);
-    __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
-    __MELD_LOG('MovieDetailThumbView', MovieList.Views.MovieDetailThumbView.prototype, 22);
-    __MELD_LOG('AboutView', MovieList.Views.AboutView.prototype, 21);
+    // __MELD_LOG('MenuView', MovieList.Views.MenuView.prototype, 21);
+    // __MELD_LOG('LatestSearchesView', MovieList.Views.LatestSearchesView.prototype, 20);
+    // __MELD_LOG('SearchInputView', MovieList.Views.SearchInputView.prototype, 20);
+    // __MELD_LOG('IMoviesView', MovieList.Views.IMoviesView.prototype, 22);
+    // __MELD_LOG('SearchResultView', MovieList.Views.SearchResultView.prototype, 22);
+    // __MELD_LOG('SearchResultThumbsView', MovieList.Views.SearchResultThumbsView.prototype, 22);
+    // __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
+    // __MELD_LOG('MovieDetailThumbView', MovieList.Views.MovieDetailThumbView.prototype, 22);
+    // __MELD_LOG('AboutView', MovieList.Views.AboutView.prototype, 21);
 
   }
 });

@@ -3,11 +3,40 @@
     <div class="col-md-2">
       <h1>Movies</h1>
     </div>
-    <div class="col-md-3">
-      <button class="btnShowThumbs">show table</button>
+    
+    <div class="row searchResultsNav">
+
+      <div class="col-md-4">
+        <button class="btn btnPrevPage">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+        <button class="btn btnNextPage">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+
+        <button class="btn btnShowThumbs">show table</button>
+      </div>
+
+      <div class="col-md-4 searchLog">
+        <div class="row">
+          <div class="col-md-12">query: {{ query }}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">offset: {{ offset }}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">total: {{ total }}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">sort: {{ sort }}</div>
+        </div>
+      </div>
+
     </div>
+
   </div>
 
+  <br>
   <div class="row">
     {{#each results}}
     <div class="col-md-2 search-thumb-item" data-id="{{ id }}">

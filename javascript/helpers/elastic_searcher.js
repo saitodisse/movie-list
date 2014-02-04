@@ -7,13 +7,15 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
 
   _.extend(MovieList.ElasticSearcher.prototype, {
 
-    searchElasticSearch: function(query) {
+    searchElasticSearch: function(searchModel) {
       var def = $.Deferred();
 
       var data = {
-          size: 500,
-          sort: 'imdbInfo.rating:desc',
-          q: query
+          from: searchModel.get('offset'),
+          size: 10,
+
+          sort: searchModel.get('sort'),
+          q: searchModel.get('query')
         };
 
       $.ajax({
@@ -21,6 +23,8 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
         data: data,
         //data: data,
         success: function(data) {
+          searchModel.set('total', data.hits.total);
+
           var results = [];
           for (var i = 0; i < data.hits.hits.length; i++) {
             var hit = data.hits.hits[i];

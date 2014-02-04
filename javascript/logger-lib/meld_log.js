@@ -200,14 +200,14 @@ window.__MELD_LOG = function(appName, app, colorIndex){
       var fName = '( ' + info.target.__getCounter__ + ' ) -> ' + appName + '.' + info.method;
       __LOG(fName, info.target, info.args, colorIndex);
     },
-    onReturn: function (info) {
-      var fName = '( ' + info.target.__getCounter__ + ' ) <- ' + appName + '.' + info.method;
-      __LOG(fName, info.target, info.result, colorIndex);
-    },
-    onThrow: function(info) {
-      var fName = '( ' + info.target.__getCounter__ + ' ) <- ' + appName + '.' + info.method;
-      __LOG(fName, info.exception, undefined, 99);
-    }
+    // onReturn: function (info) {
+    //   var fName = '( ' + info.target.__getCounter__ + ' ) <- ' + appName + '.' + info.method;
+    //   __LOG(fName, info.target, info.result, colorIndex);
+    // },
+    // onThrow: function(info) {
+    //   var fName = '( ' + info.target.__getCounter__ + ' ) <- ' + appName + '.' + info.method;
+    //   __LOG(fName, info.exception, undefined, 99);
+    // }
   };
   // Around advice wraps the intercepted method in layers
   meld(app, pointcut, trace(myReporter));

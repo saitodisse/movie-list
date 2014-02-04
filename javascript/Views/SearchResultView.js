@@ -8,7 +8,9 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
 
     events:{
       'click .trMovie': 'tdClicked',
-      'click .btnShowThumbs': 'btnShowThumbsClicked'
+      'click .btnShowThumbs': 'btnShowThumbsClicked',
+      'click .btnPrevPage': 'prevPage',
+      'click .btnNextPage': 'nextPage'
     },
 
     tdClicked: function(e) {
@@ -21,6 +23,14 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     btnShowThumbsClicked: function() {
       MoviesMVC.showThumbsSearch = true;
       MoviesMVC.router.navigate('movies', {trigger: true});
+    },
+
+    prevPage: function() {
+      MoviesMVC.vent.trigger('goPrevPage');
+    },
+
+    nextPage: function() {
+      MoviesMVC.vent.trigger('goNextPage');
     },
 
     onShow: function() {

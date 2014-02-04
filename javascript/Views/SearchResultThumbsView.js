@@ -7,7 +7,17 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     template: 'moviesThumb',
 
     events:{
-      'click .btnShowThumbs': 'btnShowThumbsClicked'
+      'click .btnShowThumbs': 'btnShowThumbsClicked',
+      'click .btnPrevPage': 'prevPage',
+      'click .btnNextPage': 'nextPage'
+    },
+
+    prevPage: function() {
+      MoviesMVC.vent.trigger('goPrevPage');
+    },
+
+    nextPage: function() {
+      MoviesMVC.vent.trigger('goNextPage');
     },
 
     btnShowThumbsClicked: function() {
