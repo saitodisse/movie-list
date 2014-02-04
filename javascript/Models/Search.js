@@ -11,8 +11,6 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
 
     setSelectedResult: function(movie) {
       if(movie){
-        console.log('last movie selected:', movie.get('title'));
-        
         if(this.hasResults()){
           var results = this.get('results');
           var selectedResult = _.find(results, function(result){
