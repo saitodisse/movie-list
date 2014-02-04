@@ -21,7 +21,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     btnShowThumbsClicked: function() {
-      MoviesMVC.showThumbsSearch = true;
+      MoviesMVC.showThumbsSearch = !MoviesMVC.showThumbsSearch;
       MoviesMVC.router.navigate('movies', {trigger: true});
     },
 

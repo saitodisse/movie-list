@@ -67,15 +67,29 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       searchModel.setSelectedResult(MoviesMVC.moviesCollection.getCurrentMovie());
 
       // the view
+      MyLayout = Backbone.Marionette.Layout.extend({
+        template: "#my-layout-template",
+
+        regions: {
+          menu: "#menu-bar",
+          content: "#main-content"
+        } 
+      });
+
+      layout = new MyLayout();
+      layout.render();
+
       var view;
       if(MoviesMVC.showThumbsSearch){
-        view = new MovieList.Views.SearchResultThumbsView({
-          model: searchModel
+        view = new MovieList.Views.SearchResultView({
+          model: searchModel,
+          template: 'moviesThumb'
         });
       }
       else{
         view = new MovieList.Views.SearchResultView({
-          model: searchModel        
+          model: searchModel,
+          template: 'movies'
         });
       }
 
@@ -250,7 +264,6 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
     // __MELD_LOG('SearchInputView', MovieList.Views.SearchInputView.prototype, 20);
     // __MELD_LOG('IMoviesView', MovieList.Views.IMoviesView.prototype, 22);
     // __MELD_LOG('SearchResultView', MovieList.Views.SearchResultView.prototype, 22);
-    // __MELD_LOG('SearchResultThumbsView', MovieList.Views.SearchResultThumbsView.prototype, 22);
     // __MELD_LOG('MovieDetailView', MovieList.Views.MovieDetailView.prototype, 22);
     // __MELD_LOG('MovieDetailThumbView', MovieList.Views.MovieDetailThumbView.prototype, 22);
     // __MELD_LOG('AboutView', MovieList.Views.AboutView.prototype, 21);
