@@ -33,13 +33,20 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
       return this.layouts.list[index];
     },
 
-    getRegion: function(regionIndex) {
-      var layout = this.getCurrentLayout();
-      var rmArray = layout.regionManager.toArray();
+    regionManager: function() {
+      return this.getCurrentLayout().regionManager;
+    },
 
-      // if(regionIndex <= rmArray.length-1){
+    getRegionOrChangeLayout: function(regionIndex) {
+      var rmArray = this.regionManager().toArray();
+
+      if(regionIndex <= rmArray.length-1){
         return rmArray[regionIndex];
-      // }
+      }
+      else{
+        this.getNextLayout();
+        return this.getRegionOrChangeLayout(regionIndex);
+      }
     },
 
     initializeViews: function() {
@@ -60,7 +67,7 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
       var index = this.views.counter % this.views.list.length;
       var view = this.views.list[index];
 
-      var region = this.getRegion(regionIndex);
+      var region = this.getRegionOrChangeLayout(regionIndex);
       region.show(view);
       
       this.views.counter += 1;

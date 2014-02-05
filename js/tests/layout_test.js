@@ -36,17 +36,48 @@
     notEqual( view1.cid, view2.cid, 'must be differents' );
   });
 
-  test( 'next view receive an index for the region on layout', function() {
+  test( 'with ane region only, the views are toggled', function() {
     resetLayoutChanger();
 
     // at first, the REGION is undefined
-    var mainRegion = lc.getCurrentLayout().regionManager.first();
+    var mainRegion = lc.regionManager().first();
     ok( _.isUndefined(mainRegion.currentView), 'mainRegion.currentView -> must not be defined' );
 
     // when getNextView() the mainRegion exists
     lc.getNextView(0);
-    mainRegion = lc.getCurrentLayout().regionManager.first();
-    ok( mainRegion.currentView, 'mainRegion.currentView -> must be defined' );
+    var view1 = mainRegion.currentView;
+    ok( view1, 'view1 -> must be defined' );
+
+    // gets a new view again, now has 2 regions
+    lc.getNextView(0);
+    var view2 = mainRegion.currentView;
+    ok( view2, 'view2 -> must be defined' );
+    notEqual( view1.cid, view2.cid, 'they must be different => view1.cid, view2.cid' );
+
+    // now, while there is no more regions, back to the first
+    lc.getNextView(0);
+    var view3 = mainRegion.currentView;
+    equal( view1.cid, view3.cid, 'they must be same => view1.cid, view3.cid' );
+  });
+
+  test( 'with a new view at region at the right, the layout changes', function() {
+    resetLayoutChanger();
+
+    lc.getNextView(0);
+    var leftRegion = lc.regionManager().first();
+    var view1 = leftRegion.currentView;
+    ok( view1, 'view1 -> must be defined' );
+
+    // when getNextView(1) sets a view besides
+    lc.getNextView(1);
+    var rightRegion = lc.regionManager().last();
+    var view2 = rightRegion.currentView;
+    ok( view2, 'view2 -> must be defined' );
+
+    notEqual( view1.cid, view2.cid, 'they must be different => view1.cid, view2.cid' );
+    
+    var allRegions = lc.regionManager().toArray();
+    equal(allRegions.length, 2, 'the layout must change');
   });
 
 })();
