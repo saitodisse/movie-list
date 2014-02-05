@@ -4,8 +4,7 @@
 var App = new Backbone.Marionette.Application();
 
 App.addRegions({
-  left: '.left',
-  right: '.right'
+  main: '#main'
 });
 
 App.on('initialize:after', function () {
