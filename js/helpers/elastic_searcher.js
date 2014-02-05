@@ -1,11 +1,11 @@
 /*global App */
 'use strict';
 
-App.module('Base', function (Base, App, Backbone, Marionette) {
+App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
 
-  Base.ElasticSearcher = function(){};
+  Helpers.ElasticSearcher = function(){};
 
-  _.extend(Base.ElasticSearcher.prototype, {
+  _.extend(Helpers.ElasticSearcher.prototype, {
 
     searchElasticSearch: function(searchModel) {
       var def = $.Deferred();
