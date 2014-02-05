@@ -8,6 +8,7 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
     appRoutes: {
       '': 'movies',
       'movies': 'movies',
+      'moviesRealCollection': 'moviesRealCollection',
       'movies/search/:query': 'goMovieSearch',
       'movies/:id': 'goMovieDetails',
       'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',

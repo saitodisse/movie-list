@@ -209,6 +209,22 @@ MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette, $,
       App.main.show(view);
     },
 
+    moviesRealCollection: function() {
+      //DATA
+      var searchModel = MoviesMVC.currentSearchModel;
+      
+      var asyncResult = this.elastiSearcher.searchElasticSearch(searchModel);
+      asyncResult.done(function(results) {
+        
+        var view = new MovieList.Views.MoviesCollectionView({
+          collection: new MovieList.Models.MovieCollection(results)
+        });
+
+        App.main.show(view);
+
+      }.bind(this));
+    },
+
   });
 
   // MovieList Initializer
