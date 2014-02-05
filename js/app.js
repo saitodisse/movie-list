@@ -31,13 +31,18 @@ App.addInitializer(function () {
 });
 
 function startLogs () {
+  // __MELD_LOG('Region', Marionette.Region.prototype, 10);
+  // __MELD_LOG('Layout', Marionette.Layout.prototype, 11);
+
   //__MELD_LOG('Handlebars', Handlebars.Compiler.prototype, 11);
   __MELD_LOG('App', Backbone.Marionette.Application.prototype, 10);
   __MELD_LOG('vent', App.vent, 12);
   // __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
   // __MELD_LOG('ElasticSearcher', App.Base.ElasticSearcher.prototype, 12);
+  __MELD_LOG('LayoutChanger', App.Base.Helpers.LayoutChanger.prototype, 12);
 
   __MELD_LOG('controller', App.Base.Controller.prototype, 11);
+  
   // __MELD_LOG('Router', App.Base.Router.prototype, 11);
   
   // __MELD_LOG('Movie', App.Base.Models.Movie.prototype, 3);

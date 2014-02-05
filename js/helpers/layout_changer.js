@@ -1,7 +1,7 @@
 /*global App */
 'use strict';
 
-App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
+App.module('Base.Helpers', function (Helpers, App) {
 
   Helpers.LayoutChanger = function(){};
 
@@ -10,6 +10,8 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
     initialize: function() {
       this.initializeLayouts();
       this.initializeViews();
+
+      App.vent.on('layout_showed', this.showViews, this);
     },
 
     initializeLayouts: function() {
@@ -22,10 +24,82 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
       this.layouts.list.push(layout);
     },
 
+    initializeViews: function() {
+      this.views = {};
+      this.views.list = [];
+
+      this.leftView = null;
+      this.views.leftCounter = 0;
+
+      this.rightView = null;
+      this.views.rightCounter = 0;
+    },
+
+    addView: function(view) {
+      this.views.list.push(view);
+    },
+
     getNextLayout : function() {
       this.layouts.counter += 1;
       var layout = this.getCurrentLayout();
+
+      App.vent.trigger('new_layout', layout);
+
       return layout;
+    },
+
+    countVisibleViews: function() {
+      var visibleViews = 0;
+      if(!_.isNull(this.leftView)){
+        visibleViews++;
+      }
+      if(!_.isNull(this.rightView)){
+        visibleViews++;
+      }
+
+      return visibleViews;
+    },
+
+    showViews: function() {
+      var rmArray = this.regionManagerArray();
+      var visibleViews = this.countVisibleViews();
+
+      // need another layout
+      if(rmArray.length === 1 && visibleViews === 2){
+        this.getNextLayout();
+        this.showViews();
+        return;
+      }
+      if(rmArray.length === 2 && visibleViews === 1){
+        this.getNextLayout();
+        this.showViews();
+        return;
+      }
+
+
+      // ok, lets show the views
+      if(rmArray.length === 1){
+        var onlyRightViewVisible = _.isNull(this.leftView)  && !_.isNull(this.rightView);
+        var onlyLeftViewVisible  = _.isNull(this.rightView) && !_.isNull(this.leftView);
+        if( onlyRightViewVisible ) {
+          rmArray[0].show(this.rightView);
+        }
+        else if ( onlyLeftViewVisible ) {
+          rmArray[0].show(this.leftView);
+        }
+        else{
+          rmArray[0].close();
+        }
+      }
+      else if(rmArray.length === 2){
+        if(!_.isNull(this.leftView)){
+          rmArray[0].show(this.leftView);
+        }
+        if(!_.isNull(this.rightView)){
+          rmArray[1].show(this.rightView);
+        }
+      }
+
     },
 
     getCurrentLayout : function() {
@@ -33,46 +107,42 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
       return this.layouts.list[index];
     },
 
-    regionManager: function() {
-      return this.getCurrentLayout().regionManager;
+    regionManagerArray: function() {
+      return this.getCurrentLayout().regionManager.toArray();
     },
 
-    getRegionOrChangeLayout: function(regionIndex) {
-      var rmArray = this.regionManager().toArray();
+    getNextLeftView : function() {
+      var total = this.views.list.length;
+      var index = this.views.leftCounter % total;
+      this.views.leftCounter += 1;
 
-      if(regionIndex <= rmArray.length-1){
-        return rmArray[regionIndex];
+      if(!_.isNull(this.views.list[index])){
+        this.leftView = new this.views.list[index]();
       }
       else{
-        this.getNextLayout();
-        return this.getRegionOrChangeLayout(regionIndex);
-      }
-    },
-
-    initializeViews: function() {
-      this.views = {};
-      this.views.counter = 0;
-      this.views.list = [];
-    },
-
-    addView: function(view) {
-      this.views.list.push(view);
-    },
-
-    getNextView : function(regionIndex) {
-      if(!_.isNumber(regionIndex)){
-        throw new Error('a regionIndex must be provided');
+        this.leftView = null;
       }
 
-      var index = this.views.counter % this.views.list.length;
-      var view = this.views.list[index];
+      this.showViews();
 
-      var region = this.getRegionOrChangeLayout(regionIndex);
-      region.show(view);
-      
-      this.views.counter += 1;
-      
-      return view;
+      return this.leftView;
+    },
+
+    getNextRightView : function() {
+      var total = this.views.list.length;
+      var index = this.views.rightCounter % total;
+      this.views.rightCounter += 1;
+
+      if(!_.isNull(this.views.list[index])){
+        this.rightView = new this.views.list[index]();
+      }
+      else{
+        this.rightView = null;
+      }
+
+      this.showViews();
+
+      return this.rightView;
     },
 
 

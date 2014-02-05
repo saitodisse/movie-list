@@ -7,65 +7,43 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
 
     initialize: function () {
       this.initializeMenu();
-      this.initializeLayouts();
-      this.initializeViews();
+      this.initializeLayoutChanger();
+
+      //EVENTS
+      App.vent.on('new_layout', this.new_layout, this);
     },
 
     initializeMenu: function() {
       $("#changeLayoutLeft").on('click', function(e) {
-        console.log(e)
         e.preventDefault();
-        this.changeLayout('left');
+        this.layoutChanger.getNextLeftView();
       }.bind(this))
 
       $("#changeLayoutRight").on('click', function(e) {
         e.preventDefault();
-        this.changeLayout('right');
+        this.layoutChanger.getNextRightView();
       }.bind(this))
     },
 
-    // initializeLayouts: function() {
-    //   this.layouts = {};
-    //   this.layouts.counter = 0;
-    //   this.layouts.list = [
-    //     ( new Base.Views.Layouts.OneColumn() ),
-    //     ( new Base.Views.Layouts.TwoColumns() )
-    //   ];
-    //   this.layouts.current_layout = this.layouts[0];
-    // },
+    new_layout: function(layout) {
+      App.main.show(layout);
+      App.vent.trigger('layout_showed');
+    },
 
-    // initializeViews: function() {
-    //   this.views = {};
-    //   this.views.counter = 0;
-    //   this.views.list = [
-    //     ( new Base.Views.About() ),
-    //     ( new Base.Views.IMovies() )
-    //   ];
-    //   this.views.current_view = this.views[0];
-    // },
+    initializeLayoutChanger: function() {
+      var lc = this.layoutChanger = new App.Base.Helpers.LayoutChanger();
+      lc.initialize();
 
-    // getNextLayout: function() {
-    //   var index = this.layouts.counter % this.layouts.list.length;
-    //   this.layouts.counter += 1;
-    //   return this.layouts.list[index];
-    // },
+      lc.addLayout(new App.Base.Views.Layouts.OneColumn());
+      lc.addLayout(new App.Base.Views.Layouts.TwoColumns());
 
-    // getNextView: function() {
-    //   var index = this.views.counter % this.views.list.length;
-    //   this.views.counter += 1;
-    //   return this.views.list[index];
-    // },
+      lc.addView(App.Base.Views.IMovies);
+      lc.addView(App.Base.Views.About);
+      lc.addView(null); // this will force a layout change
 
-    // changeLayout: function(side) {
-    //   var layout = this.getNextLayout();
-
-    //   App.main.show(layout);
-
-    //   layout.regionManager.each(function(region) {
-    //     region.show(this.getNextView());
-    //   }, this);
-    // },
-
+      var initialLayout = lc.getCurrentLayout();
+      App.main.show(initialLayout);
+    },
 
 
 

@@ -12,7 +12,7 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
       //  'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
       'imovies': 'imovies',
       'about': 'about',
-      'changeLayout': 'changeLayout'
+      //'changeLayout': 'changeLayout'
     }
   });
 
