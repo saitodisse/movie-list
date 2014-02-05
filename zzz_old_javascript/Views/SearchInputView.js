@@ -1,20 +1,20 @@
-/*global MoviesMVC */
+/*global App */
 
 'use strict';
-MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.SearchInputView = Marionette.ItemView.extend({
     initialize: function() {
       $(this.el).on('keyup', this.keyuped.bind(this));
-      MoviesMVC.vent.on('results_received', this.results_received, this);
+      App.vent.on('results_received', this.results_received, this);
     },
 
     keyuped: function(e) {
       if(e.which === 13){
         var query = $(this.el).val();
-        var latestQuery = MoviesMVC.controller.latestSearchesView.getLatest();
+        var latestQuery = App.controller.latestSearchesView.getLatest();
         if(query !== latestQuery){
-          MoviesMVC.vent.trigger('query_received', query);
+          App.vent.trigger('query_received', query);
         }
       }
     },

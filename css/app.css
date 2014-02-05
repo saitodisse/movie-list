@@ -1,14 +1,13 @@
 /*
   Main
 */
-.main{
+.preMain{
   padding: 40px 15px;
 }
 .glyphicon-remove{
   top: 3px;
   right: 10px;
 }
-
 
 /*
   Movies Detail
@@ -216,5 +215,4 @@
 .byYear li{
   float: left;
   list-style: none;
-  margin-right: 20px;
 }

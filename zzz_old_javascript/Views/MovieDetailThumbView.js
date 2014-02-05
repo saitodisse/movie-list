@@ -1,7 +1,7 @@
-/*global MoviesMVC, Handlebars */
+/*global App, Handlebars */
 
 'use strict';
-MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.MovieDetailThumbView = Marionette.ItemView.extend({
     template: 'movieDetailThumb',

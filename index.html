@@ -40,6 +40,7 @@
             <li class="movies"><a href="#movies">Movies</a></li>
             <li class="imovies"><a href="#imovies">iMovies</a></li>
             <li class="about" ><a href="#about">About</a></li>
+            <li class="changeLayout" ><a href="#changeLayout">Change Layout</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right rightMenu">
@@ -52,9 +53,11 @@
     </div>
 
     <div class="container">
-
-      <div class="main">
-      </div>
+      <div class="preMain"></div>
+      <section class="left col-md-6">
+      </section>
+      <section class="right col-md-6">
+      </section>
 
     </div><!-- /.container -->
 
@@ -71,36 +74,40 @@
     <script src="/bower_components/backbone.memento/backbone.memento.js" type="text/javascript"></script>
     <script src="/bower_components/handlebars/handlebars.js" type="text/javascript"></script>
     
-    <script src="/javascript/logger-lib/meld_log.js" type="text/javascript"></script>
-    
-    <script src="/javascript/MoviesMVC.js" type="text/javascript"></script>
-    <script src="/javascript/MovieList.Layout.js" type="text/javascript"></script>
-    <script src="/javascript/MovieList.Router.js" type="text/javascript"></script>
-    <script src="/javascript/MovieList.Controller.js" type="text/javascript"></script>
+    <script src="/js/app.js" type="text/javascript"></script>
 
-    <script src="/javascript/Models/Movie.js" type="text/javascript"></script>
-    <script src="/javascript/Models/MovieCollection.js" type="text/javascript"></script>
-    <script src="/javascript/Models/Search.js" type="text/javascript"></script>
-    <script src="/javascript/Models/SearchCollection.js" type="text/javascript"></script>
+    <script src="/js/helpers/meld_log.js" type="text/javascript"></script>
+    <script src="/js/helpers/elastic_searcher.js" type="text/javascript"></script>
+    <script src="/js/helpers/handlebars_helpers.js" type="text/javascript"></script>
     
-    <script src="/javascript/Views/MenuView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/SearchInputView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/LatestSearchesView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/SearchResultView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/MovieDetailView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/MovieDetailThumbView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/AboutView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/IMoviesView.js" type="text/javascript"></script>
-    
-    <script src="/javascript/Views/MovieView.js" type="text/javascript"></script>
-    <script src="/javascript/Views/MoviesCollectionView.js" type="text/javascript"></script>
+    <script src="/js/router.js" type="text/javascript"></script>
+    <script src="/js/controller.js" type="text/javascript"></script>
 
-    <script src="/javascript/helpers/elastic_searcher.js" type="text/javascript"></script>
-    <script src="/javascript/helpers/handlebars_helpers.js" type="text/javascript"></script>
+    <script src="/js/models/movie.js" type="text/javascript"></script>
+    <script src="/js/models/movie_collection.js" type="text/javascript"></script>
+    <script src="/js/models/search.js" type="text/javascript"></script>
+    <script src="/js/models/search_collection.js" type="text/javascript"></script>
+    
+    <script src="/js/views/about.js" type="text/javascript"></script>
+    <script src="/js/views/imovies.js" type="text/javascript"></script>
+
+<!--
+    <script src="/js/views/MenuView.js" type="text/javascript"></script>
+    <script src="/js/views/SearchInputView.js" type="text/javascript"></script>
+    <script src="/js/views/LatestSearchesView.js" type="text/javascript"></script>
+    <script src="/js/views/SearchResultView.js" type="text/javascript"></script>
+    <script src="/js/views/MovieDetailView.js" type="text/javascript"></script>
+    <script src="/js/views/MovieDetailThumbView.js" type="text/javascript"></script>
+    <script src="/js/views/AboutView.js" type="text/javascript"></script>
+    <script src="/js/views/IMoviesView.js" type="text/javascript"></script>
+    
+    <script src="/js/views/MovieView.js" type="text/javascript"></script>
+    <script src="/js/views/MoviesCollectionView.js" type="text/javascript"></script>
+-->
 
     <script type="text/javascript">
       $(function() {
-        MoviesMVC.start();
+        App.start();
       });
     </script>
 

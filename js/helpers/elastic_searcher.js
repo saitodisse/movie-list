@@ -1,11 +1,11 @@
-/*global MoviesMVC */
+/*global App */
 'use strict';
 
-MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
+App.module('Base', function (Base, App, Backbone, Marionette) {
 
-  MovieList.ElasticSearcher = function(){};
+  Base.ElasticSearcher = function(){};
 
-  _.extend(MovieList.ElasticSearcher.prototype, {
+  _.extend(Base.ElasticSearcher.prototype, {
 
     searchElasticSearch: function(searchModel) {
       var def = $.Deferred();

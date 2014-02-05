@@ -1,7 +1,7 @@
-/*global MoviesMVC, Handlebars */
+/*global App, Handlebars */
 
 'use strict';
-MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
 
   // TODO: fell like this must be a CollectionView
   Views.LatestSearchesView = Marionette.ItemView.extend({
@@ -28,7 +28,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     initialize: function() {
-      MoviesMVC.vent.on('results_received', this.updateDropdownTitle, this);
+      App.vent.on('results_received', this.updateDropdownTitle, this);
     },
 
     renderAllSearches: function() {
@@ -76,7 +76,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       e.preventDefault();
       var id = $(e.target).data('id');
       var searchModel = this.collection.get(id);
-      MoviesMVC.vent.trigger('query_received', searchModel.get('query'));
+      App.vent.trigger('query_received', searchModel.get('query'));
     },
 
     removeClicked: function(e) {

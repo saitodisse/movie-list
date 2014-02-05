@@ -1,10 +1,10 @@
-/*global MoviesMVC */
+/*global App */
 'use strict';
 
-MoviesMVC.module('MovieList', function (MovieList, App, Backbone, Marionette) {
+App.module('MovieList', function (MovieList, App, Backbone, Marionette) {
   // MovieList Router
   // ---------------
-  MovieList.Router = Marionette.AppRouter.extend({
+  Base.Router = Marionette.AppRouter.extend({
     appRoutes: {
       '': 'movies',
       'movies': 'movies',

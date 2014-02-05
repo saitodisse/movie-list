@@ -17,7 +17,8 @@ Or simply
 #pre-requirements:
 
     export XBMC videodb.xml
-    https://github.com/saitodisse/elasticXbmcMoviesImporter
+    and go to: https://github.com/saitodisse/elasticXbmcMoviesImporter
+
 
 #instalation:
 ##on linux:

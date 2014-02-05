@@ -1,7 +1,7 @@
-/*global MoviesMVC*/
+/*global App*/
 
 'use strict';
-MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
+App.module('Base.Models', function (Models, App, Backbone) {
 
   var PAGE_SIZE = 10;
 
@@ -23,7 +23,7 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
       if(currentpage>0){
         offset -= pageSize;
         this.set('offset', offset);
-        MoviesMVC.vent.trigger('offset_changed', this);
+        App.vent.trigger('offset_changed', this);
       }
 
     },
@@ -38,7 +38,7 @@ MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
       if(currentpage<totalpages-1){
         offset += pageSize;
         this.set('offset', offset);
-        MoviesMVC.vent.trigger('offset_changed', this);
+        App.vent.trigger('offset_changed', this);
       }
 
     },

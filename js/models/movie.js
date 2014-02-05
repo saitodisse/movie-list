@@ -1,7 +1,7 @@
-/*global MoviesMVC*/
+/*global App*/
 
 'use strict';
-MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
+App.module('Base.Models', function (Models, App, Backbone) {
 
   Models.Movie = Backbone.Model.extend({
     initialize: function() {

@@ -1,7 +1,7 @@
-/*global MoviesMVC, Handlebars */
+/*global App, Handlebars */
 
 'use strict';
-MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.MovieDetailView = Marionette.ItemView.extend({
     template: 'movieDetail',
@@ -42,7 +42,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     goPrevMovie: function() {
-      var searchList = MoviesMVC.currentSearchModel.get('results');
+      var searchList = App.currentSearchModel.get('results');
       var thisItem = searchList.filter(function (el) {
         return el.id === this.model.id
       }, this);
@@ -51,7 +51,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       if(indexOf > 0){
         var gotoItem = searchList[indexOf-1];
         if(gotoItem){
-          var router = MoviesMVC.router;
+          var router = App.router;
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
       }
@@ -59,7 +59,7 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
     },
 
     goNextMovie: function() {
-      var searchList = MoviesMVC.currentSearchModel.get('results');
+      var searchList = App.currentSearchModel.get('results');
       var thisItem = searchList.filter(function (el) {
         return el.id === this.model.id
       }, this);
@@ -68,14 +68,14 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       if(indexOf < searchList.length){
         var gotoItem = searchList[indexOf+1];
         if(gotoItem){
-          var router = MoviesMVC.router;
+          var router = App.router;
           router.navigate('movies/' + gotoItem.id, {trigger: true});
         }
       }
     },
 
     backToList: function() {
-      MoviesMVC.router.navigate('movies', {trigger: true});
+      App.router.navigate('movies', {trigger: true});
     },
 
     textAreaKeyDown: function(e) {

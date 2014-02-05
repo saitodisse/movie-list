@@ -1,7 +1,7 @@
-/*global MoviesMVC, Handlebars */
+/*global App, Handlebars */
 
 'use strict';
-MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, $) {
+App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
 
   Views.SearchResultView = Marionette.ItemView.extend({
     template: 'movies',
@@ -17,20 +17,20 @@ MoviesMVC.module('MovieList.Views', function (Views, App, Backbone, Marionette, 
       var jTd = $(e.target);
       var jTr = jTd.parent();
       var id = jTr.data('id');
-      MoviesMVC.router.navigate('movies/' + id, {trigger: true});
+      App.router.navigate('movies/' + id, {trigger: true});
     },
 
     btnShowThumbsClicked: function() {
-      MoviesMVC.showThumbsSearch = !MoviesMVC.showThumbsSearch;
-      MoviesMVC.router.navigate('movies', {trigger: true});
+      App.showThumbsSearch = !App.showThumbsSearch;
+      App.router.navigate('movies', {trigger: true});
     },
 
     prevPage: function() {
-      MoviesMVC.vent.trigger('goPrevPage');
+      App.vent.trigger('goPrevPage');
     },
 
     nextPage: function() {
-      MoviesMVC.vent.trigger('goNextPage');
+      App.vent.trigger('goNextPage');
     },
 
     onShow: function() {

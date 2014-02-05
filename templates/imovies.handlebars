@@ -11,30 +11,26 @@
 
   <div class="row">
     <h3>by Year Ranges</h3>
-    <div class="row">
-      <ul class="col-md-8">
-  
+      <ul>
         {{#each yearRanges}}
-          <li class="col-md-2">
+          <li class="col-md-4">
             <a href="/#movies/search/year:[{{start}} TO {{end}}]">
               {{start}}..{{end}}
             </a>
           </li>
         {{/each}}
-  
       </ul>
-    </div>
   </div>
 
   <div class="row">
     <h3>by Year</h3>
     
     {{#each yearsBlock}}
-    <div class="row byYear col-md-8">
+    <div class="row byYear">
       <ul>
   
       {{#each this}}
-        <li><a href="/#movies/search/year:({{this}})">{{this}}</a></li>
+        <li class="col-md-2"><a href="/#movies/search/year:({{this}})">{{this}}</a></li>
       {{/each}}
   
       </ul>

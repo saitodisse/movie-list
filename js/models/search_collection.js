@@ -1,16 +1,16 @@
-/*global MoviesMVC */
+/*global App */
 
 'use strict';
-MoviesMVC.module('MovieList.Models', function (Models, App, Backbone) {
+App.module('Base.Models', function (Models, App, Backbone) {
 
   //search_localStorage
-  MoviesMVC.searchCollection_localStorage = new Backbone.LocalStorage('MoviesMVC_SearchCollection');
+  App.searchCollection_localStorage = new Backbone.LocalStorage('App_SearchCollection');
 
   //SearchCollection
   Models.SearchCollection = Backbone.Collection.extend({
     model: Models.Search,
 
-    localStorage: MoviesMVC.searchCollection_localStorage,
+    localStorage: App.searchCollection_localStorage,
 
     initialize: function() {
       this.on('add', this.checkCollectionOverflow, this);
