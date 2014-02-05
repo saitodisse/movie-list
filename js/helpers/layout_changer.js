@@ -62,25 +62,26 @@ App.module('Base.Helpers', function (Helpers, App) {
 
     showViews: function() {
       var rmArray = this.regionManagerArray();
+      var hasOneRegion = rmArray.length === 1;
+      var hasTwoRegions = rmArray.length === 2;
       var visibleViews = this.countVisibleViews();
+      var isLeftNull = _.isNull(this.leftView);
+      var isRightNull = _.isNull(this.rightView);
 
-      // need another layout
-      if(rmArray.length === 1 && visibleViews === 2){
+      var needToChangeLayout =  (rmArray.length === 1 && visibleViews === 2) ||
+                                (rmArray.length === 2 && visibleViews === 1);
+      if(needToChangeLayout){
         this.getNextLayout();
         this.showViews();
         return;
       }
-      if(rmArray.length === 2 && visibleViews === 1){
-        this.getNextLayout();
-        this.showViews();
-        return;
-      }
 
-
-      // ok, lets show the views
-      if(rmArray.length === 1){
-        var onlyRightViewVisible = _.isNull(this.leftView)  && !_.isNull(this.rightView);
-        var onlyLeftViewVisible  = _.isNull(this.rightView) && !_.isNull(this.leftView);
+      // full screen
+      if( hasOneRegion ){
+        
+        var onlyRightViewVisible = isLeftNull  && !isRightNull;
+        var onlyLeftViewVisible  = isRightNull && !isLeftNull;
+        
         if( onlyRightViewVisible ) {
           rmArray[0].show(this.rightView);
         }
@@ -91,11 +92,13 @@ App.module('Base.Helpers', function (Helpers, App) {
           rmArray[0].close();
         }
       }
-      else if(rmArray.length === 2){
-        if(!_.isNull(this.leftView)){
+      
+      // left and right
+      if( hasTwoRegions ){
+        if(!isLeftNull){
           rmArray[0].show(this.leftView);
         }
-        if(!_.isNull(this.rightView)){
+        if(!isRightNull){
           rmArray[1].show(this.rightView);
         }
       }
