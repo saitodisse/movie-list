@@ -16,11 +16,13 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
     initializeMenu: function() {
       $("#changeLayoutLeft").on('click', function(e) {
         e.preventDefault();
+        App.main.show(this.layoutChanger.getCurrentLayout());
         this.layoutChanger.getNextLeftView();
       }.bind(this))
 
       $("#changeLayoutRight").on('click', function(e) {
         e.preventDefault();
+        App.main.show(this.layoutChanger.getCurrentLayout());
         this.layoutChanger.getNextRightView();
       }.bind(this))
     },
@@ -61,14 +63,17 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       App.main.show(view);
     },
 
-    moviesRealCollection: function() {
+    movies: function() {
       //DATA
-      var searchModel = App.currentSearchModel;
+      var searchModel = new Base.Models.Search({
+        query: 'bolt'
+      });
       
-      var asyncResult = this.elastiSearcher.searchElasticSearch(searchModel);
+      var elastiSearcher = new Base.Helpers.ElasticSearcher();
+      var asyncResult = elastiSearcher.searchElasticSearch(searchModel);
       asyncResult.done(function(results) {
         
-        var view = new Base.Views.MoviesCollectionView({
+        var view = new Base.Views.MoviesCollection({
           collection: new Base.Models.MovieCollection(results)
         });
 
