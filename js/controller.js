@@ -28,21 +28,20 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       App.main.show(view);
     },
 
-    movies: function() {
-      if(this.moviesCollection.models.length === 0){
-        this.fetchMovieCollection("*:*");
-      }
+    search: function(page, query) {
+      var searchModel = new Base.Models.Search({
+        query: query,
+        page: page
+      });
+
+      this.fetchMovieCollection(searchModel);
 
       App.main.show(this.tableView);
     },
 
 
-    fetchMovieCollection: function(query) {
+    fetchMovieCollection: function(searchModel) {
       //DATA
-      var searchModel = new Base.Models.Search({
-        query: query
-      });
-      
       var elastiSearcher = new Base.Helpers.ElasticSearcher();
 
       var promise = elastiSearcher.searchElasticSearch(searchModel);

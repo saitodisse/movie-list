@@ -3,19 +3,18 @@
 'use strict';
 App.module('Base.Models', function (Models, App, Backbone) {
 
-  var PAGE_SIZE = 10;
-
   Models.Search = Backbone.Model.extend({
-    initialize: function() {
+    initialize: function(options) {
       
-      this.set('offset',0);
-      this.set('sort','imdbInfo.rating:desc');
+      this.set('page', options.page || 1);
+      this.set('size', options.size || 10);
+      this.set('sort', options.sort || 'imdbInfo.rating:desc');
     },
 
     previousPage: function() {
       var total = this.get('total');
       var offset = this.get('offset');
-      var pageSize = PAGE_SIZE;
+      var pageSize = this.get('size');
 
       var totalpages = Math.ceil(total/pageSize);
       var currentpage = offset/pageSize;
@@ -30,7 +29,7 @@ App.module('Base.Models', function (Models, App, Backbone) {
     nextPage: function() {
       var total = this.get('total');
       var offset = this.get('offset');
-      var pageSize = PAGE_SIZE;
+      var pageSize = this.get('size');
 
       var totalpages = Math.ceil(total/pageSize);
       var currentpage = offset/pageSize;

@@ -9,13 +9,18 @@ App.module('Base.Helpers', function (Helpers) {
 
     searchElasticSearch: function(searchModel) {
       var promise = new RSVP.Promise(function(resolve, reject) {
+        var query = searchModel.get('query');
+        var sort = searchModel.get('sort');
+        var page = searchModel.get('page');
+        var size = searchModel.get('size');
+
+        var offset = ((page-1) * size);
 
         var data = {
-            from: searchModel.get('offset'),
-            size: 10,
-
-            sort: searchModel.get('sort'),
-            q: searchModel.get('query')
+            from: offset,
+            size: size,
+            sort: sort,
+            q: query
           };
 
         $.ajax({
