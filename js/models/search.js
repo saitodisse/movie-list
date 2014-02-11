@@ -5,41 +5,33 @@ App.module('Base.Models', function (Models, App, Backbone) {
 
   Models.Search = Backbone.Model.extend({
     initialize: function(options) {
-      
-      this.set('page', options.page || 1);
-      this.set('size', options.size || 10);
-      this.set('sort', options.sort || 'imdbInfo.rating:desc');
+      if(options){
+        this.set('page', options.page || 1);
+        this.set('size', options.size || 12);
+        this.set('sort', options.sort || 'imdbInfo.rating:desc');
+      }
+      else{
+        this.set('page', 1);
+        this.set('size', 12);
+        this.set('sort', 'imdbInfo.rating:desc');
+      }
     },
 
     previousPage: function() {
-      var total = this.get('total');
-      var offset = this.get('offset');
-      var pageSize = this.get('size');
-
-      var totalpages = Math.ceil(total/pageSize);
-      var currentpage = offset/pageSize;
-
-      if(currentpage>0){
-        offset -= pageSize;
-        this.set('offset', offset);
-        App.vent.trigger('offset_changed', this);
+      var currentPage = this.get('page');
+      if(currentPage > 1){
+        this.set('page', --currentPage);
       }
-
     },
     nextPage: function() {
       var total = this.get('total');
-      var offset = this.get('offset');
       var pageSize = this.get('size');
+      var currentPage = this.get('page');
 
       var totalpages = Math.ceil(total/pageSize);
-      var currentpage = offset/pageSize;
-
-      if(currentpage<totalpages-1){
-        offset += pageSize;
-        this.set('offset', offset);
-        App.vent.trigger('offset_changed', this);
+      if(currentPage < totalpages){
+        this.set('page', ++currentPage);
       }
-
     },
 
     hasResults: function() {
@@ -64,6 +56,17 @@ App.module('Base.Models', function (Models, App, Backbone) {
         return this.selectedResult;
       }
     },
+
+    getUrl: function() {
+      var url = "movies/";
+      url += this.get('resultViewType');
+      url += "/search/";
+      url += this.get('page');
+      url += "/";
+      url += this.get('query');
+      return url;
+    }
+
   });
 
 });

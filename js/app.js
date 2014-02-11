@@ -52,8 +52,8 @@ function startLogs () {
   
   // __MELD_LOG('Movie', App.Base.Models.Movie.prototype, 3);
   // __MELD_LOG('MovieCollection', App.Base.Models.MovieCollection.prototype, 3);
-  // __MELD_LOG('Search', App.Base.Models.Search.prototype, 3);
-  // __MELD_LOG('SearchCollection', App.Base.Models.SearchCollection.prototype, 3);
+   __MELD_LOG('Search', App.Base.Models.Search.prototype, 3);
+   __MELD_LOG('SearchCollection', App.Base.Models.SearchCollection.prototype, 3);
 
   // __MELD_LOG('Tables-View', App.Base.Views.Movies.Table.Movies.prototype, 21);
   // __MELD_LOG('Table-View', App.Base.Views.Movies.Table.Movie.prototype, 22);
