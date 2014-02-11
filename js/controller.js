@@ -52,6 +52,10 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       App.main.show(view);
     },
 
+    allMovies: function() {
+      App.router.navigate('movies/thumb/search/1/*:*', {trigger: true});
+    },
+
     searchTable: function(page, query) {
       this.searchModel.set('resultViewType', 'table');
       

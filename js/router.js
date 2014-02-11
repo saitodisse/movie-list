@@ -4,7 +4,7 @@
 App.module('Base', function (Base, App, Backbone, Marionette) {
   Base.Router = Marionette.AppRouter.extend({
     appRoutes: {
-      // '': 'movies',
+      '': 'allMovies',
       // 'movies': 'movies',
       // 'moviesRealCollection': 'moviesRealCollection',
       'movies/table/search/:page/:query': 'searchTable',
