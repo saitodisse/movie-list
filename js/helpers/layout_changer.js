@@ -120,7 +120,7 @@ App.module('Base.Helpers', function (Helpers, App) {
       this.views.leftCounter += 1;
 
       if(!_.isNull(this.views.list[index])){
-        this.leftView = new this.views.list[index]();
+        this.leftView = this.views.list[index];
       }
       else{
         this.leftView = null;
@@ -137,7 +137,7 @@ App.module('Base.Helpers', function (Helpers, App) {
       this.views.rightCounter += 1;
 
       if(!_.isNull(this.views.list[index])){
-        this.rightView = new this.views.list[index]();
+        this.rightView = this.views.list[index];
       }
       else{
         this.rightView = null;
