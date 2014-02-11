@@ -6,55 +6,14 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
   Base.Controller = Marionette.Controller.extend({
 
     initialize: function () {
-      //EVENTS
-      App.vent.on('new_layout', this.new_layout, this);
-      
-      this.layoutInit();
-      this.initializeLayoutChanger();
+      // DATA: Collection
+      this.moviesCollection = new Base.Models.MovieCollection();
 
-      // App.vent.on('results_received', this.moviesViewInit, this);
-      // App.vent.on('result_received', this.movieViewInit, this);
-      //App.vent.on('movies_view_created', this.initializeLayoutChanger, this);
-
-      // App.vent.on('movie_view_created', this.initializeLayoutChanger, this);
-
-      this.movieViewInit();
-      this.fetchMovie(1);
-
-      // this.moviesViewInit();
-      // this.fetchMovieCollection();
+      // VIEW: CompositeView
+      this.tableView = new Base.Views.Movies.Table.Movies({
+        collection: this.moviesCollection
+      });
     },
-
-    initializeMenu: function() {
-      $("#changeLayoutLeft").on('click', function(e) {
-        e.preventDefault();
-        App.main.show(this.layoutChanger.getCurrentLayout());
-        this.layoutChanger.getNextLeftView();
-      }.bind(this))
-
-      $("#changeLayoutRight").on('click', function(e) {
-        e.preventDefault();
-        App.main.show(this.layoutChanger.getCurrentLayout());
-        this.layoutChanger.getNextRightView();
-      }.bind(this))
-    },
-
-    new_layout: function(layout) {
-      App.main.show(layout);
-      App.vent.trigger('layout_showed');
-    },
-
-    initializeLayoutChanger: function() {
-      var initialLayout = this.layoutChanger.getCurrentLayout();
-      App.main.show(initialLayout);
-
-      this.initializeMenu();
-
-      // show first view
-      App.main.show(this.layoutChanger.getCurrentLayout());
-      this.layoutChanger.getNextLeftView();      
-    },
-
 
     ////////////////
     // router methods
@@ -69,20 +28,48 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       App.main.show(view);
     },
 
+    movies: function() {
+      if(this.moviesCollection.models.length === 0){
+        this.fetchMovieCollection("*:*");
+      }
 
-    fetchMovieCollection: function() {
+      App.main.show(this.tableView);
+    },
+
+
+    fetchMovieCollection: function(query) {
       //DATA
       var searchModel = new Base.Models.Search({
-        query: 'bolt'
+        query: query
       });
       
       var elastiSearcher = new Base.Helpers.ElasticSearcher();
-      var asyncResult = elastiSearcher.searchElasticSearch(searchModel);
-      asyncResult.done(function(results) {
-        searchModel.set('results', results);
-        App.vent.trigger('results_received', results);
-      });
 
+      var promise = elastiSearcher.searchElasticSearch(searchModel);
+
+      promise.then(
+        //SUCCESS
+        function(data) {
+          this.moviesCollection.reset(data);
+          App.vent.trigger('search_fetched', data);
+        }.bind(this),
+
+        //ERROR
+        function(err) {
+          App.vent.trigger('ERROR in searchElasticSearch', err);
+        }
+      );
+      
+      ///////////////////////////////////////////////////////////////
+      // this error will be catch at "  RSVP.on('error'  " on app.js
+      // so we dont have to set the line below:
+
+      // .catch(function(err) {
+      //   App.vent.trigger('ERROR in fetchMovieCollection', err);
+      // });
+      ///////////////////////////////////////////////////////////////
+
+      return promise;
     },
 
     fetchMovie: function(id) {
@@ -94,41 +81,12 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       });
     },
 
-    layoutInit: function() {
-      //LAYOUTS
-      this.layoutChanger = new App.Base.Helpers.LayoutChanger();
-      this.layoutChanger.initialize();
-      this.layoutChanger.addLayout(new App.Base.Views.Layouts.OneColumn());
-      this.layoutChanger.addLayout(new App.Base.Views.Layouts.TwoColumns());
-    },
-
     moviesViewInit: function(results) {
-      var view;
-      //DATA
-      this.moviesCollection = new Base.Models.MovieCollection(results);
       
-      //LAYOUTS
-      var lc = this.layoutChanger = new App.Base.Helpers.LayoutChanger();
-      lc.initialize();
-
-      lc.addLayout(new App.Base.Views.Layouts.OneColumn());
-      lc.addLayout(new App.Base.Views.Layouts.TwoColumns());
-
-      // # Table #
-      view = new Base.Views.Movies.Table.Movies({
+      // # Table View #
+      var view = new Base.Views.Movies.Table.Movies({
         collection: this.moviesCollection
       });
-      lc.addView(view);
-
-      // # Thumb #
-      view = new Base.Views.Movies.Thumb.Movies({
-        collection: this.moviesCollection
-      });
-      lc.addView(view);
-    
-      lc.addView(null); // this will force a layout change
-
-      App.vent.trigger('movies_view_created');
     },
 
     movieViewInit: function(result) {
@@ -139,9 +97,6 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       var view = new Base.Views.Movies.Detail.Movie({
         model: this.movie
       });
-      this.layoutChanger.addView(view);
-    
-      App.vent.trigger('movie_view_created');
     }
 
   });

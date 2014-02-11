@@ -13,6 +13,12 @@ App.on('initialize:after', function () {
 
 
 App.addInitializer(function () {
+
+  // ensures that no errors will be omitted
+  RSVP.on('error', function(reason) {
+    console.error(reason);
+  });
+
   startLogs();
   
   App.controller = new App.Base.Controller();
@@ -39,7 +45,6 @@ function startLogs () {
   __MELD_LOG('vent', App.vent, 12);
   // __MELD_LOG('LocalStorage', Backbone.LocalStorage.prototype, 12);
   // __MELD_LOG('ElasticSearcher', App.Base.ElasticSearcher.prototype, 12);
-  __MELD_LOG('LayoutChanger', App.Base.Helpers.LayoutChanger.prototype, 12);
 
   __MELD_LOG('controller', App.Base.Controller.prototype, 11);
   
@@ -50,6 +55,9 @@ function startLogs () {
   // __MELD_LOG('Search', App.Base.Models.Search.prototype, 3);
   // __MELD_LOG('SearchCollection', App.Base.Models.SearchCollection.prototype, 3);
 
+  // __MELD_LOG('Tables-View', App.Base.Views.Movies.Table.Movies.prototype, 21);
+  // __MELD_LOG('Table-View', App.Base.Views.Movies.Table.Movie.prototype, 22);
+  
   // __MELD_LOG('MenuView', App.Base.Views.MenuView.prototype, 21);
   // __MELD_LOG('LatestSearchesView', App.Base.Views.LatestSearchesView.prototype, 20);
   // __MELD_LOG('SearchInputView', App.Base.Views.SearchInputView.prototype, 20);

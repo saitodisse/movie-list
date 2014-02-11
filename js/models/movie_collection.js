@@ -6,6 +6,8 @@ App.module('Base.Models', function (Models, App, Backbone) {
   Models.MovieCollection = Backbone.Collection.extend({
     model: Models.Movie,
 
+    url: '#',
+
     setCurrentMovie: function(movie) {
       this.currentMovie = movie;
     },
@@ -13,6 +15,7 @@ App.module('Base.Models', function (Models, App, Backbone) {
     getCurrentMovie: function() {
       return this.currentMovie;
     }
+
   });
 
 });

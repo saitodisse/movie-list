@@ -1,41 +1,54 @@
-/*global App */
+/*global App, RSVP */
 'use strict';
 
-App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
+App.module('Base.Helpers', function (Helpers) {
 
   Helpers.ElasticSearcher = function(){};
 
   _.extend(Helpers.ElasticSearcher.prototype, {
 
     searchElasticSearch: function(searchModel) {
-      var def = $.Deferred();
+      var promise = new RSVP.Promise(function(resolve, reject) {
 
-      var data = {
-          from: searchModel.get('offset'),
-          size: 10,
+        var data = {
+            from: searchModel.get('offset'),
+            size: 10,
 
-          sort: searchModel.get('sort'),
-          q: searchModel.get('query')
-        };
+            sort: searchModel.get('sort'),
+            q: searchModel.get('query')
+          };
 
-      $.ajax({
-        url: 'http://localhost:9200/movies/movie/_search',
-        data: data,
-        //data: data,
-        success: function(data) {
-          searchModel.set('total', data.hits.total);
+        $.ajax({
+          url: 'http://localhost:9200/movies/movie/_search',
+          data: data,
+          
+          success: function(data) {
+            searchModel.set('total', data.hits.total);
 
-          var results = [];
-          for (var i = 0; i < data.hits.hits.length; i++) {
-            var hit = data.hits.hits[i];
-            var movieSimplified = this.simplify(hit._source);
-            results.push(movieSimplified);
-          }
-          def.resolve(results);
-        }.bind(this),
-        dataType: 'json'
-      });
-      return def.promise();
+            var results = [];
+            for (var i = 0; i < data.hits.hits.length; i++) {
+              var hit = data.hits.hits[i];
+              var movieSimplified = this.simplify(hit._source);
+              results.push(movieSimplified);
+            }
+
+            // RESOLVE ///////////////
+            resolve(results);
+
+          }.bind(this),
+          
+          error: function(xhr, ajaxOptions, thrownError) {
+
+            // REJECT ///////////////
+            reject(xhr, ajaxOptions, thrownError);
+
+          }.bind(this),
+          
+          dataType: 'json'
+        });
+      }.bind(this));
+
+      return promise;
     },
 
     getIdElasticSearch: function(id) {
@@ -61,7 +74,7 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
       // titleAndOriginal
       var sameTitle = true;
       if(movieDto.title && movieDto.originaltitle){
-        sameTitle = movieDto.title[0] === movieDto.originaltitle[0]
+        sameTitle = movieDto.title[0] === movieDto.originaltitle[0];
       }
       if(sameTitle){
         movieDto.titleAndOriginal = movieObject.title;
@@ -81,7 +94,7 @@ App.module('Base.Helpers', function (Helpers, App, Backbone, Marionette) {
       movieDto.imdbInfo = movieObject.imdbInfo;
 
       return movieDto;
-    }    
+    }
 
   });
 

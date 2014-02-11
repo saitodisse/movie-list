@@ -8,7 +8,8 @@ App.module('Base.Views.Movies.Table', function (Table, App, Backbone, Marionette
     
     itemViewContainer: "tbody",
     
-    itemView: Table.Movie
+    itemView: Table.Movie,
+
   });
 
 });
