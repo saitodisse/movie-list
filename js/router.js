@@ -9,8 +9,8 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
       // 'moviesRealCollection': 'moviesRealCollection',
       'movies/table/search/:page/:query': 'searchTable',
       'movies/thumb/search/:page/:query': 'searchThumb',
-      // 'movies/:id': 'goMovieDetails',
-      // 'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
+      'movies/:id': 'goMovieDetails',
+      'movies/:id/thumbs/:thumbId': 'goMovieDetailThumb',
       'imovies': 'imovies',
       'about': 'about',
       //'changeLayout': 'changeLayout'

@@ -48,7 +48,14 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
     _showNavigationAndResult: function(layout){
 
       var navigation = this._addNavigation(layout.navigation);
-      this._showTable(layout.result);
+      
+      var currentView = this.searchModel.get('currentView');
+      if(currentView === 'table'){
+        this._showTable(layout.result);
+      }
+      else{
+        this._showThumb(layout.result); 
+      }
 
       // this is a custom event triggered from the navigation view.
       // it doesn't matter what the event name is. it just needs
@@ -78,6 +85,7 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
 
     // add the initial "result" to the region specified
     _showTable: function(region){
+      this.searchModel.set('currentView', 'table');
       var view = new Base.Views.Movies.Table.Movies({
         collection: this.moviesCollection
       });
@@ -86,6 +94,7 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
 
     // change the "result" in the region specified
     _showThumb: function(region){
+      this.searchModel.set('currentView', 'thumb');
       var view = new Base.Views.Movies.Thumb.Movies({
         collection: this.moviesCollection
       });

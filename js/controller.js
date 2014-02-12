@@ -19,7 +19,6 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
       this.searchModel.on('change:page', this.fetchMovieCollection, this);
       this.searchModel.on('change:page', this.updateUrl, this);
 
-
       // movies controller
       this.moviesController = new Base.MoviesController({
         mainRegion: App.main,
@@ -42,33 +41,58 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
     },
 
     allMovies: function() {
-      //this.initialize();
       App.router.navigate('movies/table/search/1/*:*', {trigger: true});
-      // this.searchTable(1, "*:*")
     },
 
     searchTable: function(page, query) {
       this.moviesController.show();
 
-      this.searchModel.set('resultViewType', 'table');
+      this.searchModel.set('currentView', 'table');
       this.getSearch(page, query);
-
-      // App.main.show(this.searchLayout);
-
-      // this.searchLayout.navigation.show(this.searchNavigationView);
-      // this.searchLayout.result.show(this.tableView);
     },
 
     searchThumb: function(page, query) {
-      this.searchModel.set('resultViewType', 'thumb');
+      this.moviesController.show();
 
+      this.searchModel.set('currentView', 'thumb');
       this.getSearch(page, query);
-
-      App.main.show(this.searchLayout);
-      this.searchLayout.navigation.show(this.searchNavigationView);
-
-      this.searchLayout.result.show(this.thumbView);
     },
+
+
+    /*
+        Movie Details
+     */
+    goMovieDetails: function(id) {
+      this.fetchMovie(id).then(this.showMovieDetail.bind(this));
+    },
+    showMovieDetail: function( data ) {
+      this.currentMovie = new Base.Models.Movie( data );
+
+      //Detail
+      this.movieDetailView = new Base.Views.Movies.Detail.Movie({
+        model: this.currentMovie
+      });
+
+      App.main.show(this.movieDetailView);
+    },
+
+    /*
+        Movie Details Thumbs
+     */
+    goMovieDetailThumb: function(id, thumbId) {
+      this.currentThumbId = thumbId;
+      this.fetchMovie(id).then(this.showMovieDetailThumb.bind(this));
+    },
+    showMovieDetailThumb: function(data) {
+      this.currentMovie = new Base.Models.Movie( data );
+
+      this.movieDetailThumbsView = new Base.Views.Movies.Detail.MovieThumbs({
+        model: this.currentMovie,
+        thumbId: this.currentThumbId
+      });
+      
+      App.main.show(this.movieDetailThumbsView);
+    },    
 
     getSearch: function(page, query) {
       this.searchModel.set({
@@ -108,20 +132,32 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
 
       return promise;
     },
+    fetchMovie: function(id) {
+      //DATA
+      var elastiSearcher = new Base.Helpers.ElasticSearcher();
+
+      var promise = elastiSearcher.getIdElasticSearch(id);
+
+      promise.then(
+        //SUCCESS
+        function(data) {
+          App.vent.trigger('movie_fetched', data);
+        }.bind(this),
+
+        //ERROR
+        function(err) {
+          App.vent.trigger('ERROR in searchElasticSearch', err);
+        }
+      );
+
+      return promise;
+    },
 
     updateUrl: function() {
       var newUrl = this.searchModel.getUrl();
       App.router.navigate(newUrl, {trigger: false});
     },
 
-    fetchMovie: function(id) {
-      var elastiSearcher = new Base.Helpers.ElasticSearcher();
-      var asyncResult = elastiSearcher.getIdElasticSearch(id);
-      asyncResult.done(function(result) {
-        //searchModel.set('result', result);
-        App.vent.trigger('result_received', result);
-      });
-    },
 
   });
 

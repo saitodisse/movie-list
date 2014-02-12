@@ -1,10 +1,10 @@
-/*global App, Handlebars */
+/*global App */
 
 'use strict';
-App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
+App.module('Base.Views.Movies.Detail', function (Detail, App, Backbone, Marionette, $) {
 
-  Views.MovieDetailThumbView = Marionette.ItemView.extend({
-    template: 'movieDetailThumb',
+  Detail.MovieThumbs = Marionette.ItemView.extend({
+    template: 'movies/detail/movie_thumbs',
 
     initialize: function(options) {
       this.thumbId = options.thumbId;
@@ -17,7 +17,7 @@ App.module('Base.Views', function (Views, App, Backbone, Marionette, $) {
       }.bind(this));
       this.model.set('thumbSrc', thumb.longThumb);
     }
-
+    
   });
 
 });

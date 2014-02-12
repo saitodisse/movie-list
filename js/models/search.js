@@ -68,7 +68,7 @@ App.module('Base.Models', function (Models, App, Backbone) {
 
     getUrl: function() {
       var url = "movies/";
-      url += this.get('resultViewType');
+      url += this.get('currentView');
       url += "/search/";
       url += this.get('page');
       url += "/";
