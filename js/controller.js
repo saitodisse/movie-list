@@ -41,7 +41,12 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
     },
 
     allMovies: function() {
-      App.router.navigate('movies/table/search/1/*:*', {trigger: true});
+      if(this.searchModel.get('query')){
+        App.router.navigate(this.searchModel.getUrl(), {trigger: true});
+      }
+      else{
+        App.router.navigate('movies/table/search/1/*:*', {trigger: true});
+      }
     },
 
     searchTable: function(page, query) {
