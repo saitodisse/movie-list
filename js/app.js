@@ -38,7 +38,7 @@ App.addInitializer(function () {
 
 function startLogs () {
   // __MELD_LOG('Region', Marionette.Region.prototype, 10);
-  __MELD_LOG('Layout', Marionette.Layout.prototype, 11);
+  // __MELD_LOG('Layout', Marionette.Layout.prototype, 11);
 
   //__MELD_LOG('Handlebars', Handlebars.Compiler.prototype, 11);
   __MELD_LOG('App', Backbone.Marionette.Application.prototype, 10);
