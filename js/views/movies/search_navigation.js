@@ -35,10 +35,12 @@ App.module('Base.Views.Movies', function (Movies, App, Backbone, Marionette, $) 
       //LEFT
       if(e.which === 37){
         this.prevPage();
+        $('.btnPrevPage').fadeOut(30).fadeIn(20);
       }
       //RIGHT
       else if(e.which === 39){
         this.nextPage();
+        $('.btnNextPage').fadeOut(30).fadeIn(20);
       }
     },
 
