@@ -14,6 +14,7 @@ App.module('Base.Models', function (Models, App, Backbone) {
         this.set('page', 1);
         this.set('size', 12);
         this.set('sort', 'imdbInfo.rating:desc');
+        this.set('totalPages', this.totalPages.bind(this));
       }
     },
 
@@ -37,6 +38,14 @@ App.module('Base.Models', function (Models, App, Backbone) {
     hasResults: function() {
       var results = this.get('results');
       return (results && results.length > 0);
+    },
+
+    totalPages: function() {
+      var total = this.get('total');
+      var pageSize = this.get('size');
+      var totalpages = Math.ceil(total/pageSize);
+
+      return totalpages;
     },
 
     setSelectedResult: function(movie) {

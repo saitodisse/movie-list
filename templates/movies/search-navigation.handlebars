@@ -8,6 +8,12 @@
       <button class="btn btnNextPage">
         <span class="glyphicon glyphicon-chevron-right"></span>
       </button>
+      <button class="btn btnTableView">
+        <span class="glyphicon glyphicon-th-list"></span>
+      </button>
+      <button class="btn btnThumbView">
+        <span class="glyphicon glyphicon-th-large"></span>
+      </button>
     </div>
 
     <div class="col-md-4 searchLog">
@@ -16,10 +22,11 @@
       </div>
       <div class="row">
         <div class="col-md-12">sort: {{ sort }}</div>
+        <div id="totalMovies" class="col-md-3">{{ total }}</div>
       </div>
       <div class="row">
-        <div class="col-md-3">offset: {{ offset }}</div>
-        <div class="col-md-3">total: {{ total }}</div>
+        <div id="pageNumber" class="col-md-3">{{ page }}</div>
+        <div id="totalPageNumber" class="col-md-3">{{ totalPages }}</div>
       </div>
     </div>
 

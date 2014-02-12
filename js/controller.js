@@ -1,31 +1,14 @@
 /*global App */
 'use strict';
 
-App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
+App.module('Base', function (Base, App, Backbone, Marionette) {
 
   Base.Controller = Marionette.Controller.extend({
 
     initialize: function () {
-      // DATA: Collection
+      // get data
       this.moviesCollection = new Base.Models.MovieCollection();
       this.searchModel = new Base.Models.Search();
-
-      // VIEW: Layout
-      this.searchLayout = new Base.Views.Layouts.SearchLayout();
-
-      // VIEW: ItemView
-      this.searchNavigationView = new Base.Views.Movies.SearchNavigation({
-        model: this.searchModel
-      });
-      // VIEW: CompositeView
-      this.tableView = new Base.Views.Movies.Table.Movies({
-        collection: this.moviesCollection
-      });
-      // VIEW: CollectionView
-      this.thumbView = new Base.Views.Movies.Thumb.Movies({
-        collection: this.moviesCollection
-      });
-
 
       //EVENTS
       App.vent.on('goPrevPage', this.searchModel.previousPage, this.searchModel);
@@ -37,6 +20,12 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       this.searchModel.on('change:page', this.updateUrl, this);
 
 
+      // movies controller
+      this.moviesController = new Base.MoviesController({
+        mainRegion: App.main,
+        moviesCollection: this.moviesCollection,
+        searchModel: this.searchModel
+      });
     },
 
     ////////////////
@@ -53,18 +42,21 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
     },
 
     allMovies: function() {
-      App.router.navigate('movies/thumb/search/1/*:*', {trigger: true});
+      //this.initialize();
+      App.router.navigate('movies/table/search/1/*:*', {trigger: true});
+      // this.searchTable(1, "*:*")
     },
 
     searchTable: function(page, query) {
+      this.moviesController.show();
+
       this.searchModel.set('resultViewType', 'table');
-      
       this.getSearch(page, query);
 
-      App.main.show(this.searchLayout);
-      this.searchLayout.navigation.show(this.searchNavigationView);
+      // App.main.show(this.searchLayout);
 
-      this.searchLayout.result.show(this.tableView);
+      // this.searchLayout.navigation.show(this.searchNavigationView);
+      // this.searchLayout.result.show(this.tableView);
     },
 
     searchThumb: function(page, query) {
@@ -79,11 +71,10 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
     },
 
     getSearch: function(page, query) {
-      
-      this.searchModel.set('query', query);
-      this.searchModel.set('page', page);
-
-      this.fetchMovieCollection();
+      this.searchModel.set({
+        'query': query,
+        'page': page}
+      );
     },
 
 
@@ -129,24 +120,6 @@ App.module('Base', function (Base, App, Backbone, Marionette, $, _) {
       asyncResult.done(function(result) {
         //searchModel.set('result', result);
         App.vent.trigger('result_received', result);
-      });
-    },
-
-    moviesViewInit: function(results) {
-      
-      // # Table View #
-      var view = new Base.Views.Movies.Table.Movies({
-        collection: this.moviesCollection
-      });
-    },
-
-    movieViewInit: function(result) {
-      //DATA
-      this.movie = new Base.Models.Movie(result);
-      
-      // # Detail #
-      var view = new Base.Views.Movies.Detail.Movie({
-        model: this.movie
       });
     },
 

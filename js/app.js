@@ -38,7 +38,7 @@ App.addInitializer(function () {
 
 function startLogs () {
   // __MELD_LOG('Region', Marionette.Region.prototype, 10);
-  // __MELD_LOG('Layout', Marionette.Layout.prototype, 11);
+  __MELD_LOG('Layout', Marionette.Layout.prototype, 11);
 
   //__MELD_LOG('Handlebars', Handlebars.Compiler.prototype, 11);
   __MELD_LOG('App', Backbone.Marionette.Application.prototype, 10);
@@ -47,13 +47,14 @@ function startLogs () {
   // __MELD_LOG('ElasticSearcher', App.Base.ElasticSearcher.prototype, 12);
 
   __MELD_LOG('controller', App.Base.Controller.prototype, 11);
+  __MELD_LOG('MV_control', App.Base.MoviesController.prototype, 12);
   
   // __MELD_LOG('Router', App.Base.Router.prototype, 11);
   
   // __MELD_LOG('Movie', App.Base.Models.Movie.prototype, 3);
   // __MELD_LOG('MovieCollection', App.Base.Models.MovieCollection.prototype, 3);
-   __MELD_LOG('Search', App.Base.Models.Search.prototype, 3);
-   __MELD_LOG('SearchCollection', App.Base.Models.SearchCollection.prototype, 3);
+  // __MELD_LOG('Search', App.Base.Models.Search.prototype, 3);
+  // __MELD_LOG('SearchCollection', App.Base.Models.SearchCollection.prototype, 3);
 
   // __MELD_LOG('Tables-View', App.Base.Views.Movies.Table.Movies.prototype, 21);
   // __MELD_LOG('Table-View', App.Base.Views.Movies.Table.Movie.prototype, 22);
