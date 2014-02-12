@@ -95,10 +95,8 @@ App.module('Base', function (Base, App, Backbone, Marionette) {
     },    
 
     getSearch: function(page, query) {
-      this.searchModel.set({
-        'query': query,
-        'page': page}
-      );
+      this.searchModel.set({'page':page}, {silent:true});
+      this.searchModel.set({'query': query});
     },
 
 

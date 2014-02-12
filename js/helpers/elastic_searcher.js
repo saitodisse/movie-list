@@ -20,6 +20,7 @@ App.module('Base.Helpers', function (Helpers) {
             from: offset,
             size: size,
             sort: sort,
+            default_operator: 'AND',
             q: query
           };
 

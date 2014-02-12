@@ -18,13 +18,15 @@
 
     <div class="col-md-8 searchLog">
       <div class="row">
-        <div class="col-md-6">query: {{ query }}</div>
+        <div class="col-md-6"><input id="q" class="text" value="{{ query }}"></input> <button id="btnSearch">Search</button></div>
         <div class="col-md-6">sort: {{ sort }}</div>
       </div>
       <div class="row">
-        <div id="totalMovies" class="col-md-4">{{ total }}</div>
-        <div id="pageNumber" class="col-md-4">{{ page }}</div>
-        <div id="totalPageNumber" class="col-md-4">{{ totalPages }}</div>
+        <div class="col-md-12">
+          <span id="pageNumber">{{ page }}</span>
+          / <span id="totalPageNumber">{{ totalPages }}</span>
+          (<span id="totalMovies">{{ total }}</span>)
+        </div>
       </div>
     </div>
 

@@ -10,7 +10,9 @@ App.module('Base.Views.Movies', function (Movies, App, Backbone, Marionette, $) 
       'click .btnPrevPage': 'prevPage',
       'click .btnNextPage': 'nextPage',
       'click .btnThumbView': 'showThumb',
-      'click .btnTableView': 'showTable'
+      'click .btnTableView': 'showTable',
+      'click #btnSearch': 'search',
+      'keydown #q': 'stopPropagation'
     },
 
     modelEvents: {
@@ -69,7 +71,21 @@ App.module('Base.Views.Movies', function (Movies, App, Backbone, Marionette, $) 
       this.trigger('show:table');
       $(this.el).find('.btnThumbView').removeClass('active');
       $(this.el).find('.btnTableView').addClass('active');
+    },
+
+    search: function() {
+      var query = $(this.el).find('#q').val();
+      this.model.set({'page':1}, {silent:true});
+      this.model.set('query', query);
+    },
+
+    stopPropagation: function(e) {
+      e.stopPropagation();
+      if(e.which === 13){
+        this.search();
+      }
     }
+
 
   });
 });

@@ -10,7 +10,7 @@ App.module('Base.Views', function (Views, App, Backbone, Marionette) {
       var toSend = {};
       //toSend.searches = this.collection.toJSON();
 
-      var tenYears = _.range(1901, 2022, 5);
+      var tenYears = _.range(1901, 2022, 10);
       toSend.yearsBlock = [];
       for (var i = 0; i < (tenYears.length - 1); i++) {
         var eachYear = _.range(tenYears[i], tenYears[i+1]);
