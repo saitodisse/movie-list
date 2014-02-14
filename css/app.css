@@ -11,6 +11,10 @@
 #search-navigation{
   margin: -22px 0px 27px 41px;
 }
+.stats{
+  text-shadow: 1px 1px 1px #888;
+  font-size: 22px;
+}
 
 /*
   Movies Detail

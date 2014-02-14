@@ -1,7 +1,7 @@
 <div class="row">
   <div class="row searchResultsNav">
 
-    <div class="col-md-4">
+    <div class="col-md-3">
       <button class="btn btnPrevPage">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </button>
@@ -16,19 +16,19 @@
       </button>
     </div>
 
-    <div class="col-md-8 searchLog">
-      <div class="row">
-        <div class="col-md-6"><input id="q" class="text" value="{{ query }}"></input> <button id="btnSearch">Search</button></div>
-        <div class="col-md-6">sort: {{ sort }}</div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <span id="pageNumber">{{ page }}</span>
-          / <span id="totalPageNumber">{{ totalPages }}</span>
-          (<span id="totalMovies">{{ total }}</span>)
-        </div>
-      </div>
-    </div>
+    <div class="col-md-9 searchLog">
+        <div class="col-lg-8">
+          <div class="input-group">
+            <input id="q" type="search" class="form-control" placeholder="search..." value="{{ query }}"></input>
+            <span class="input-group-btn">
+              <button class="btn btn-default" id="btnSearch">Search</button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
 
+        <div class="col-lg-4 stats">
+          <span id="pageNumber">{{ page }}</span> of <span id="totalPageNumber">{{ totalPages }}</span>
+          ( <span id="totalMovies">{{ total }}</span> movies )
+        </div>
   </div>
 </div>
